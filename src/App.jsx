@@ -15,7 +15,7 @@ function App() {
         <Router>
             <div className="min-h-screen flex flex-col font-sans text-gray-900 bg-white">
                 <Header />
-                <main className="flex-grow pt-24"> {/* Adjust for fixed header height */}
+                <main className="flex-grow pt-36"> {/* Adjust for fixed header height */}
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/problems" element={<Problems />} />
