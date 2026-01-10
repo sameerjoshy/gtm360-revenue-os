@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Brand Colors */
+  --color-primary: #1A237E;
+  /* Deep Indigo - Adjust based on actual logo */
+  --color-secondary: #F6F7F9;
+  /* Soft Neutral Grey */
+  --color-text-main: #1F2937;
+  /* Charcoal/Near-black */
+  --color-text-muted: #6B7280;
+  --color-accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  /* Muted violet/blue */
+
+  /* Typography */
+  --font-main: 'Inter', sans-serif;
+
+  /* Spacing */
+  --spacing-section: 6rem;
+  --spacing-container: 1200px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: #FFFFFF;
+  color: var(--color-text-main);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 3.5rem;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: 2.5rem;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s ease;
+}
+
+.container {
+  max-width: var(--spacing-container);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.btn {
+  display: inline-flex;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  /* Outline style per brief? Or Ghost? Brief says 'Explore ->', usually text link or outline */
+}
+
+/* Re-reading brief: "Primary CTA Explore the GTM Operating Model ->" usually implies a button or strong link. 
+   Brief says: “Contact”: text button or subtle outline (not filled).
+   I will make primary buttons distinctive but "calm". */
+
+.section {
+  padding: var(--spacing-section) 0;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 3rem;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .grid-3,
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
