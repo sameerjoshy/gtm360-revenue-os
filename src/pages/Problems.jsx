@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 import { Helmet } from 'react-helmet-async';
 
+import gtmModel from '../assets/schematics/gtm_model.png';
+
 const Problems = () => {
     return (
         <div className="problems-page">
@@ -55,27 +57,13 @@ const Problems = () => {
                             </p>
                         </div>
 
+                        import gtmModel from '../assets/schematics/gtm_model.png';
+
+                        // ...
+
                         {/* System Schematic */}
-                        <div className="bg-white p-12 rounded-sm shadow-sm flex flex-col items-center justify-center space-y-4">
-                            <div className="flex items-center space-x-2 text-sm text-gray-500 uppercase tracking-widest text-center">
-                                <span>Markets</span>
-                                <span>•</span>
-                                <span>Customers</span>
-                                <span>•</span>
-                                <span>Signals</span>
-                            </div>
-                            <div className="text-gray-300">↓</div>
-                            <div className="border-2 border-[var(--color-primary)] px-8 py-4 rounded text-[var(--color-primary)] font-bold text-xl tracking-wide">
-                                GTM OPERATING MODEL
-                            </div>
-                            <div className="text-gray-300">↓</div>
-                            <div className="flex items-center space-x-2 text-sm text-gray-500 uppercase tracking-widest text-center">
-                                <span>Revenue</span>
-                                <span>•</span>
-                                <span>Predictability</span>
-                                <span>•</span>
-                                <span>Confidence</span>
-                            </div>
+                        <div className="bg-white p-8 rounded-sm shadow-sm flex items-center justify-center">
+                            <img src={gtmModel} alt="GTM Operating Model Stack" className="max-w-full h-auto shadow-sm border border-gray-100 rounded" />
                         </div>
                     </div>
                 </div>

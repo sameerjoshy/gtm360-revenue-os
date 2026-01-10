@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import { Helmet } from 'react-helmet-async';
+import insightThumb from '../assets/schematics/insight_abstract.png';
 
 const Insights = () => {
     return (
@@ -173,11 +173,8 @@ const Insights = () => {
                             }
                         ].map((article, i) => (
                             <div key={i} className="group cursor-pointer">
-                                <div className="aspect-[4/3] bg-gray-100 mb-4 rounded-sm relative overflow-hidden">
-                                    {/* Placeholder for abstract visual */}
-                                    <div className="absolute inset-0 bg-[var(--color-secondary)] group-hover:bg-gray-200 transition-colors flex items-center justify-center text-gray-300">
-                                        <span className="text-3xl font-light">Aa</span>
-                                    </div>
+                                <div className="aspect-[4/3] bg-gray-100 mb-4 rounded-sm relative overflow-hidden group-hover:shadow-md transition-all">
+                                    <img src={insightThumb} alt="Insight Thumbnail" className="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-500" />
                                 </div>
                                 <div className="text-xs font-bold text-[var(--color-primary)] uppercase mb-2">{article.tag}</div>
                                 <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-[var(--color-primary)] transition-colors">{article.title}</h3>

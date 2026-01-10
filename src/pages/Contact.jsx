@@ -26,7 +26,7 @@ const Contact = () => {
 
                             <div className="bg-gray-50 p-6 rounded-sm border-l-4 border-[var(--color-primary)]">
                                 <h3 className="text-sm font-bold uppercase text-gray-400 mb-2 tracking-widest">Direct Contact</h3>
-                                <p className="text-lg font-medium text-gray-900">hello@gtm360.io</p>
+                                <p className="text-lg font-medium text-gray-900">sameer@gtm-360.com</p>
                                 <p className="text-lg font-medium text-gray-900">+1 (415) 555-0123</p>
                             </div>
                         </div>

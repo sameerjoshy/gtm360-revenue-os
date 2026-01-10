@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 
 import { Helmet } from 'react-helmet-async';
 
+import diagnosisFlow from '../assets/schematics/diagnosis.png';
+
 const HowWeWork = () => {
     return (
         <div className="how-we-work-page">
@@ -93,24 +95,13 @@ const HowWeWork = () => {
                                 The goal is not analysis for its own sake, but to surface where the system is quietly constraining progress.
                             </p>
                         </div>
+                        import diagnosisFlow from '../assets/schematics/diagnosis.png';
+
+                        // ...
+
                         {/* Schematic */}
                         <div className="border border-gray-200 p-8 rounded-sm bg-gray-50 flex justify-center items-center">
-                            <div className="flex items-center space-x-4">
-                                <div className="text-center">
-                                    <div className="text-xs font-bold uppercase text-gray-400 mb-2">Inputs</div>
-                                    <div className="w-16 h-16 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-sm">Raw Data</div>
-                                </div>
-                                <div className="text-gray-300">→</div>
-                                <div className="text-center">
-                                    <div className="text-xs font-bold uppercase text-gray-400 mb-2">Process</div>
-                                    <div className="w-24 h-24 bg-white rounded-full border-2 border-[var(--color-primary)] flex items-center justify-center shadow-md font-bold text-[var(--color-primary)]">Insight</div>
-                                </div>
-                                <div className="text-gray-300">→</div>
-                                <div className="text-center">
-                                    <div className="text-xs font-bold uppercase text-gray-400 mb-2">Output</div>
-                                    <div className="w-16 h-16 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-sm">Constraints</div>
-                                </div>
-                            </div>
+                            <img src={diagnosisFlow} alt="Diagnosis Process Flow" className="max-w-full h-auto mix-blend-multiply" />
                         </div>
                     </div>
                 </div>

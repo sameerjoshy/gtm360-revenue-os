@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import { Helmet } from 'react-helmet-async';
+import systemFlow from '../assets/schematics/system_flow.png';
 
 const Home = () => {
     return (
@@ -33,9 +33,9 @@ const Home = () => {
                         </Link>
                     </div>
 
-                    {/* Abstract System Visual Placeholder */}
-                    <div className="mt-20 border-t border-[var(--color-secondary)] pt-10 flex justify-center opacity-50">
-                        <div className="text-sm text-gray-400 tracking-widest uppercase">Inputs → Decision System → Outcomes</div>
+                    {/* Abstract System Visual */}
+                    <div className="mt-16 border-t border-[var(--color-secondary)] pt-10 flex justify-center">
+                        <img src={systemFlow} alt="GTM System Flow: Inputs to Outcomes" className="max-w-full md:max-w-2xl opacity-90" />
                     </div>
                 </div>
             </section>
