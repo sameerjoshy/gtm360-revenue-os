@@ -1,9 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { Helmet } from 'react-helmet-async';
+
 const HowWeWork = () => {
     return (
         <div className="how-we-work-page">
+            <Helmet>
+                <title>How We Work | GTM360</title>
+                <meta name="description" content="We don't do pitch decks or 6-month audits. Our methodology is built on diagnostic rigor, rapid intervention, and creating a sustainable decision architecture." />
+            </Helmet>
             {/* BLOCK 1: ORIENTATION */}
             <section className="section py-24 md:py-32">
                 <div className="container max-w-4xl opacity-0 animate-fade-in-up" style={{ animationFillMode: 'forwards' }}>

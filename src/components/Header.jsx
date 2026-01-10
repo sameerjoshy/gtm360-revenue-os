@@ -42,7 +42,7 @@ const Header = () => {
             <div className="container flex justify-between items-center">
                 {/* Logo */}
                 <Link to="/" className="flex items-center">
-                    <img src={logo} alt="GTM 360" className={`transition-all duration-300 ${isScrolled ? 'h-8' : 'h-10'}`} />
+                    <img src={logo} alt="GTM 360" className={`transition-all duration-300 ${isScrolled ? 'h-10 md:h-12' : 'h-10 md:h-16'}`} />
                 </Link>
 
                 {/* Desktop Nav */}

@@ -1,8 +1,14 @@
 import React from 'react';
 
+import { Helmet } from 'react-helmet-async';
+
 const Contact = () => {
     return (
         <div className="contact-page">
+            <Helmet>
+                <title>Start a Conversation | GTM360</title>
+                <meta name="description" content="No pitch decks. No pressure. Book a 30-minute diagnostic conversation to map your system constraints and see if we can help." />
+            </Helmet>
             <section className="section py-24 md:py-32">
                 <div className="container max-w-4xl opacity-0 animate-fade-in-up" style={{ animationFillMode: 'forwards' }}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
@@ -45,7 +51,7 @@ const Contact = () => {
                                     <textarea className="w-full border-b border-gray-300 py-2 focus:border-[var(--color-primary)] focus:outline-none transition-colors resize-none" rows="3" placeholder="Briefly describe the challenge..."></textarea>
                                 </div>
                                 <button type="button" className="w-full btn bg-[var(--color-primary)] text-white hover:bg-opacity-90 mt-4">
-                                    Request Conversation
+                                    Book Diagnostic
                                 </button>
                             </form>
                         </div>

@@ -1,11 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { Helmet } from 'react-helmet-async';
+
 const Home = () => {
     return (
         <div className="home-page">
+            <Helmet>
+                <title>GTM360 | The Revenue Operating System</title>
+                <meta name="description" content="When growth stalls, the problem is rarely effort. It's the GTM operating model. GTM360 helps leadership teams fix the decision systems that convert effort into revenue." />
+            </Helmet>
             {/* BLOCK 1: HERO */}
-            <section className="section py-24 md:py-32">
+            <section className="section pt-8 pb-24 md:pb-32">
                 <div className="container max-w-4xl opacity-0 animate-fade-in-up" style={{ animationFillMode: 'forwards' }}>
                     <h1 className="text-5xl md:text-6xl font-semibold leading-tight mb-6 text-[var(--color-primary)]">
                         When growth stalls, the problem is rarely effort. <br />

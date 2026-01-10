@@ -1,9 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { Helmet } from 'react-helmet-async';
+
 const Insights = () => {
     return (
         <div className="insights-page">
+            <Helmet>
+                <title>Cases & Insights | GTM360</title>
+                <meta name="description" content="Real case studies of GTM system failures and fixes. See how we diagnosed and reversed growth stalls in SaaS, Enterprise, and Pre-IPO companies." />
+            </Helmet>
             {/* BLOCK 1: FRAMING */}
             <section className="section py-24 md:py-32">
                 <div className="container max-w-4xl opacity-0 animate-fade-in-up" style={{ animationFillMode: 'forwards' }}>
@@ -48,8 +54,8 @@ const Insights = () => {
                                         Redefined the ICP based on retention data, not just closures. Aligned marketing comp to stage-2 conversion (quality) rather than volume. Enforced strict disqualification rules at stage 1.
                                     </p>
                                 </div>
-                                <div className="sm:col-span-2 mt-4 bg-gray-50 p-4 rounded text-center">
-                                    <span className="block text-gray-900 font-bold">Outcome: Pipeline volume dropped 30%, but booking value rose 22% in 2 quarters.</span>
+                                <div className="sm:col-span-2 mt-4 bg-gray-50 p-6 rounded text-center border-l-4 border-[var(--color-primary)]">
+                                    <span className="block text-gray-900 font-bold text-xl md:text-2xl">Outcome: Pipeline volume dropped 30%, but booking value rose 22% in 2 quarters.</span>
                                 </div>
                             </div>
                         </div>
@@ -77,8 +83,8 @@ const Insights = () => {
                                         Shifted from a "platform for everyone" message to three vertical-specific use cases. Restructured the SDR motion to lead with industry insights rather than product features.
                                     </p>
                                 </div>
-                                <div className="sm:col-span-2 mt-4 bg-gray-50 p-4 rounded text-center">
-                                    <span className="block text-gray-900 font-bold">Outcome: 2.5x increase in C-level response rates.</span>
+                                <div className="sm:col-span-2 mt-4 bg-gray-50 p-6 rounded text-center border-l-4 border-[var(--color-primary)]">
+                                    <span className="block text-gray-900 font-bold text-xl md:text-2xl">Outcome: 2.5x increase in C-level response rates.</span>
                                 </div>
                             </div>
                         </div>
@@ -106,8 +112,8 @@ const Insights = () => {
                                         Implemented strict "exit criteria" gates (e.g., verified budget access, legal review start) for late stages. Replaced "deal reviews" with "risk reviews" focusing on missing evidence.
                                     </p>
                                 </div>
-                                <div className="sm:col-span-2 mt-4 bg-gray-50 p-4 rounded text-center">
-                                    <span className="block text-gray-900 font-bold">Outcome: Forecast accuracy improved from ±40% to ±10%.</span>
+                                <div className="sm:col-span-2 mt-4 bg-gray-50 p-6 rounded text-center border-l-4 border-[var(--color-primary)]">
+                                    <span className="block text-gray-900 font-bold text-xl md:text-2xl">Outcome: Forecast accuracy improved from ±40% to ±10%.</span>
                                 </div>
                             </div>
                         </div>
@@ -135,8 +141,8 @@ const Insights = () => {
                                         Paused tool buying. Fixed the data capture process at the "Opportunity" level. Deployed a single AI pilot focused solely on call recording analysis to automate data entry (low risk, high value).
                                     </p>
                                 </div>
-                                <div className="sm:col-span-2 mt-4 bg-gray-50 p-4 rounded text-center">
-                                    <span className="block text-gray-900 font-bold">Outcome: AI adoption succeeded because it solved a specific friction point.</span>
+                                <div className="sm:col-span-2 mt-4 bg-gray-50 p-6 rounded text-center border-l-4 border-[var(--color-primary)]">
+                                    <span className="block text-gray-900 font-bold text-xl md:text-2xl">Outcome: AI adoption succeeded because it solved a specific friction point.</span>
                                 </div>
                             </div>
                         </div>

@@ -1,9 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { Helmet } from 'react-helmet-async';
+
 const Problems = () => {
     return (
         <div className="problems-page">
+            <Helmet>
+                <title>Problems We Solve | GTM360</title>
+                <meta name="description" content="Most stalled growth is misdiagnosed. We identify and fix structural issues in Focus, Alignment, Execution, and Visibility rather than treating surface-level symptoms." />
+            </Helmet>
             {/* BLOCK 1: INTRO */}
             <section className="section py-24 md:py-32">
                 <div className="container max-w-4xl opacity-0 animate-fade-in-up" style={{ animationFillMode: 'forwards' }}>
@@ -139,9 +145,14 @@ const Problems = () => {
                             </div>
                         ))}
                     </div>
-                    <p className="text-lg text-gray-600 italic border-l-4 border-gray-400 pl-4">
+                    <p className="text-lg text-gray-600 italic border-l-4 border-gray-400 pl-4 mb-10">
                         These are not isolated issues. They are symptoms of the same underlying system decay.
                     </p>
+                    <div className="text-center">
+                        <Link to="/contact" className="btn bg-[var(--color-primary)] text-white hover:bg-opacity-90">
+                            Get a Diagnosis →
+                        </Link>
+                    </div>
                 </div>
             </section>
 

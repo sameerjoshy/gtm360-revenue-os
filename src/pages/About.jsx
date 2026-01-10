@@ -1,9 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { Helmet } from 'react-helmet-async';
+
 const About = () => {
     return (
         <div className="about-page">
+            <Helmet>
+                <title>Team & Principals | GTM360</title>
+                <meta name="description" content="We are operators, not consultants. Led by former AWS/Amazon executives, we bring architectural rigor to revenue problems." />
+            </Helmet>
             {/* BLOCK 1: WHY EXIST */}
             <section className="section py-24 md:py-32">
                 <div className="container max-w-4xl opacity-0 animate-fade-in-up" style={{ animationFillMode: 'forwards' }}>
