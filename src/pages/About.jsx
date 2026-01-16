@@ -9,6 +9,9 @@ const About = () => {
             <Helmet>
                 <title>Team & Principals | GTM360</title>
                 <meta name="description" content="We are operators, not consultants. Led by former AWS/Amazon executives, we bring architectural rigor to revenue problems." />
+                <meta property="og:title" content="Team & Principals | GTM360" />
+                <meta property="og:description" content="Led by former AWS/Amazon executives, we bring architectural rigor to revenue problems." />
+                <meta property="og:url" content="https://gtm-360.com/about" />
             </Helmet>
             {/* BLOCK 1: WHY EXIST */}
             <section className="section py-24 md:py-32">

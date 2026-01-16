@@ -9,6 +9,11 @@ const Home = () => {
             <Helmet>
                 <title>GTM360 | The Revenue Operating System</title>
                 <meta name="description" content="When growth stalls, the problem is rarely effort. It's the GTM operating model. GTM360 helps leadership teams fix the decision systems that convert effort into revenue." />
+                <meta property="og:title" content="GTM360 | The Revenue Operating System" />
+                <meta property="og:description" content="We build revenue operating systems for B2B companies. Stop guessing, start engineering." />
+                <meta property="og:image" content="https://gtm-360.com/assets/schematics/system_flow.png" />
+                <meta property="og:url" content="https://gtm-360.com/" />
+                <meta property="og:type" content="website" />
             </Helmet>
             {/* BLOCK 1: HERO */}
             <section className="section !pt-0 pb-24 md:pb-32" style={{ paddingTop: '0px' }}>
