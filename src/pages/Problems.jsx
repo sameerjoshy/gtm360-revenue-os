@@ -1,263 +1,181 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
 import { Helmet } from 'react-helmet-async';
-
-import gtmModel from '../assets/schematics/gtm_model.png';
+import { Link } from 'react-router-dom';
+import { ArrowRight, AlertCircle, BarChart2, Activity, PieChart, Users, MessageSquare, Target, Cpu } from 'lucide-react';
 
 const Problems = () => {
+    // 1. SEO + AEO FOUNDATION
+    const schemaData = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Common GTM Problems in B2B Growth",
+        "about": {
+            "@type": "Thing",
+            "name": "Go-to-Market failures, revenue predictability, misdiagnosis"
+        },
+        "description": "Common B2B GTM problems often persist because teams misdiagnose the real constraint. Explore the patterns behind stalled growth."
+    };
+
+    const symptoms = [
+        {
+            icon: <Activity className="w-8 h-8 text-[var(--color-primary)]" />,
+            title: "Pipeline is growing, but revenue isn’t",
+            desc: "More leads and more activity haven’t translated into predictable growth. This usually signals a decision or qualification problem, not a volume problem."
+        },
+        {
+            icon: <Target className="w-8 h-8 text-[var(--color-primary)]" />,
+            title: "Win rates are falling",
+            desc: "Deals are entering the funnel but closing less often. This often points to misaligned ICP, messaging, or buyer ownership — not sales effort."
+        },
+        {
+            icon: <BarChart2 className="w-8 h-8 text-[var(--color-primary)]" />,
+            title: "Sales cycles keep getting longer",
+            desc: "Opportunities move, but at a slower and less predictable pace. Longer cycles often indicate unclear buyer decisions, not deal complexity."
+        },
+        {
+            icon: <PieChart className="w-8 h-8 text-[var(--color-primary)]" />,
+            title: "Forecasts are unreliable",
+            desc: "Numbers change week to week and confidence is low. Forecasting issues are usually downstream of signal and stage definition problems."
+        },
+        {
+            icon: <Users className="w-8 h-8 text-[var(--color-primary)]" />,
+            title: "Marketing and sales disagree on quality",
+            desc: "Leads look good in dashboards but break down in execution. This is often a system alignment issue, not a team alignment issue."
+        },
+        {
+            icon: <MessageSquare className="w-8 h-8 text-[var(--color-primary)]" />,
+            title: "Messaging isn’t landing in real deals",
+            desc: "Positioning sounds strong, but buyers don’t internalize urgency. This usually reflects a problem-ownership mismatch, not a copy problem."
+        },
+        {
+            icon: <AlertCircle className="w-8 h-8 text-[var(--color-primary)]" />,
+            title: "RevOps dashboards don’t drive decisions",
+            desc: "Metrics are abundant, but decisions still rely on opinion. This typically means signals are being tracked without a governing model."
+        },
+        {
+            icon: <Cpu className="w-8 h-8 text-[var(--color-primary)]" />,
+            title: "Tools and AI increased noise, not clarity",
+            desc: "New tools promised leverage but added complexity. Technology amplifies systems — it does not correct misdiagnosis."
+        }
+    ];
+
     return (
         <div className="problems-page">
             <Helmet>
-                <title>Problems We Solve | GTM360</title>
-                <meta name="description" content="Most stalled growth is misdiagnosed. We identify and fix structural issues in Focus, Alignment, Execution, and Visibility rather than treating surface-level symptoms." />
+                <title>Why B2B Growth Stalls Even When Teams Execute | GTM-360</title>
+                <meta name="description" content="Common B2B GTM problems often persist because teams misdiagnose the real constraint. Explore the patterns behind stalled growth." />
+                <link rel="canonical" href="https://gtm-360.com/problems" />
+                <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
             </Helmet>
-            {/* BLOCK 1: INTRO */}
-            <section className="section py-24 md:py-32">
+
+            {/* 2. HERO SECTION */}
+            <section className="section py-20 md:py-32 bg-white text-center">
                 <div className="container max-w-4xl opacity-0 animate-fade-in-up" style={{ animationFillMode: 'forwards' }}>
                     <h1 className="text-4xl md:text-5xl font-semibold leading-tight mb-8 text-[var(--color-primary)]">
-                        The problems we solve are rarely the ones companies think they have.
+                        Why B2B growth stalls even when teams execute
                     </h1>
-                    <p className="text-xl text-gray-700 mb-6 leading-relaxed">
-                        When growth slows, symptoms show up everywhere — pipeline, win rates, cycle time, forecasts, execution quality.
+                    <h2 className="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed font-normal">
+                        Most go-to-market problems persist not because teams lack effort,<br className="hidden md:block" />
+                        but because the problem being solved is not the real one.
+                        <br /><br />
+                        This page outlines the most common failure patterns we see in B2B GTM systems.
+                    </h2>
+                    <p className="text-lg font-medium text-gray-500 uppercase tracking-widest">
+                        These are not isolated issues.<br />
+                        They are symptoms of deeper system constraints.
                     </p>
-                    <p className="text-xl text-gray-700 mb-6 leading-relaxed">
-                        Most teams respond by fixing what’s visible. We focus on what’s structural.
-                    </p>
-                    <div className="bg-[var(--color-secondary)] p-8 rounded-sm mt-8 border-l-4 border-[var(--color-primary)]">
-                        <p className="text-lg text-gray-800">
-                            At GTM360, we work on the <span className="font-semibold text-[var(--color-primary)]">GTM operating model</span> — the system that governs how focus is set, how decisions propagate, how execution flows, and how leaders see what matters in time to act.
+                </div>
+            </section>
+
+            {/* 3. ORIENTING STATEMENT */}
+            <section className="section bg-gray-50">
+                <div className="container max-w-3xl text-center">
+                    <h3 className="text-sm font-bold uppercase text-gray-400 mb-6 tracking-widest">A quick note before you read on</h3>
+                    <div className="bg-white p-8 border-l-4 border-[var(--color-primary)] shadow-sm text-left">
+                        <p className="text-lg text-gray-700 leading-relaxed mb-4">
+                            If you’re experiencing one or more of the patterns below,
+                            it does not mean your team is underperforming.
+                        </p>
+                        <p className="text-lg text-gray-700 leading-relaxed mb-4">
+                            In most cases, capable teams are executing against
+                            an incomplete or incorrect understanding of the problem.
+                        </p>
+                        <p className="text-lg font-medium text-gray-900 leading-relaxed">
+                            This page is designed to help you recognize those patterns —
+                            not to prescribe fixes.
                         </p>
                     </div>
                 </div>
             </section>
 
-            {/* BLOCK 2: WHAT IS A GTM OPERATING MODEL */}
-            <section className="section bg-[var(--color-secondary)]">
-                <div className="container">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                        <div>
-                            <h2 className="text-3xl font-semibold text-[var(--color-primary)] mb-6">What we mean by a GTM operating model</h2>
-                            <p className="text-lg text-gray-700 mb-6">
-                                A GTM operating model is not your org chart, tools, or sales methodology.
-                            </p>
-                            <p className="text-lg text-gray-700 mb-6">
-                                It is the system that determines:
-                            </p>
-                            <ul className="space-y-3 mb-6">
-                                {['what the organization focuses on', 'how decisions are made and enforced', 'how work moves across functions', 'how leaders gain visibility early enough to intervene'].map(item => (
-                                    <li key={item} className="flex items-start">
-                                        <span className="text-[var(--color-primary)] mr-2">•</span>
-                                        <span className="text-gray-800">{item}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                            <p className="text-lg text-gray-700 font-medium">
-                                When this system works, effort compounds. When it degrades, activity increases and outcomes stall.
-                            </p>
-                        </div>
-
-
-
-                        {/* System Schematic */}
-                        <div className="bg-white p-8 rounded-sm shadow-sm flex items-center justify-center">
-                            <img src={gtmModel} alt="GTM Operating Model Stack" className="max-w-full h-auto shadow-sm border border-gray-100 rounded" />
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* BLOCK 3: THE FOUR LAYERS */}
+            {/* 4. SYMPTOM GRID */}
             <section className="section">
                 <div className="container">
-                    <h2 className="text-3xl font-semibold text-[var(--color-primary)] mb-12 text-center">The four layers that determine GTM performance</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {[
-                            {
-                                title: "Focus",
-                                desc: "What the organization is truly oriented around — not what it says it prioritizes.",
-                                break: ["teams chase too many segments", "ICP drifts quietly", "resources spread thin without leverage"]
-                            },
-                            {
-                                title: "Alignment",
-                                desc: "How decisions and priorities propagate across functions.",
-                                break: ["marketing, sales, product, and CS optimize locally", "handoffs create friction", "leaders disagree on root causes"]
-                            },
-                            {
-                                title: "Execution",
-                                desc: "How work actually moves — or leaks — through the system.",
-                                break: ["deals stall late", "cycles stretch unpredictably", "teams do more work for diminishing returns"]
-                            },
-                            {
-                                title: "Visibility",
-                                desc: "What leaders can see, understand, and act on in time.",
-                                break: ["dashboards explain the past", "risks surface too late", "decisions get revisited instead of enforced"]
-                            }
-                        ].map((layer, i) => (
-                            <div key={i} className="border border-gray-200 p-8 rounded-sm hover:border-[var(--color-primary)] transition-colors">
-                                <h3 className="text-2xl font-bold text-[var(--color-primary)] mb-3">{layer.title}</h3>
-                                <p className="text-gray-700 mb-6 min-h-[3rem]">{layer.desc}</p>
-                                <div className="bg-gray-50 p-4 rounded text-sm">
-                                    <span className="block text-xs font-bold text-gray-400 uppercase mb-2">When {layer.title.toLowerCase()} breaks:</span>
-                                    <ul className="space-y-1">
-                                        {layer.break.map(b => (
-                                            <li key={b} className="text-gray-600 flex items-start">
-                                                <span className="mr-2 text-red-400">×</span> {b}
-                                            </li>
-                                        ))}
-                                    </ul>
+                    <h2 className="text-3xl font-semibold text-[var(--color-primary)] mb-12 text-center">Common GTM failure patterns</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {symptoms.map((symptom, index) => (
+                            <Link
+                                key={index}
+                                to="/diagnostic"
+                                className="group block bg-white border border-gray-200 p-8 rounded-sm hover:border-[var(--color-primary)] hover:shadow-md transition-all duration-300"
+                            >
+                                <div className="mb-6 group-hover:scale-110 transition-transform duration-300">
+                                    {symptom.icon}
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* BLOCK 4: COMMON FAILURE PATTERNS */}
-            <section className="section bg-[var(--color-secondary)]">
-                <div className="container max-w-4xl">
-                    <h2 className="text-3xl font-semibold mb-8">How GTM operating model failures show up</h2>
-                    <div className="space-y-4 mb-8">
-                        {[
-                            "Growth slows despite rising activity",
-                            "Pipeline exists, but conversion weakens",
-                            "Deals stall late without clear blockers",
-                            "Forecasts fluctuate quarter to quarter",
-                            "Leaders debate explanations instead of actions",
-                            "New tools and AI amplify noise, not clarity"
-                        ].map((pattern, i) => (
-                            <div key={i} className="bg-white p-4 rounded-sm shadow-sm border-l-2 border-gray-300">
-                                <p className="text-lg text-gray-800">{pattern}</p>
-                            </div>
-                        ))}
-                    </div>
-                    <p className="text-lg text-gray-600 italic border-l-4 border-gray-400 pl-4 mb-10">
-                        These are not isolated issues. They are symptoms of the same underlying system decay.
-                    </p>
-                    <div className="text-center">
-                        <Link to="/contact" className="btn bg-[var(--color-primary)] text-white hover:bg-opacity-90">
-                            Get a Diagnosis →
-                        </Link>
-                    </div>
-                </div>
-            </section>
-
-            {/* BLOCK 5: WHERE WE INTERVENE */}
-            <section className="section">
-                <div className="container">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-                        <div>
-                            <h2 className="text-3xl font-semibold text-[var(--color-primary)] mb-6">Where we intervene — and where we don’t</h2>
-                            <p className="text-lg text-gray-700 mb-8">
-                                We do not overhaul everything. We identify and fix the few pressure points that restore leverage across the system.
-                            </p>
-
-                            <h3 className="text-lg font-bold text-gray-900 mb-4">Intervention areas</h3>
-                            <ul className="space-y-3 mb-8">
-                                {[
-                                    "How stage progression decisions are made",
-                                    "How buying groups are identified and engaged",
-                                    "How champions are enabled to sell internally",
-                                    "How value and risk are surfaced early",
-                                    "How execution is governed and inspected"
-                                ].map(item => (
-                                    <li key={item} className="flex items-start text-gray-700">
-                                        <span className="text-green-600 mr-2">✓</span> {item}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        <div className="bg-gray-50 p-8 rounded-sm h-fit">
-                            <h3 className="text-lg font-bold text-gray-500 mb-4">What we avoid</h3>
-                            <ul className="space-y-3">
-                                {[
-                                    "re-orgs",
-                                    "blanket process rollouts",
-                                    "generic enablement",
-                                    "tool-led fixes without system clarity"
-                                ].map(item => (
-                                    <li key={item} className="flex items-start text-gray-500">
-                                        <span className="text-gray-400 mr-2">×</span> {item}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* BLOCK 6: AI & TOOLS */}
-            <section className="section bg-[var(--color-secondary)]">
-                <div className="container">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                        <div>
-                            <h2 className="text-3xl font-semibold text-[var(--color-primary)] mb-6">Our view on AI and tools</h2>
-                            <p className="text-lg text-gray-700 mb-6">
-                                AI and tools do not fix GTM systems. They amplify them.
-                            </p>
-                            <div className="bg-white p-6 rounded-sm shadow-sm border-l-4 border-yellow-400 mb-6">
-                                <p className="text-gray-800">
-                                    When the operating model is unclear, automation magnifies noise, accelerates bad decisions, and creates false confidence.
+                                <h3 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-[var(--color-primary)] transition-colors">
+                                    {symptom.title}
+                                </h3>
+                                <p className="text-gray-600 mb-6 leading-relaxed">
+                                    {symptom.desc}
                                 </p>
-                            </div>
-                            <p className="text-lg text-gray-700">
-                                We work with teams to identify where intelligence actually matters, fix decision clarity first, and apply automation only where it increases leverage.
-                            </p>
-                        </div>
-                        <div className="grid grid-rows-2 gap-4">
-                            <div className="bg-gray-200 p-8 rounded text-center opacity-70">
-                                <div className="text-sm font-bold uppercase text-gray-500 mb-2">Automation without clarity</div>
-                                <div className="text-2xl font-bold text-gray-400">NOISE</div>
-                            </div>
-                            <div className="bg-[var(--color-primary)] p-8 rounded text-center">
-                                <div className="text-sm font-bold uppercase text-indigo-200 mb-2">Automation with clarity</div>
-                                <div className="text-2xl font-bold text-white">LEVERAGE</div>
-                            </div>
-                        </div>
+                                <div className="flex items-center text-[var(--color-primary)] font-medium text-sm group-hover:underline">
+                                    Understand what’s actually happening <ArrowRight size={16} className="ml-2" />
+                                </div>
+                            </Link>
+                        ))}
                     </div>
                 </div>
             </section>
 
-            {/* BLOCK 7: PROBLEMS -> PROOF */}
-            <section className="section">
-                <div className="container">
-                    <h2 className="text-3xl font-semibold mb-8">How this shows up in real engagements</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-                        {[
-                            "Growth slowdown misdiagnosed as pipeline problem",
-                            "“Lead gen issue” that turned out to be decision decay",
-                            "Forecast volatility caused by weak execution governance",
-                            "AI mandate that required system redesign first"
-                        ].map((item, i) => (
-                            <div key={i} className="border-b border-gray-100 pb-4">
-                                <Link to="/insights" className="text-lg text-[var(--color-primary)] hover:underline block">
-                                    {item} →
-                                </Link>
+            {/* 6. MISDIAGNOSIS FRAMING */}
+            <section className="section bg-[var(--color-secondary)]">
+                <div className="container max-w-4xl text-center">
+                    <h2 className="text-sm font-bold uppercase text-gray-400 mb-6 tracking-widest">Why these problems persist</h2>
+                    <p className="text-2xl font-medium text-[var(--color-primary)] leading-relaxed mb-12">
+                        In most B2B organizations, these patterns persist because<br className="hidden md:block" />
+                        teams respond by increasing effort:
+                    </p>
+
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                        {["more pipeline", "more tools", "more process", "more pressure"].map(item => (
+                            <div key={item} className="bg-white py-4 px-2 rounded-sm font-bold text-gray-500 shadow-sm border border-gray-100">
+                                {item}
                             </div>
                         ))}
                     </div>
-                    <Link to="/insights" className="btn border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white">
-                        Explore insights →
-                    </Link>
+
+                    <p className="text-xl text-gray-800 leading-relaxed max-w-2xl mx-auto">
+                        When the underlying constraint is misunderstood,<br />
+                        additional effort often compounds the problem.
+                    </p>
                 </div>
             </section>
 
-            {/* BLOCK 8: CTA */}
-            <section className="section bg-[var(--color-primary)] text-white text-center py-24">
-                <div className="container max-w-2xl">
-                    <h2 className="text-3xl md:text-4xl font-semibold text-white mb-6">If these patterns feel familiar, start with the system.</h2>
-                    <p className="text-lg text-indigo-100 mb-10">
-                        The first conversation focuses on diagnosis — not solutions. We map what’s breaking, what’s working, and where intervention actually matters.
+            {/* 7. SOFT TRANSITION */}
+            <section className="section bg-white border-t border-gray-100">
+                <div className="container max-w-4xl text-center">
+                    <h2 className="text-3xl font-semibold text-[var(--color-primary)] mb-8">A better way to start</h2>
+                    <p className="text-xl text-gray-700 mb-8 leading-relaxed">
+                        Before making another hire, tool investment, or execution push,<br className="hidden md:block" />
+                        many leadership teams choose to start with a short diagnostic.
                     </p>
-                    <div className="flex flex-col sm:flex-row justify-center gap-6">
-                        <Link to="/contact" className="btn bg-white text-[var(--color-primary)] hover:bg-gray-100">
-                            Start a diagnostic conversation →
-                        </Link>
-                        <Link to="/how-we-work" className="btn border border-white text-white hover:bg-indigo-900">
-                            How we work →
-                        </Link>
-                    </div>
+                    <p className="text-xl text-gray-900 font-medium mb-12">
+                        Not to commit to a solution —<br />
+                        but to ensure they are fixing the right problem first.
+                    </p>
+                    <Link to="/diagnostic" className="btn bg-[var(--color-primary)] text-white hover:bg-opacity-90 px-12">
+                        Start with a Diagnostic
+                    </Link>
                 </div>
             </section>
         </div>

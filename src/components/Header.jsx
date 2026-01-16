@@ -27,10 +27,10 @@ const Header = () => {
     }, [location]);
 
     const navLinks = [
-        { title: 'Problems We Solve', path: '/problems' },
-        { title: 'How We Work', path: '/how-we-work' },
+        { title: 'Problems', path: '/problems' },
+        { title: 'Diagnostic', path: '/diagnostic' },
+        { title: 'Services', path: '/services' },
         { title: 'Insights', path: '/insights' },
-        { title: 'Partners', path: '/partners' },
         { title: 'About', path: '/about' },
     ];
 
@@ -62,10 +62,10 @@ const Header = () => {
                 {/* Right Group: CTA */}
                 <div className="hidden md:block">
                     <Link
-                        to="/contact"
+                        to="/diagnostic"
                         className="text-sm font-medium text-[var(--color-primary)] border border-[var(--color-primary)] px-6 py-3 rounded hover:bg-[var(--color-primary)] hover:text-white transition-colors"
                     >
-                        Book Diagnostic
+                        Run a Diagnostic
                     </Link>
                 </div>
 
@@ -91,10 +91,10 @@ const Header = () => {
                         </Link>
                     ))}
                     <Link
-                        to="/contact"
+                        to="/diagnostic"
                         className="text-base font-medium text-[var(--color-primary)] py-2"
                     >
-                        Contact
+                        Run a Diagnostic
                     </Link>
                 </div>
             )}

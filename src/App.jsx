@@ -12,6 +12,13 @@ const Insights = lazy(() => import('./pages/Insights'));
 const Partners = lazy(() => import('./pages/Partners'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
+const Diagnostic = lazy(() => import('./pages/Diagnostic'));
+const Services = lazy(() => import('./pages/Services'));
+const GTMOperatingModel = lazy(() => import('./pages/services/GTMOperatingModel'));
+const PipelineQuality = lazy(() => import('./pages/services/PipelineQuality'));
+const ForecastingGovernance = lazy(() => import('./pages/services/ForecastingGovernance'));
+const GTMSignalsAI = lazy(() => import('./pages/services/GTMSignalsAI'));
+const InsightPost = lazy(() => import('./pages/insights/InsightPost'));
 const ThankYou = lazy(() => import('./pages/ThankYou'));
 const Privacy = lazy(() => import('./pages/Privacy'));
 const Terms = lazy(() => import('./pages/Terms'));
@@ -51,6 +58,14 @@ function App() {
                             <Route path="/partners" element={<Partners />} />
                             <Route path="/about" element={<About />} />
                             <Route path="/contact" element={<Contact />} />
+                            <Route path="/diagnostic" element={<Diagnostic />} />
+                            <Route path="/services" element={<Services />} />
+                            <Route path="/services/gtm-operating-model" element={<GTMOperatingModel />} />
+                            <Route path="/services/pipeline-quality" element={<PipelineQuality />} />
+                            <Route path="/services/forecasting-governance" element={<ForecastingGovernance />} />
+                            <Route path="/services/gtm-signals-and-ai" element={<GTMSignalsAI />} />
+                            <Route path="/insights" element={<Insights />} />
+                            <Route path="/insights/:slug" element={<InsightPost />} />
                             <Route path="/thank-you" element={<ThankYou />} />
                             <Route path="/privacy" element={<Privacy />} />
                             <Route path="/terms" element={<Terms />} />
