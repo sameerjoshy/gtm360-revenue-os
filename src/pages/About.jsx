@@ -61,9 +61,19 @@ const About = () => {
                             <p className="text-lg text-gray-700 mb-6">
                                 Having sat in the seat, we know that "best practices" often fail in the real world. That’s why we focus on engineering the system, not just training the people.
                             </p>
-                            <div className="flex gap-4 mt-8">
-                                {['Amazon', 'AWS', 'Deloitte', 'Pepsi'].map(logo => (
-                                    <span key={logo} className="text-gray-400 font-bold uppercase text-sm border border-gray-200 px-3 py-1 rounded-sm">{logo}</span>
+                            <div className="flex flex-wrap gap-6 mt-8 items-center">
+                                {[
+                                    { name: 'Amazon', url: 'https://logo.clearbit.com/amazon.com' },
+                                    { name: 'AWS', url: 'https://logo.clearbit.com/aws.amazon.com' },
+                                    { name: 'Deloitte', url: 'https://logo.clearbit.com/deloitte.com' },
+                                    { name: 'Pepsi', url: 'https://logo.clearbit.com/pepsico.com' }
+                                ].map(brand => (
+                                    <img
+                                        key={brand.name}
+                                        src={brand.url}
+                                        alt={brand.name}
+                                        className="h-8 md:h-10 w-auto grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                                    />
                                 ))}
                             </div>
                         </div>

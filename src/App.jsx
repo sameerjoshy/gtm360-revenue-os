@@ -1,5 +1,6 @@
-import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { Suspense, lazy, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import ReactGA from 'react-ga4';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
@@ -22,9 +23,21 @@ const PageLoader = () => (
     </div>
 );
 
+// GA4 Route Tracker
+const RouteTracker = () => {
+    const location = useLocation();
+
+    useEffect(() => {
+        ReactGA.send({ hitType: "pageview", page: location.pathname });
+    }, [location]);
+
+    return null;
+};
+
 function App() {
     return (
         <Router>
+            <RouteTracker />
             <div className="min-h-screen flex flex-col font-sans text-gray-900 bg-white">
                 <Header />
                 <main className="flex-grow pt-36"> {/* Adjust for fixed header height */}
