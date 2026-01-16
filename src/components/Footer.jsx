@@ -21,8 +21,12 @@ const Footer = () => {
                     <Link to="/contact" className="hover:text-[var(--color-primary)]">Contact</Link>
                 </div>
             </div>
-            <div className="container mt-8 pt-8 border-t border-gray-300 text-xs text-gray-400 text-center md:text-left">
-                © {currentYear} GTM360. All rights reserved.
+            <div className="container mt-8 pt-8 border-t border-gray-300 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
+                <span>© {currentYear} GTM360. All rights reserved.</span>
+                <div className="flex space-x-4 mt-4 md:mt-0">
+                    <Link to="/privacy" className="hover:text-gray-600">Privacy Policy</Link>
+                    <Link to="/terms" className="hover:text-gray-600">Terms of Service</Link>
+                </div>
             </div>
         </footer>
     );
