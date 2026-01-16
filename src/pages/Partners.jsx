@@ -33,18 +33,78 @@ const Partners = () => {
                     <h2 className="text-3xl font-semibold text-[var(--color-primary)] mb-12">The ecosystem we work with</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                         {[
-                            { category: "CRM / System of Record", examples: "Salesforce, HubSpot" },
-                            { category: "Revenue Intelligence", examples: "Gong, Clari, BoostUp" },
-                            { category: "Sales Engagement", examples: "Outreach, Salesloft" },
-                            { category: "Intent & Data", examples: "6sense, ZoomInfo, Clearbit" },
-                            { category: "Marketing Automation", examples: "Marketo, HubSpot" },
-                            { category: "Customer Success", examples: "Gainsight, Catalyst" },
-                            { category: "Partner / Ecosystem", examples: "Crossbeam, Impartner" },
-                            { category: "PLG / Product Data", examples: "Pendo, Amplitude" }
+                            {
+                                category: "CRM / System of Record",
+                                logos: [
+                                    { name: 'Salesforce', url: 'https://logo.clearbit.com/salesforce.com' },
+                                    { name: 'HubSpot', url: 'https://logo.clearbit.com/hubspot.com' }
+                                ]
+                            },
+                            {
+                                category: "Revenue Intelligence",
+                                logos: [
+                                    { name: 'Gong', url: 'https://logo.clearbit.com/gong.io' },
+                                    { name: 'Clari', url: 'https://logo.clearbit.com/clari.com' },
+                                    { name: 'BoostUp', url: 'https://logo.clearbit.com/boostup.ai' }
+                                ]
+                            },
+                            {
+                                category: "Sales Engagement",
+                                logos: [
+                                    { name: 'Outreach', url: 'https://logo.clearbit.com/outreach.io' },
+                                    { name: 'Salesloft', url: 'https://logo.clearbit.com/salesloft.com' }
+                                ]
+                            },
+                            {
+                                category: "Intent & Data",
+                                logos: [
+                                    { name: '6sense', url: 'https://logo.clearbit.com/6sense.com' },
+                                    { name: 'ZoomInfo', url: 'https://logo.clearbit.com/zoominfo.com' },
+                                    { name: 'Clearbit', url: 'https://logo.clearbit.com/clearbit.com' }
+                                ]
+                            },
+                            {
+                                category: "Marketing Automation",
+                                logos: [
+                                    { name: 'Marketo', url: 'https://logo.clearbit.com/marketo.com' },
+                                    { name: 'HubSpot', url: 'https://logo.clearbit.com/hubspot.com' }
+                                ]
+                            },
+                            {
+                                category: "Customer Success",
+                                logos: [
+                                    { name: 'Gainsight', url: 'https://logo.clearbit.com/gainsight.com' },
+                                    { name: 'Catalyst', url: 'https://logo.clearbit.com/catalyst.io' }
+                                ]
+                            },
+                            {
+                                category: "Partner / Ecosystem",
+                                logos: [
+                                    { name: 'Crossbeam', url: 'https://logo.clearbit.com/crossbeam.com' },
+                                    { name: 'Impartner', url: 'https://logo.clearbit.com/impartner.com' }
+                                ]
+                            },
+                            {
+                                category: "PLG / Product Data",
+                                logos: [
+                                    { name: 'Pendo', url: 'https://logo.clearbit.com/pendo.io' },
+                                    { name: 'Amplitude', url: 'https://logo.clearbit.com/amplitude.com' }
+                                ]
+                            }
                         ].map((item, i) => (
                             <div key={i} className="border border-gray-200 p-6 rounded-sm hover:border-[var(--color-primary)] transition-colors">
-                                <h3 className="text-lg font-semibold text-gray-900 mb-2">{item.category}</h3>
-                                <p className="text-sm text-gray-500">{item.examples}</p>
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4">{item.category}</h3>
+                                <div className="flex flex-wrap gap-4 items-center">
+                                    {item.logos.map(logo => (
+                                        <div key={logo.name} className="group relative" title={logo.name}>
+                                            <img
+                                                src={logo.url}
+                                                alt={logo.name}
+                                                className="h-6 w-auto grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         ))}
                     </div>
