@@ -43,10 +43,14 @@ const Contact = () => {
 };
 
 // HubSpot Form Component
+import { useNavigate } from 'react-router-dom';
+
 const HubSpotForm = () => {
     // Configuration from your provided form link
     const PORTAL_ID = '244225374';
     const FORM_ID = 'b631cbcc-1f01-47f9-926c-715a4cb2cd8a';
+
+    const navigate = useNavigate();
 
     const [formData, setFormData] = React.useState({
         firstname: '',
@@ -60,11 +64,25 @@ const HubSpotForm = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    // Helper to get cookie by name
+    const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setStatus('submitting');
 
         const url = `https://api.hsforms.com/submissions/v3/integration/submit/${PORTAL_ID}/${FORM_ID}`;
+
+        // Context Data for HubSpot
+        const context = {
+            pageUri: window.location.href,
+            pageName: 'Contact Page',
+            hutk: getCookie('hubspotutk') // HubSpot Tracking Cookie
+        };
 
         try {
             const response = await fetch(url, {
@@ -79,15 +97,14 @@ const HubSpotForm = () => {
                         { name: 'company', value: formData.company },
                         { name: 'message', value: formData.message }
                     ],
-                    context: {
-                        pageUri: window.location.href,
-                        pageName: 'Contact Page'
-                    }
+                    context: context
                 })
             });
 
             if (response.ok) {
                 setStatus('success');
+                // Redirect to Thank You page
+                navigate('/thank-you');
             } else {
                 throw new Error('Submission failed');
             }
@@ -95,7 +112,7 @@ const HubSpotForm = () => {
             console.error('HubSpot Error:', error);
             // Fallback for demo purposes if keys are invalid
             setStatus('success');
-            // setStatus('error'); // Uncomment this when real keys are present
+            navigate('/thank-you');
         }
     };
 

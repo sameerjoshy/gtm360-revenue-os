@@ -12,6 +12,7 @@ const Insights = lazy(() => import('./pages/Insights'));
 const Partners = lazy(() => import('./pages/Partners'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
+const ThankYou = lazy(() => import('./pages/ThankYou'));
 const Privacy = lazy(() => import('./pages/Privacy'));
 const Terms = lazy(() => import('./pages/Terms'));
 const NotFound = lazy(() => import('./pages/NotFound'));
@@ -50,6 +51,7 @@ function App() {
                             <Route path="/partners" element={<Partners />} />
                             <Route path="/about" element={<About />} />
                             <Route path="/contact" element={<Contact />} />
+                            <Route path="/thank-you" element={<ThankYou />} />
                             <Route path="/privacy" element={<Privacy />} />
                             <Route path="/terms" element={<Terms />} />
                             <Route path="*" element={<NotFound />} />
