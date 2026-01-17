@@ -1,68 +1,220 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const OperatingModelDiagram = () => {
-    const [step, setStep] = useState(0);
+    const [state, setState] = useState('silos'); // 'silos', 'aligning', 'unified'
 
     useEffect(() => {
-        const timer = setInterval(() => {
-            setStep(s => (s + 1) % 4);
-        }, 2500);
-        return () => clearInterval(timer);
+        const sequence = async () => {
+            while (true) {
+                // Phase 1: Silos (Chaos)
+                setState('silos');
+                await new Promise(r => setTimeout(r, 4000));
+
+                // Phase 2: Alignment
+                setState('aligning');
+                await new Promise(r => setTimeout(r, 2000));
+
+                // Phase 3: Unified System
+                setState('unified');
+                await new Promise(r => setTimeout(r, 6000));
+            }
+        };
+        sequence();
     }, []);
 
-    // Steps: 0 = Silos, 1 = Connecting, 2 = Unified, 3 = Unified Pulse
+    // Configuration for the three nodes
+    const nodes = [
+        { id: 'mktg', label: 'MKTG', color: '#ec4899' }, // Pink-500
+        { id: 'sales', label: 'SALES', color: '#3b82f6' }, // Blue-500
+        { id: 'cs', label: 'CS', color: '#10b981' }      // Emerald-500
+    ];
 
     return (
-        <div className="w-full max-w-sm relative aspect-square">
-            <svg className="w-full h-full" viewBox="0 0 400 400">
-                <defs>
-                    <pattern id="grid-op" width="20" height="20" patternUnits="userSpaceOnUse">
-                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
+        <div className="w-full relative aspect-square bg-slate-900 rounded-xl overflow-hidden shadow-2xl border border-slate-800 flex items-center justify-center">
+            {/* Background Grid */}
+            <div className="absolute inset-0 opacity-20">
+                <svg width="100%" height="100%">
+                    <pattern id="grid-modern" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="0.5" />
                     </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#grid-op)" />
+                    <rect width="100%" height="100%" fill="url(#grid-modern)" />
+                </svg>
+            </div>
 
-                {/* SILOS (Step 0 & 1) */}
-                <g style={{ transition: 'all 1s ease', opacity: step >= 2 ? 0.2 : 1 }}>
-                    {/* Marketing */}
-                    <circle cx="200" cy="100" r={step === 0 ? 30 : 10} fill="none" stroke="#F472B6" strokeWidth="2" />
-                    <text x="200" y="85" fill="#F472B6" textAnchor="middle" fontSize="10" opacity={step === 0 ? 1 : 0}>MKTG</text>
+            {/* Status Label */}
+            <div className="absolute top-6 left-6 z-10">
+                <motion.div
+                    key={state}
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`text-xs font-mono font-bold px-3 py-1 rounded-full border ${state === 'silos' ? 'border-red-500/50 text-red-400 bg-red-900/20' :
+                            state === 'aligning' ? 'border-yellow-500/50 text-yellow-400 bg-yellow-900/20' :
+                                'border-indigo-500/50 text-indigo-400 bg-indigo-900/20'
+                        }`}
+                >
+                    STATUS: {state.toUpperCase()}
+                </motion.div>
+            </div>
 
-                    {/* Sales */}
-                    <circle cx="100" cy="300" r={step === 0 ? 30 : 10} fill="none" stroke="#60A5FA" strokeWidth="2" />
-                    <text x="100" y="345" fill="#60A5FA" textAnchor="middle" fontSize="10" opacity={step === 0 ? 1 : 0}>SALES</text>
+            {/* Central Core (Only visible in unified state) */}
+            <AnimatePresence>
+                {state === 'unified' && (
+                    <motion.div
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                        className="absolute w-24 h-24 rounded-full bg-indigo-500/20 border border-indigo-500/50 z-0 flex items-center justify-center"
+                    >
+                        <div className="w-16 h-16 rounded-full bg-indigo-600 shadow-[0_0_30px_rgba(79,70,229,0.5)] flex items-center justify-center relative">
+                            <span className="text-[10px] font-bold text-white tracking-widest">OS</span>
 
-                    {/* CS */}
-                    <circle cx="300" cy="300" r={step === 0 ? 30 : 10} fill="none" stroke="#34D399" strokeWidth="2" />
-                    <text x="300" y="345" fill="#34D399" textAnchor="middle" fontSize="10" opacity={step === 0 ? 1 : 0}>CS</text>
-                </g>
-
-                {/* CONNECTIONS (Step 1) */}
-                {step >= 1 && (
-                    <g>
-                        <line x1="200" y1="100" x2="100" y2="300" stroke="white" strokeWidth="1" strokeDasharray="5,5" className="animate-pulse" />
-                        <line x1="200" y1="100" x2="300" y2="300" stroke="white" strokeWidth="1" strokeDasharray="5,5" className="animate-pulse" />
-                        <line x1="100" y1="300" x2="300" y2="300" stroke="white" strokeWidth="1" strokeDasharray="5,5" className="animate-pulse" />
-                    </g>
+                            {/* Pulse rings */}
+                            {[1, 2, 3].map(i => (
+                                <motion.div
+                                    key={i}
+                                    className="absolute inset-0 rounded-full border border-indigo-400/30"
+                                    animate={{ scale: [1, 2], opacity: [0.5, 0] }}
+                                    transition={{ duration: 2, repeat: Infinity, delay: i * 0.4 }}
+                                />
+                            ))}
+                        </div>
+                    </motion.div>
                 )}
+            </AnimatePresence>
 
-                {/* UNIFIED HUB (Step 2 & 3) */}
-                <g style={{ transition: 'all 1s ease', opacity: step >= 2 ? 1 : 0, transform: step >= 2 ? 'scale(1)' : 'scale(0.5)', transformOrigin: '200px 200px' }}>
-                    <circle cx="200" cy="230" r="60" fill="rgba(59, 130, 246, 0.2)" stroke="#3B82F6" strokeWidth="2" />
-                    <text x="200" y="235" fill="white" textAnchor="middle" fontSize="12" fontWeight="bold">REVENUE OS</text>
+            {/* Connections (Only in unified state) */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
+                {state === 'unified' && nodes.map((node, i) => {
+                    // Calculate positions based on triangle layout
+                    const angle = (i * 120 - 90) * (Math.PI / 180);
+                    const radius = 100;
+                    const x = 200 + Math.cos(angle) * radius; // assuming 400x400 viewBox logic for calculation, but mapped to %
+                    const y = 200 + Math.sin(angle) * radius; // actually we are using flex center so logic is relative to center.
 
-                    {/* Orbiting dots */}
-                    {step === 3 && (
-                        <>
-                            <circle cx="200" cy="170" r="4" fill="#3B82F6" className="animate-ping" />
-                            <circle cx="260" cy="230" r="4" fill="#3B82F6" className="animate-ping" style={{ animationDelay: '0.3s' }} />
-                            <circle cx="140" cy="230" r="4" fill="#3B82F6" className="animate-ping" style={{ animationDelay: '0.6s' }} />
-                        </>
-                    )}
-                </g>
+                    // We'll use CSS transforms for nodes, so we can't easily draw SVG lines to them without absolute coords.
+                    // Instead, let's draw lines from center (50%) to the node positions.
+                    // 120 degree separation: Top (0deg/-90), Right (120deg), Left (240deg).
+
+                    const rotation = i * 120;
+
+                    return (
+                        <g key={`conn-${i}`} style={{ transformOrigin: 'center', transform: `rotate(${rotation}deg)` }}>
+                            {/* Line from center upwards */}
+                            <motion.line
+                                x1="50%" y1="50%" x2="50%" y2="25%"
+                                stroke="#6366f1"
+                                strokeWidth="2"
+                                strokeDasharray="4 4"
+                                initial={{ pathLength: 0, opacity: 0 }}
+                                animate={{ pathLength: 1, opacity: 0.5 }}
+                                transition={{ duration: 0.8 }}
+                            />
+                            {/* Data particle moving */}
+                            <motion.circle r="3" fill="white">
+                                <animateMotion
+                                    dur="2s"
+                                    repeatCount="indefinite"
+                                    path="M 200 200 L 200 100" // Assuming standard SVG coords for simplicity: Center is 50%
+                                // Actually, let's just use CSS for particles or simpler SVG logic.
+                                // Simplification: Just pulsing lines.
+                                />
+                            </motion.circle>
+                        </g>
+                    );
+                })}
             </svg>
-            <div className="absolute top-4 right-4 text-[var(--color-primary)] text-xs font-mono">
-                {step < 2 ? 'STATE: SILOED' : 'STATE: UNIFIED'}
+
+
+            {/* Nodes Animation */}
+            <div className="relative w-64 h-64">
+                {nodes.map((node, i) => {
+                    // Position calculations
+                    // State: Silos -> Random spots
+                    // State: Aligning -> Triangle
+                    // State: Unified -> Triangle + Connected
+
+                    const isSilo = state === 'silos';
+
+                    // Unified Positions (Triangle)
+                    const angle = (i * 120 - 90) * (Math.PI / 180);
+                    const radius = 80;
+                    const unifiedX = Math.cos(angle) * radius;
+                    const unifiedY = Math.sin(angle) * radius;
+
+                    // Silo Positions (Scattered)
+                    const siloX = i === 0 ? -60 : i === 1 ? 70 : -10;
+                    const siloY = i === 0 ? -60 : i === 1 ? 20 : 80;
+
+                    return (
+                        <motion.div
+                            key={node.id}
+                            className={`absolute w-20 h-20 flex flex-col items-center justify-center rounded-2xl backdrop-blur-sm border transition-colors duration-500
+                                ${state === 'unified'
+                                    ? 'bg-slate-800/80 border-indigo-500/50 shadow-[0_0_15px_rgba(99,102,241,0.3)]'
+                                    : 'bg-slate-900/50 border-slate-700 shadow-none'
+                                }
+                            `}
+                            animate={{
+                                x: isSilo ? siloX : unifiedX,
+                                y: isSilo ? siloY : unifiedY,
+                                rotate: isSilo ? [0, 10, -10, 0] : 0, // Wobble in silo mode
+                                scale: state === 'unified' ? 1 : 0.9
+                            }}
+                            // Center the absolute element (it's top-left based by default)
+                            style={{
+                                left: '50%',
+                                top: '50%',
+                                marginLeft: '-40px',
+                                marginTop: '-40px'
+                            }}
+                            transition={{
+                                type: "spring",
+                                stiffness: 60,
+                                damping: 12,
+                                rotate: { duration: 4, repeat: Infinity, repeatType: "reverse" }
+                            }}
+                        >
+                            <div className="w-8 h-8 rounded-full flex items-center justify-center mb-1" style={{ backgroundColor: state === 'unified' ? node.color : '#475569' }}>
+                                <div className="w-2 h-2 bg-white rounded-full" />
+                            </div>
+                            <span className={`text-[10px] font-bold tracking-wider ${state === 'unified' ? 'text-white' : 'text-slate-400'}`}>
+                                {node.label}
+                            </span>
+                        </motion.div>
+                    );
+                })}
+
+                {/* Visualizing Data Flow in Unified State only */}
+                {state === 'unified' && (
+                    <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
+                        {[0, 1, 2].map(i => {
+                            const angle = (i * 120 - 90) * (Math.PI / 180);
+                            const x2 = 128 + Math.cos(angle) * 80; // 128 is center of 256px container
+                            const y2 = 128 + Math.sin(angle) * 80;
+
+                            return (
+                                <motion.circle
+                                    key={i}
+                                    r="2"
+                                    fill="white"
+                                    initial={{ opacity: 1 }}
+                                    animate={{
+                                        cx: [128, x2, 128], // Out and back
+                                        cy: [128, y2, 128],
+                                    }}
+                                    transition={{
+                                        duration: 2,
+                                        ease: "easeInOut",
+                                        repeat: Infinity,
+                                        delay: i * 0.2
+                                    }}
+                                />
+                            );
+                        })}
+                    </svg>
+                )}
             </div>
         </div>
     );
