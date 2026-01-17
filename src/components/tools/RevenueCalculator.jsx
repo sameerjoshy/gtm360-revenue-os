@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { ArrowRight, Check, RefreshCcw } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import useSubmitLead from '../../hooks/useSubmitLead';
 
 const RevenueCalculator = () => {
     const [step, setStep] = useState(0);
     const [score, setScore] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
+
+    // Email Capture State
+    const [email, setEmail] = useState('');
+    const { submit, status } = useSubmitLead();
 
     const questions = [
         {
@@ -50,6 +55,7 @@ const RevenueCalculator = () => {
         setStep(0);
         setScore(0);
         setIsFinished(false);
+        setEmail('');
     };
 
     const getResult = () => {
@@ -65,6 +71,15 @@ const RevenueCalculator = () => {
             tier: "Chaotic System",
             msg: "Your growth is accidental, not engineered. You are at risk."
         };
+    };
+
+    const handleEmailSubmit = (e) => {
+        e.preventDefault();
+        if (!email) return;
+        submit('diagnostic_score', [
+            { name: 'email', value: email },
+            { name: 'message', value: `Diagnostic Score: ${score}/30 (${getResult().tier})` }
+        ]);
     };
 
     return (
@@ -126,18 +141,45 @@ const RevenueCalculator = () => {
                             {getResult().msg}
                         </p>
 
-                        <div className="flex flex-col md:flex-row gap-4 justify-center">
+                        {/* OPTIONAL EMAIL CAPTURE */}
+                        {status === 'success' ? (
+                            <div className="mb-8 p-4 bg-green-500/10 border border-green-500/20 rounded-sm text-green-400 text-sm">
+                                Report sent! Check your inbox.
+                            </div>
+                        ) : (
+                            <form onSubmit={handleEmailSubmit} className="max-w-sm mx-auto mb-8">
+                                <div className="flex gap-2">
+                                    <input
+                                        type="email"
+                                        placeholder="Email me my report..."
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        className="flex-1 px-4 py-2 bg-slate-800 border border-slate-700 rounded-sm focus:outline-none focus:border-[var(--color-primary)] text-sm"
+                                        required
+                                    />
+                                    <button
+                                        type="submit"
+                                        disabled={status === 'submitting'}
+                                        className="btn bg-[var(--color-primary)] text-white hover:bg-opacity-90 px-4 py-2 text-sm whitespace-nowrap"
+                                    >
+                                        {status === 'submitting' ? 'Sending...' : 'Send'}
+                                    </button>
+                                </div>
+                            </form>
+                        )}
+
+                        <div className="flex flex-col md:flex-row gap-4 justify-center border-t border-slate-800 pt-8">
                             <Link
                                 to="/diagnostic"
-                                className="btn bg-[var(--color-primary)] text-white hover:bg-opacity-90 px-8 py-3"
+                                className="text-sm font-semibold text-white hover:text-[var(--color-primary)]"
                             >
-                                Get Full Plan
+                                View Full Diagnostic Framework →
                             </Link>
                             <button
                                 onClick={reset}
-                                className="flex items-center justify-center gap-2 text-gray-400 hover:text-white px-8 py-3"
+                                className="flex items-center justify-center gap-2 text-sm text-gray-400 hover:text-white"
                             >
-                                <RefreshCcw className="w-4 h-4" /> Retake
+                                <RefreshCcw className="w-3 h-3" /> Retake
                             </button>
                         </div>
                     </div>

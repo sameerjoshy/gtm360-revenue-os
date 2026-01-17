@@ -8,12 +8,14 @@ import IntelligenceLayer from './components/analytics/IntelligenceLayer';
 // Lazy load pages for performance
 const Home = lazy(() => import('./pages/Home'));
 const Problems = lazy(() => import('./pages/Problems'));
+const ProblemDetail = lazy(() => import('./pages/ProblemDetail'));
 const HowWeWork = lazy(() => import('./pages/HowWeWork'));
 const Insights = lazy(() => import('./pages/Insights'));
 const Partners = lazy(() => import('./pages/Partners'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Diagnostic = lazy(() => import('./pages/Diagnostic'));
+const Platform = lazy(() => import('./pages/Platform'));
 const Services = lazy(() => import('./pages/Services'));
 const GTMOperatingModel = lazy(() => import('./pages/services/GTMOperatingModel'));
 const PipelineQuality = lazy(() => import('./pages/services/PipelineQuality'));
@@ -56,12 +58,14 @@ function App() {
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/problems" element={<Problems />} />
+                            <Route path="/problems/:slug" element={<ProblemDetail />} />
                             <Route path="/how-we-work" element={<HowWeWork />} />
                             <Route path="/insights" element={<Insights />} />
                             <Route path="/partners" element={<Partners />} />
                             <Route path="/about" element={<About />} />
                             <Route path="/contact" element={<Contact />} />
                             <Route path="/diagnostic" element={<Diagnostic />} />
+                            <Route path="/platform" element={<Platform />} />
                             <Route path="/services" element={<Services />} />
                             <Route path="/services/gtm-operating-model" element={<GTMOperatingModel />} />
                             <Route path="/services/pipeline-quality" element={<PipelineQuality />} />

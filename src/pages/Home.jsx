@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import systemFlow from '../assets/schematics/system_flow.png';
+import heroWarRoom from '../assets/hero_war_room.png';
+import operatingBlueprint from '../assets/operating_model_blueprint.png';
 import RevenueCalculator from '../components/tools/RevenueCalculator';
+import TestimonialMarquee from '../components/social/TestimonialMarquee';
+import VideoEmbed from '../components/media/VideoEmbed';
 
 const Home = () => {
     return (
@@ -12,36 +15,48 @@ const Home = () => {
                 <meta name="description" content="When growth stalls, the problem is rarely effort. It's the GTM operating model. GTM360 helps leadership teams fix the decision systems that convert effort into revenue." />
                 <meta property="og:title" content="GTM360 | The Revenue Operating System" />
                 <meta property="og:description" content="We build revenue operating systems for B2B companies. Stop guessing, start engineering." />
-                <meta property="og:image" content="https://gtm-360.com/assets/schematics/system_flow.png" />
+                <meta property="og:image" content="https://gtm-360.com/assets/hero_war_room.png" />
                 <meta property="og:url" content="https://gtm-360.com/" />
                 <meta property="og:type" content="website" />
             </Helmet>
             {/* BLOCK 1: HERO */}
             <section className="section !pt-0 pb-24 md:pb-32" style={{ paddingTop: '0px' }}>
-                <div className="container max-w-4xl">
-                    <h1 className="text-5xl md:text-6xl font-semibold leading-tight mb-6 text-[var(--color-primary)]">
-                        When growth stalls, the problem is rarely effort. <br />
-                        <span className="opacity-75">It’s the GTM operating model.</span>
-                    </h1>
-                    <p className="text-xl md:text-2xl text-gray-600 mb-2">
-                        GTM360 helps leadership teams fix the decision systems that convert go-to-market effort into revenue.
-                    </p>
-                    <div className="text-sm font-semibold tracking-wide text-gray-400 uppercase mb-10">
-                        GTM360 — Revenue OS
-                    </div>
+                <div className="container max-w-6xl"> {/* Widened container for better image fit */}
+                    <div className="flex flex-col md:flex-row items-center gap-12 mt-16">
+                        <div className="flex-1">
+                            <h1 className="text-5xl md:text-6xl font-semibold leading-tight mb-6 text-[var(--color-primary)]">
+                                When growth stalls, the problem is rarely effort. <br />
+                                <span className="opacity-75">It’s the GTM operating model.</span>
+                            </h1>
+                            <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl">
+                                GTM360 helps leadership teams fix the decision systems that convert go-to-market effort into revenue.
+                            </p>
+                            <div className="text-sm font-semibold tracking-wide text-gray-400 uppercase mb-10">
+                                GTM360 — Revenue OS
+                            </div>
 
-                    <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
-                        <Link to="/problems" className="btn bg-[var(--color-primary)] text-white hover:bg-opacity-90 transition-all">
-                            Explore the GTM Operating Model →
-                        </Link>
-                        <Link to="/insights" className="text-[var(--color-primary)] font-medium hover:underline">
-                            See insights →
-                        </Link>
-                    </div>
+                            <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
+                                <Link to="/problems" className="btn bg-[var(--color-primary)] text-white hover:bg-opacity-90 transition-all">
+                                    Explore the GTM Operating Model →
+                                </Link>
+                                <Link to="/insights" className="text-[var(--color-primary)] font-medium hover:underline">
+                                    See insights →
+                                </Link>
+                            </div>
+                        </div>
 
-                    {/* Abstract System Visual */}
-                    <div className="mt-16 border-t border-[var(--color-secondary)] pt-10 flex justify-center">
-                        <img src={systemFlow} alt="GTM System Flow: Inputs to Outcomes" className="max-w-full md:max-w-2xl opacity-90" />
+                        {/* HERO IMAGE: Human War Room */}
+                        <div className="flex-1 w-full relative group">
+                            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                            <img
+                                src={heroWarRoom}
+                                alt="GTM360 War Room: Operators solving system problems"
+                                className="relative rounded-lg shadow-2xl border border-gray-100 transform group-hover:scale-[1.01] transition duration-500"
+                            />
+                            <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded text-xs font-mono text-indigo-600 border border-indigo-100">
+                                /// OPERATOR_VIEW_ACTIVE
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -64,6 +79,51 @@ const Home = () => {
                                 In most cases, the issue isn’t talent or effort. <br /><br />
                                 It’s that the GTM system is quietly enforcing the wrong decisions.
                             </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* BLOCK 2.5: SOCIAL PROOF */}
+            <TestimonialMarquee />
+
+            {/* BLOCK 2.6: FOUNDER MEMO (VIDEO) */}
+            <section className="section bg-white border-b border-gray-100">
+                <div className="container max-w-5xl">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <span className="text-[var(--color-primary)] font-mono text-xs tracking-widest uppercase mb-4 block">
+                                Founder's Memo
+                            </span>
+                            <h2 className="text-3xl font-semibold mb-6">
+                                Why I left traditional consulting to build a Revenue OS.
+                            </h2>
+                            <p className="text-lg text-gray-700 leading-relaxed mb-6">
+                                "I watched too many smart leadership teams burn out trying to fix revenue problems with more calls, more pressure, and more dashboards.
+                            </p>
+                            <p className="text-lg text-gray-700 leading-relaxed mb-8">
+                                The truth is, most growth problems aren't people problems. They are system problems. I built GTM-360 to give leaders the engineering controls they need to actually fix the engine."
+                            </p>
+
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-slate-200 rounded-full overflow-hidden">
+                                    {/* Placeholder Avatar - Replace with actual headshot */}
+                                    <div className="w-full h-full bg-slate-300 flex items-center justify-center text-slate-500 font-bold">S</div>
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-gray-900">Sameer</p>
+                                    <p className="text-sm text-gray-500">Founder, GTM-360</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="relative">
+                            {/* VIDEO EMBED */}
+                            <VideoEmbed
+                                videoId="M7lc1UVf-VE"
+                                title="Why GTM-360 Exists"
+                            />
+                            {/* Decorative Elements */}
+                            <div className="absolute -z-10 top-6 -right-6 w-full h-full border-2 border-[var(--color-secondary)] rounded-sm"></div>
                         </div>
                     </div>
                 </div>
@@ -116,13 +176,12 @@ const Home = () => {
                         </Link>
                     </div>
 
-                    {/* Visual Placeholder for 4-part Loop */}
-                    <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                        {['Focus', 'Alignment', 'Execution', 'Visibility'].map(layer => (
-                            <div key={layer} className="py-8 bg-white rounded-md shadow-sm border border-gray-100">
-                                <span className="font-semibold text-[var(--color-primary)]">{layer}</span>
-                            </div>
-                        ))}
+                    {/* MODEL VISUAL: System Blueprint */}
+                    <div className="mt-16 flex justify-center">
+                        <div className="relative max-w-4xl shadow-2xl rounded-sm overflow-hidden border border-gray-200">
+                            <img src={operatingBlueprint} alt="GTM System Architecture Blueprint" className="w-full" />
+                            <div className="absolute inset-0 border-4 border-white/10 pointer-events-none"></div>
+                        </div>
                     </div>
                 </div>
             </section>

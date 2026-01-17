@@ -20,41 +20,50 @@ const Problems = () => {
         {
             icon: <Activity className="w-8 h-8 text-[var(--color-primary)]" />,
             title: "Pipeline is growing, but revenue isn’t",
+            slug: "stalled-growth",
             desc: "More leads and more activity haven’t translated into predictable growth. This usually signals a decision or qualification problem, not a volume problem."
         },
         {
             icon: <Target className="w-8 h-8 text-[var(--color-primary)]" />,
             title: "Win rates are falling",
+            slug: "pipeline-conversion",
             desc: "Deals are entering the funnel but closing less often. This often points to misaligned ICP, messaging, or buyer ownership — not sales effort."
         },
         {
             icon: <BarChart2 className="w-8 h-8 text-[var(--color-primary)]" />,
-            title: "Sales cycles keep getting longer",
-            desc: "Opportunities move, but at a slower and less predictable pace. Longer cycles often indicate unclear buyer decisions, not deal complexity."
+            title: "Forecasts are unreliable",
+            slug: "forecast-volatility",
+            desc: "Numbers change week to week and confidence is low. Forecasting issues are usually downstream of signal and stage definition problems."
         },
+        // ... mapped to existing slugs, others fallback to diagnostic for now
         {
             icon: <PieChart className="w-8 h-8 text-[var(--color-primary)]" />,
-            title: "Forecasts are unreliable",
-            desc: "Numbers change week to week and confidence is low. Forecasting issues are usually downstream of signal and stage definition problems."
+            title: "Sales cycles keep getting longer",
+            slug: "pipeline-conversion", // Sharing slug for similar pattern
+            desc: "Opportunities move, but at a slower and less predictable pace. Longer cycles often indicate unclear buyer decisions, not deal complexity."
         },
         {
             icon: <Users className="w-8 h-8 text-[var(--color-primary)]" />,
             title: "Marketing and sales disagree on quality",
+            slug: "stalled-growth", // Sharing slug
             desc: "Leads look good in dashboards but break down in execution. This is often a system alignment issue, not a team alignment issue."
         },
         {
             icon: <MessageSquare className="w-8 h-8 text-[var(--color-primary)]" />,
             title: "Messaging isn’t landing in real deals",
+            slug: "pipeline-conversion", // Sharing slug
             desc: "Positioning sounds strong, but buyers don’t internalize urgency. This usually reflects a problem-ownership mismatch, not a copy problem."
         },
         {
             icon: <AlertCircle className="w-8 h-8 text-[var(--color-primary)]" />,
             title: "RevOps dashboards don’t drive decisions",
+            slug: "forecast-volatility", // Sharing slug
             desc: "Metrics are abundant, but decisions still rely on opinion. This typically means signals are being tracked without a governing model."
         },
         {
             icon: <Cpu className="w-8 h-8 text-[var(--color-primary)]" />,
             title: "Tools and AI increased noise, not clarity",
+            slug: "stalled-growth", // Sharing slug
             desc: "New tools promised leverage but added complexity. Technology amplifies systems — it does not correct misdiagnosis."
         }
     ];
@@ -116,7 +125,7 @@ const Problems = () => {
                         {symptoms.map((symptom, index) => (
                             <Link
                                 key={index}
-                                to="/diagnostic"
+                                to={`/problems/${symptom.slug}`}
                                 className="group block bg-white border border-gray-200 p-8 rounded-sm hover:border-[var(--color-primary)] hover:shadow-md transition-all duration-300"
                             >
                                 <div className="mb-6 group-hover:scale-110 transition-transform duration-300">

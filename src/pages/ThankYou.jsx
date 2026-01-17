@@ -1,8 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 const ThankYou = () => {
+    const { state } = useLocation();
+    const type = state?.search || 'default'; // 'default', 'nurture', 'diagnostic'
+
+    const content = {
+        default: {
+            title: "Message received.",
+            subtitle: "We will be in touch shortly to schedule your diagnostic."
+        },
+        nurture: {
+            title: "You're on the list.",
+            subtitle: "Your first diagnostic check is on its way to your inbox (Subject: Day 1). Check your spam folder if you don't see it in 5 minutes."
+        },
+        diagnostic: {
+            title: "Report generated.",
+            subtitle: "Your Revenue Maturity Score has been emailed to you. It includes the breakdown of your system constraints."
+        }
+    }[type] || { title: "Message received.", subtitle: "We will be in touch shortly." };
+
     return (
         <div className="thank-you-page">
             <Helmet>
@@ -18,15 +36,15 @@ const ThankYou = () => {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                             </svg>
                         </div>
-                        <h1 className="text-4xl font-semibold text-[var(--color-primary)] mb-4">
-                            Message received.
+                        <h1 className="text-4xl font-semibold text-[var(--color-primary)] mb-4 animate-fade-in-up">
+                            {content.title}
                         </h1>
-                        <p className="text-xl text-gray-700 leading-relaxed">
-                            We will be in touch shortly to schedule your diagnostic.
+                        <p className="text-xl text-gray-700 leading-relaxed animate-fade-in-up delay-100">
+                            {content.subtitle}
                         </p>
                     </div>
 
-                    <div className="bg-white p-10 rounded-sm shadow-sm border-t-4 border-[var(--color-primary)] text-left">
+                    <div className="bg-white p-10 rounded-sm shadow-sm border-t-4 border-[var(--color-primary)] text-left animate-fade-in-up delay-200">
                         <h2 className="text-2xl font-semibold mb-6">While you wait, explore our thinking.</h2>
                         <div className="space-y-6">
                             <Link to="/insights" className="block group">
