@@ -36,59 +36,59 @@ const Partners = () => {
                             {
                                 category: "CRM / System of Record",
                                 logos: [
-                                    { name: 'Salesforce', url: 'https://logo.clearbit.com/salesforce.com' },
-                                    { name: 'HubSpot', url: 'https://logo.clearbit.com/hubspot.com' }
+                                    { name: 'Salesforce', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Salesforce' },
+                                    { name: 'HubSpot', url: 'https://placehold.co/120x40/e2e8f0/475569?text=HubSpot' }
                                 ]
                             },
                             {
                                 category: "Revenue Intelligence",
                                 logos: [
-                                    { name: 'Gong', url: 'https://logo.clearbit.com/gong.io' },
-                                    { name: 'Clari', url: 'https://logo.clearbit.com/clari.com' },
-                                    { name: 'BoostUp', url: 'https://logo.clearbit.com/boostup.ai' }
+                                    { name: 'Gong', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Gong' },
+                                    { name: 'Clari', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Clari' },
+                                    { name: 'BoostUp', url: 'https://placehold.co/120x40/e2e8f0/475569?text=BoostUp' }
                                 ]
                             },
                             {
                                 category: "Sales Engagement",
                                 logos: [
-                                    { name: 'Outreach', url: 'https://logo.clearbit.com/outreach.io' },
-                                    { name: 'Salesloft', url: 'https://logo.clearbit.com/salesloft.com' }
+                                    { name: 'Outreach', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Outreach' },
+                                    { name: 'Salesloft', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Salesloft' }
                                 ]
                             },
                             {
                                 category: "Intent & Data",
                                 logos: [
-                                    { name: '6sense', url: 'https://logo.clearbit.com/6sense.com' },
-                                    { name: 'ZoomInfo', url: 'https://logo.clearbit.com/zoominfo.com' },
-                                    { name: 'Clearbit', url: 'https://logo.clearbit.com/clearbit.com' }
+                                    { name: '6sense', url: 'https://placehold.co/120x40/e2e8f0/475569?text=6sense' },
+                                    { name: 'ZoomInfo', url: 'https://placehold.co/120x40/e2e8f0/475569?text=ZoomInfo' },
+                                    { name: 'Clearbit', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Clearbit' }
                                 ]
                             },
                             {
                                 category: "Marketing Automation",
                                 logos: [
-                                    { name: 'Marketo', url: 'https://logo.clearbit.com/marketo.com' },
-                                    { name: 'HubSpot', url: 'https://logo.clearbit.com/hubspot.com' }
+                                    { name: 'Marketo', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Marketo' },
+                                    { name: 'HubSpot', url: 'https://placehold.co/120x40/e2e8f0/475569?text=HubSpot' }
                                 ]
                             },
                             {
                                 category: "Customer Success",
                                 logos: [
-                                    { name: 'Gainsight', url: 'https://logo.clearbit.com/gainsight.com' },
-                                    { name: 'Catalyst', url: 'https://logo.clearbit.com/catalyst.io' }
+                                    { name: 'Gainsight', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Gainsight' },
+                                    { name: 'Catalyst', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Catalyst' }
                                 ]
                             },
                             {
                                 category: "Partner / Ecosystem",
                                 logos: [
-                                    { name: 'Crossbeam', url: 'https://logo.clearbit.com/crossbeam.com' },
-                                    { name: 'Impartner', url: 'https://logo.clearbit.com/impartner.com' }
+                                    { name: 'Crossbeam', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Crossbeam' },
+                                    { name: 'Impartner', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Impartner' }
                                 ]
                             },
                             {
                                 category: "PLG / Product Data",
                                 logos: [
-                                    { name: 'Pendo', url: 'https://logo.clearbit.com/pendo.io' },
-                                    { name: 'Amplitude', url: 'https://logo.clearbit.com/amplitude.com' }
+                                    { name: 'Pendo', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Pendo' },
+                                    { name: 'Amplitude', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Amplitude' }
                                 ]
                             }
                         ].map((item, i) => (

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { Settings, filter, TrendingUp, Cpu, ArrowRight } from 'lucide-react';
+import { Settings, Filter, TrendingUp, Cpu, ArrowRight } from 'lucide-react';
 
 const Services = () => {
     // 1. SEO + AEO FOUNDATION
@@ -20,8 +20,7 @@ const Services = () => {
             link: "/services/gtm-operating-model"
         },
         {
-            icon: <filter className="w-10 h-10 text-[var(--color-primary)]" />, // using lowercase 'filter' as Lucide sometimes exports it lower or mapped; checking import. Actually 'Filter' is usually capitalized. I'll use a standard icon if 'filter' fails, but typically it's 'Filter'. I'll check my imports. Let's use 'GitPullRequest' or similar if Filter is tricky, but spec implies just specific content. I will use 'Activity' or 'GitBranch' if Filter isn't available, but standard lucide has Filter. I'll stick to 'Activity' for Pipeline to be safe, or 'Layers'. Actually, 'Filter' is available in lucide-react. I'll try 'ListFilter' if needed. Let's use 'BarChart' for pipeline or 'Funnel' if available. Lucide has 'Filter'.
-            // Correction: Lucide React component names are PascalCase. 'Filter' is correct.
+            icon: <Filter className="w-10 h-10 text-[var(--color-primary)]" />,
             title: "Pipeline & Deal Quality Repair",
             desc: "When pipeline looks healthy, but deals don’t convert predictably.",
             link: "/services/pipeline-quality"

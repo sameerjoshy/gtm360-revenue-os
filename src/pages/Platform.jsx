@@ -47,52 +47,54 @@ const Platform = () => {
                     </p>
 
                     {/* The Toggle */}
-                    <div className="inline-flex bg-white p-1 rounded-full border border-gray-200 shadow-sm relative">
+                    <div className="inline-flex bg-slate-100 p-1.5 rounded-full relative">
                         <button
                             onClick={() => setMode('chaos')}
-                            className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 flex items-center gap-2 ${mode === 'chaos' ? 'bg-red-100 text-red-700 shadow-inner' : 'text-gray-500 hover:bg-gray-50'}`}
+                            className={`px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 flex items-center gap-2 ${mode === 'chaos' ? 'bg-white text-slate-800 shadow-md ring-1 ring-black/5' : 'text-slate-500 hover:text-slate-700'}`}
                         >
-                            <AlertTriangle size={16} />
-                            Ad-Hoc Mode (Chaos)
+                            <AlertTriangle size={18} className={mode === 'chaos' ? "text-red-500" : "text-slate-400"} />
+                            Chaos Mode
                         </button>
                         <button
                             onClick={() => setMode('system')}
-                            className={`px-6 py-2 rounded-full text-sm font-semibold transition-all duration-300 flex items-center gap-2 ${mode === 'system' ? 'bg-[var(--color-primary)] text-white shadow-md' : 'text-gray-500 hover:bg-gray-50'}`}
+                            className={`px-8 py-3 rounded-full text-sm font-bold transition-all duration-300 flex items-center gap-2 ${mode === 'system' ? 'bg-white text-blue-700 shadow-md ring-1 ring-black/5' : 'text-slate-500 hover:text-slate-700'}`}
                         >
-                            <Cpu size={16} />
-                            Revenue OS (System)
+                            <Cpu size={18} className={mode === 'system' ? "text-blue-600" : "text-slate-400"} />
+                            System Mode
                         </button>
                     </div>
                 </div>
 
                 {/* Dashboard Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
                     {/* METRIC 1: Forecast Accuracy */}
-                    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                        <div className="flex justify-between items-start mb-4">
+                    <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 transition-all duration-500">
+                        <div className="flex justify-between items-start mb-6">
                             <div>
-                                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Forecast Precision</h3>
-                                <p className={`text-2xl font-bold mt-1 ${mode === 'chaos' ? 'text-red-600' : 'text-green-600'}`}>
+                                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Forecast Acc.</h3>
+                                <p className={`text-4xl font-bold mt-2 ${mode === 'chaos' ? 'text-slate-700' : 'text-blue-600'}`}>
                                     {mode === 'chaos' ? '± 42%' : '± 4%'}
                                 </p>
                             </div>
-                            <div className={`p-2 rounded-full ${mode === 'chaos' ? 'bg-red-50 text-red-600' : 'bg-green-50 text-green-600'}`}>
-                                <Activity size={20} />
+                            <div className={`p-3 rounded-xl ${mode === 'chaos' ? 'bg-red-50 text-red-500' : 'bg-blue-50 text-blue-600'}`}>
+                                <Activity size={24} />
                             </div>
                         </div>
-                        <div className="h-48">
+                        <div className="h-48 -mx-2">
                             <ResponsiveContainer width="100%" height="100%">
                                 <LineChart data={currentData}>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                                     <XAxis dataKey="month" hide />
                                     <YAxis hide domain={['dataMin - 10', 'dataMax + 10']} />
-                                    <Tooltip />
+                                    <Tooltip
+                                        contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                                    />
                                     <Line
                                         type="monotone"
                                         dataKey="forecast"
-                                        stroke="#94a3b8"
-                                        strokeDasharray="5 5"
+                                        stroke="#cbd5e1"
+                                        strokeDasharray="4 4"
                                         dot={false}
                                         strokeWidth={2}
                                         name="Forecast"
@@ -100,35 +102,35 @@ const Platform = () => {
                                     <Line
                                         type="monotone"
                                         dataKey="revenue"
-                                        stroke={mode === 'chaos' ? '#ef4444' : '#10b981'}
+                                        stroke={mode === 'chaos' ? '#ef4444' : '#2563eb'}
                                         strokeWidth={3}
-                                        dot={{ r: 4 }}
+                                        dot={{ r: 4, fill: mode === 'chaos' ? '#ef4444' : '#2563eb', strokeWidth: 0 }}
                                         name="Actuals"
                                     />
                                 </LineChart>
                             </ResponsiveContainer>
                         </div>
-                        <p className="text-xs text-gray-500 mt-2">
+                        <p className={`text-sm font-medium mt-4 ${mode === 'chaos' ? 'text-red-600' : 'text-slate-600'}`}>
                             {mode === 'chaos'
-                                ? "Warning: Actuals decoupling from plan. High volatility detected."
-                                : "System Healthy: Execution variance within acceptable limits."}
+                                ? "⚠ Variance Warning: Decoupled from plan."
+                                : "✓ System Healthy: Within 5% variance."}
                         </p>
                     </div>
 
                     {/* METRIC 2: Signal-to-Noise */}
-                    <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
-                        <div className="flex justify-between items-start mb-4">
+                    <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200 transition-all duration-500">
+                        <div className="flex justify-between items-start mb-6">
                             <div>
-                                <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Signal Quality</h3>
-                                <p className={`text-2xl font-bold mt-1 ${mode === 'chaos' ? 'text-orange-500' : 'text-[var(--color-primary)]'}`}>
-                                    {mode === 'chaos' ? 'Low (Noise Dominant)' : 'High (Signal Rich)'}
+                                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Signal Quality</h3>
+                                <p className={`text-4xl font-bold mt-2 ${mode === 'chaos' ? 'text-slate-700' : 'text-blue-600'}`}>
+                                    {mode === 'chaos' ? 'Low' : 'High'}
                                 </p>
                             </div>
-                            <div className={`p-2 rounded-full ${mode === 'chaos' ? 'bg-orange-50 text-orange-600' : 'bg-indigo-50 text-indigo-600'}`}>
-                                <BarChart2 size={20} />
+                            <div className={`p-3 rounded-xl ${mode === 'chaos' ? 'bg-orange-50 text-orange-500' : 'bg-indigo-50 text-indigo-600'}`}>
+                                <BarChart2 size={24} />
                             </div>
                         </div>
-                        <div className="h-48">
+                        <div className="h-48 -mx-2">
                             <ResponsiveContainer width="100%" height="100%">
                                 <AreaChart data={currentData}>
                                     <defs>
@@ -137,10 +139,12 @@ const Platform = () => {
                                             <stop offset="95%" stopColor={mode === 'chaos' ? '#f97316' : '#6366f1'} stopOpacity={0} />
                                         </linearGradient>
                                     </defs>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                                     <XAxis dataKey="month" hide />
                                     <YAxis hide />
-                                    <Tooltip />
+                                    <Tooltip
+                                        contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                                    />
                                     <Area
                                         type="monotone"
                                         dataKey="noise"
@@ -152,31 +156,39 @@ const Platform = () => {
                                 </AreaChart>
                             </ResponsiveContainer>
                         </div>
-                        <p className="text-xs text-gray-500 mt-2">
+                        <p className={`text-sm font-medium mt-4 ${mode === 'chaos' ? 'text-orange-600' : 'text-slate-600'}`}>
                             {mode === 'chaos'
-                                ? "Alert: 80% of CRM activity is 'Noise' (non-revenue generating)."
-                                : "Optimization: Noise filtered. Focus on high-intent signals."}
+                                ? "⚠ noise-dominated: 80% non-revenue activity."
+                                : "✓ Signal-rich: High-intent interactions."}
                         </p>
                     </div>
 
                     {/* INSIGHT CARD (Textual) */}
-                    <div className={`p-6 rounded-lg shadow-sm border border-l-4 ${mode === 'chaos' ? 'bg-red-50 border-red-500 border-gray-100' : 'bg-indigo-50 border-[var(--color-primary)] border-indigo-100'}`}>
-                        <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                            {mode === 'chaos' ? <AlertTriangle size={20} className="text-red-500" /> : <CheckCircle size={20} className="text-[var(--color-primary)]" />}
-                            {mode === 'chaos' ? "Operating Reality: Reactive" : "Operating Reality: Engineered"}
+                    <div className={`p-8 rounded-2xl shadow-sm border transition-all duration-500 ${mode === 'chaos' ? 'bg-red-50/50 border-red-100' : 'bg-blue-50/50 border-blue-100'}`}>
+                        <h3 className="text-lg font-bold mb-6 flex items-center gap-3">
+                            {mode === 'chaos' ? <AlertTriangle size={24} className="text-red-500" /> : <CheckCircle size={24} className="text-blue-600" />}
+                            <span className={mode === 'chaos' ? "text-red-900" : "text-blue-900"}>
+                                {mode === 'chaos' ? "Operating Reality" : "Engineered Reality"}
+                            </span>
                         </h3>
-                        <div className="space-y-4 text-sm">
-                            <div className="flex justify-between border-b border-black/5 pb-2">
-                                <span className={mode === 'chaos' ? 'text-red-700' : 'text-gray-600'}>Decision Latency</span>
-                                <span className="font-mono font-bold">{mode === 'chaos' ? '14 Days' : '4 Hours'}</span>
+                        <div className="space-y-6 text-sm">
+                            <div className="flex justify-between items-center pb-4 border-b border-black/5">
+                                <span className="text-slate-500 font-medium">Decision Latency</span>
+                                <span className={`font-mono font-bold px-2 py-1 rounded ${mode === 'chaos' ? 'bg-red-100 text-red-700' : 'bg-white text-blue-700 shadow-sm'}`}>
+                                    {mode === 'chaos' ? '14 Days' : '4 Hours'}
+                                </span>
                             </div>
-                            <div className="flex justify-between border-b border-black/5 pb-2">
-                                <span className={mode === 'chaos' ? 'text-red-700' : 'text-gray-600'}>Pipeline Confidence</span>
-                                <span className="font-mono font-bold">{mode === 'chaos' ? 'Low (Subjective)' : 'High (Data-Led)'}</span>
+                            <div className="flex justify-between items-center pb-4 border-b border-black/5">
+                                <span className="text-slate-500 font-medium">Pipeline Confidence</span>
+                                <span className={`font-mono font-bold px-2 py-1 rounded ${mode === 'chaos' ? 'bg-red-100 text-red-700' : 'bg-white text-blue-700 shadow-sm'}`}>
+                                    {mode === 'chaos' ? 'Low' : 'High'}
+                                </span>
                             </div>
-                            <div className="flex justify-between">
-                                <span className={mode === 'chaos' ? 'text-red-700' : 'text-gray-600'}>Growth Compounding</span>
-                                <span className="font-mono font-bold">{mode === 'chaos' ? 'No (Linear)' : 'Yes (Exponential)'}</span>
+                            <div className="flex justify-between items-center">
+                                <span className="text-slate-500 font-medium">Compounding</span>
+                                <span className={`font-mono font-bold px-2 py-1 rounded ${mode === 'chaos' ? 'bg-red-100 text-red-700' : 'bg-white text-blue-700 shadow-sm'}`}>
+                                    {mode === 'chaos' ? 'No' : 'Yes'}
+                                </span>
                             </div>
                         </div>
                     </div>

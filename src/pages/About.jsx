@@ -63,10 +63,10 @@ const About = () => {
                             </p>
                             <div className="flex flex-wrap gap-6 mt-8 items-center">
                                 {[
-                                    { name: 'Amazon', url: 'https://logo.clearbit.com/amazon.com' },
-                                    { name: 'AWS', url: 'https://logo.clearbit.com/aws.amazon.com' },
-                                    { name: 'Deloitte', url: 'https://logo.clearbit.com/deloitte.com' },
-                                    { name: 'Pepsi', url: 'https://logo.clearbit.com/pepsico.com' }
+                                    { name: 'Amazon', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Amazon' },
+                                    { name: 'AWS', url: 'https://placehold.co/120x40/e2e8f0/475569?text=AWS' },
+                                    { name: 'Deloitte', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Deloitte' },
+                                    { name: 'Pepsi', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Pepsi' }
                                 ].map(brand => (
                                     <img
                                         key={brand.name}
