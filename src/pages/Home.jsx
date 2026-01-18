@@ -16,8 +16,8 @@ const Home = () => {
                 canonical="https://gtm-360.com/"
             />
             {/* BLOCK 1: HERO */}
-            <section className="section !pt-0 pb-24 md:pb-32" style={{ paddingTop: '0px' }}>
-                <div className="container max-w-6xl"> {/* Widened container for better image fit */}
+            <section className="section !pt-0 pb-24 md:pb-32 aurora-bg relative overflow-hidden" style={{ paddingTop: '0px' }}>
+                <div className="container max-w-6xl relative z-10"> {/* Widened container for better image fit */}
                     <div className="flex flex-col md:flex-row items-center gap-12 mt-16">
                         <div className="flex-1">
                             <h1 className="text-5xl md:text-6xl font-semibold leading-tight mb-6 text-[var(--color-primary)]">
@@ -230,26 +230,27 @@ const Home = () => {
                                 reality: "Weak customer cohorting and generic value",
                                 outcome: "Fewer campaigns, higher signal quality"
                             },
-                            {
-                                symptom: "Forecast volatility in scaled org",
-                                reality: "Inspection was backward-looking",
-                                outcome: "Earlier risk surfacing, improved predictability"
+                            },
+                        {
+                            symptom: "Forecast volatility in scaled org",
+                        reality: "Inspection was backward-looking",
+                        outcome: "Earlier risk surfacing, improved predictability"
                             }
                         ].map((card, i) => (
-                            <div key={i} className="bg-white p-8 rounded-sm shadow-sm flex flex-col h-full border-t-4 border-transparent hover:border-[var(--color-primary)] transition-all">
-                                <div className="mb-4">
-                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">Symptom</span>
-                                    <p className="font-medium text-gray-900 mt-1">{card.symptom}</p>
-                                </div>
-                                <div className="mb-4">
-                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">Reality</span>
-                                    <p className="font-medium text-[var(--color-primary)] mt-1">{card.reality}</p>
-                                </div>
-                                <div className="mt-auto pt-4 border-t border-gray-100">
-                                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">Outcome</span>
-                                    <p className="text-sm text-gray-600 mt-1">{card.outcome}</p>
-                                </div>
+                        <div key={i} className="glass-card p-8 rounded-sm flex flex-col h-full border-t-4 border-transparent hover:border-[var(--color-primary)] transition-all">
+                            <div className="mb-4">
+                                <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">Symptom</span>
+                                <p className="font-medium text-gray-900 mt-1">{card.symptom}</p>
                             </div>
+                            <div className="mb-4">
+                                <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">Reality</span>
+                                <p className="font-medium text-[var(--color-primary)] mt-1">{card.reality}</p>
+                            </div>
+                            <div className="mt-auto pt-4 border-t border-gray-100">
+                                <span className="text-xs font-bold text-gray-400 uppercase tracking-wide">Outcome</span>
+                                <p className="text-sm text-gray-600 mt-1">{card.outcome}</p>
+                            </div>
+                        </div>
                         ))}
                     </div>
                     <div className="mt-8 md:hidden">

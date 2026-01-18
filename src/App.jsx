@@ -90,7 +90,9 @@ function App() {
         <Router>
             <RouteTracker />
             <IntelligenceLayer />
-            <div className="min-h-screen flex flex-col font-sans text-gray-900 bg-white">
+            <div className="min-h-screen flex flex-col font-sans text-gray-900 bg-white relative">
+                {/* Global Texture Overlay */}
+                <div className="bg-noise"></div>
                 <Header />
                 <main className="flex-grow pt-36">
                     <Suspense fallback={<PageLoader />}>

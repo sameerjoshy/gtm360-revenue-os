@@ -49,8 +49,8 @@ const OperatingModelDiagram = () => {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className={`text-xs font-mono font-bold px-3 py-1 rounded-full border ${state === 'silos' ? 'border-red-500/50 text-red-400 bg-red-900/20' :
-                            state === 'aligning' ? 'border-yellow-500/50 text-yellow-400 bg-yellow-900/20' :
-                                'border-indigo-500/50 text-indigo-400 bg-indigo-900/20'
+                        state === 'aligning' ? 'border-yellow-500/50 text-yellow-400 bg-yellow-900/20' :
+                            'border-indigo-500/50 text-indigo-400 bg-indigo-900/20'
                         }`}
                 >
                     STATUS: {state.toUpperCase()}
@@ -85,45 +85,36 @@ const OperatingModelDiagram = () => {
             </AnimatePresence>
 
             {/* Connections (Only in unified state) */}
-            <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
-                {state === 'unified' && nodes.map((node, i) => {
-                    // Calculate positions based on triangle layout
+            <svg className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-visible">
+                {state === 'unified' && [0, 1, 2].map((i) => {
                     const angle = (i * 120 - 90) * (Math.PI / 180);
-                    const radius = 100;
-                    const x = 200 + Math.cos(angle) * radius; // assuming 400x400 viewBox logic for calculation, but mapped to %
-                    const y = 200 + Math.sin(angle) * radius; // actually we are using flex center so logic is relative to center.
-
-                    // We'll use CSS transforms for nodes, so we can't easily draw SVG lines to them without absolute coords.
-                    // Instead, let's draw lines from center (50%) to the node positions.
-                    // 120 degree separation: Top (0deg/-90), Right (120deg), Left (240deg).
-
-                    const rotation = i * 120;
+                    // Center is 50%, Radius is ~20% (approx 80px in 400px view)
+                    // We need to map 128/256 coords to percentage or use absolute
+                    // Let's use 50% as center and offsets in %
+                    const x2 = 50 + Math.cos(angle) * 20;
+                    const y2 = 50 + Math.sin(angle) * 20;
 
                     return (
-                        <g key={`conn-${i}`} style={{ transformOrigin: 'center', transform: `rotate(${rotation}deg)` }}>
-                            {/* Line from center upwards */}
+                        <g key={`conn-${i}`}>
                             <motion.line
-                                x1="50%" y1="50%" x2="50%" y2="25%"
-                                stroke="#6366f1"
+                                x1="50%" y1="50%" x2={`${x2}%`} y2={`${y2}%`}
+                                stroke="url(#gradient-line)"
                                 strokeWidth="2"
-                                strokeDasharray="4 4"
+                                strokeLinecap="round"
                                 initial={{ pathLength: 0, opacity: 0 }}
-                                animate={{ pathLength: 1, opacity: 0.5 }}
-                                transition={{ duration: 0.8 }}
+                                animate={{ pathLength: 1, opacity: 1 }}
+                                transition={{ duration: 1.5, ease: "easeInOut" }}
                             />
-                            {/* Data particle moving */}
-                            <motion.circle r="3" fill="white">
-                                <animateMotion
-                                    dur="2s"
-                                    repeatCount="indefinite"
-                                    path="M 200 200 L 200 100" // Assuming standard SVG coords for simplicity: Center is 50%
-                                // Actually, let's just use CSS for particles or simpler SVG logic.
-                                // Simplification: Just pulsing lines.
-                                />
-                            </motion.circle>
                         </g>
                     );
                 })}
+                <defs>
+                    <linearGradient id="gradient-line" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#6366f1" stopOpacity="0" />
+                        <stop offset="50%" stopColor="#6366f1" />
+                        <stop offset="100%" stopColor="#818cf8" />
+                    </linearGradient>
+                </defs>
             </svg>
 
 
