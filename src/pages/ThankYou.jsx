@@ -3,8 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
 const ThankYou = () => {
-    const { state } = useLocation();
-    const type = state?.search || 'default'; // 'default', 'nurture', 'diagnostic'
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const type = searchParams.get('search') || 'default'; // 'default', 'nurture', 'diagnostic'
 
     const content = {
         default: {
