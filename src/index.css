@@ -67,51 +67,49 @@ a {
   transition: all 0.2s ease;
 }
 
-@layer components {
-  .container {
-    max-width: var(--spacing-container);
-    margin: 0 auto;
-    padding: 0 2rem;
-  }
+.container {
+  max-width: var(--spacing-container);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.75rem 2rem;
-    font-weight: 500;
-    border-radius: 2px;
-    /* Sharper corners for enterprise feel */
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
-    font-size: 0.95rem;
-    letter-spacing: 0.01em;
-  }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 2rem;
+  font-weight: 500;
+  border-radius: 2px;
+  /* Sharper corners for enterprise feel */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
 
-  .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  }
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
 
-  .btn:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  }
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
 
-  .card-interactive {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid transparent;
-  }
+.card-interactive {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+}
 
-  .card-interactive:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    border-color: var(--color-primary);
-  }
+.card-interactive:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: var(--color-primary);
+}
 
-  .section {
-    padding: var(--spacing-section) 0;
-  }
+.section {
+  padding: var(--spacing-section) 0;
 }
 
 /* Animations */
@@ -143,10 +141,12 @@ a {
   gap: 3rem;
 }
 
-.grid-3,
-.grid-2 {
-  grid-template-columns: 1fr;
-}
+@media (max-width: 768px) {
+
+  .grid-3,
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* --- VISUAL AUTHORITY UTILITIES --- */
@@ -183,10 +183,7 @@ a {
 /* 3. Aurora Gradient Background */
 .aurora-bg {
   background-color: #ffffff;
-  background-image:
-    radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 0.05) 0px, transparent 50%),
-    radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 0.05) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 0.05) 0px, transparent 50%);
+  background-image: radial-gradient(at 0% 0%, rgba(15, 23, 42, 0.05) 0px, transparent 50%), radial-gradient(at 50% 0%, rgba(30, 41, 59, 0.05) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(2, 6, 23, 0.05) 0px, transparent 50%);
   background-size: 100% 100%;
   animation: aurora-move 15s ease infinite alternate;
 }

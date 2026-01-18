@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import founderAbstract from '../assets/founder_abstract.png';
+import brandLogos from '../assets/brand_logos.png';
 
 const About = () => {
     return (
@@ -59,20 +60,14 @@ const About = () => {
                             <p className="text-lg text-gray-700 mb-6">
                                 Having sat in the seat, we know that "best practices" often fail in the real world. That’s why we focus on engineering the system, not just training the people.
                             </p>
-                            <div className="flex flex-wrap gap-6 mt-8 items-center">
-                                {[
-                                    { name: 'Amazon', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Amazon' },
-                                    { name: 'AWS', url: 'https://placehold.co/120x40/e2e8f0/475569?text=AWS' },
-                                    { name: 'Deloitte', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Deloitte' },
-                                    { name: 'Pepsi', url: 'https://placehold.co/120x40/e2e8f0/475569?text=Pepsi' }
-                                ].map(brand => (
-                                    <img
-                                        key={brand.name}
-                                        src={brand.url}
-                                        alt={brand.name}
-                                        className="h-8 md:h-10 w-auto grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
-                                    />
-                                ))}
+
+                            {/* UPDATED LOGOS SECTION */}
+                            <div className="mt-8 flex justify-start items-center">
+                                <img
+                                    src={brandLogos}
+                                    alt="Experienced at Amazon, AWS, Deloitte, Pepsi"
+                                    className="max-w-full h-auto grayscale opacity-70 hover:grayscale-0 hover:opacity-100 transition-all duration-300"
+                                />
                             </div>
                         </div>
                     </div>

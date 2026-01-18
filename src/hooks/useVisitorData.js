@@ -22,27 +22,43 @@ const useVisitorData = () => {
                 }
             }
 
-            // Strategy 2: FreeIPAPI (Fallback for free tier)
+            // Strategy 2: FreeIPAPI (Primary Fallback)
             try {
-                // simple fetch to get IP metadata
                 const response = await fetch('https://freeipapi.com/api/json');
+                if (!response.ok) throw new Error('FreeIPAPI failed');
                 const data = await response.json();
 
                 if (isMounted && data) {
-                    // Normalize data. asnOrganization is often the ISP (e.g. "Comcast") 
-                    // or the Company if they have a dedicated block (e.g. "Google LLC").
                     const companyName = data.asnOrganization || data.cityName;
-
                     if (companyName) {
                         setVisitor({
                             company: companyName,
                             industry: data.countryName || "Visitor",
                             isFallback: true
                         });
+                        setLoading(false);
+                        return;
                     }
                 }
             } catch (err) {
-                console.warn("GTM-360 [Personalization]: Fallback failed", err);
+                console.warn("GTM-360 [Personalization]: Primary fallback failed", err);
+            }
+
+            // Strategy 3: ipapi.co (Secondary Fallback)
+            try {
+                const response = await fetch('https://ipapi.co/json/');
+                if (!response.ok) throw new Error('ipapi.co failed');
+                const data = await response.json();
+
+                if (isMounted && data) {
+                    setVisitor({
+                        company: data.org || data.city,
+                        industry: data.country_name || "Visitor",
+                        isFallback: true
+                    });
+                }
+            } catch (err) {
+                console.warn("GTM-360 [Personalization]: Secondary fallback failed", err);
             } finally {
                 if (isMounted) setLoading(false);
             }

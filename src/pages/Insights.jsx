@@ -143,7 +143,7 @@ const Insights = () => {
                                 <div className="mt-6 pt-6 border-t border-slate-800 flex justify-between items-center text-sm font-medium">
                                     <div className="text-green-400">
                                         <span className="block text-xs uppercase text-slate-500">Impact</span>
-                                        {study.metrics.after.growth} Growth
+                                        {study.metrics?.after?.growth || 'Significant'} Growth
                                     </div>
                                     <div className="text-white group-hover:translate-x-2 transition-transform flex items-center">
                                         Read Case Study <ArrowRight className="ml-2 w-4 h-4" />
