@@ -4,6 +4,7 @@ import ReactGA from 'react-ga4';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import IntelligenceLayer from './components/analytics/IntelligenceLayer';
+import PersonalizationBanner from './components/marketing/PersonalizationBanner';
 
 // Lazy load pages for performance
 const Home = lazy(() => import('./pages/Home'));
@@ -96,6 +97,7 @@ function App() {
                         <AnimatedRoutes />
                     </Suspense>
                 </main>
+                <PersonalizationBanner />
                 <Footer />
             </div>
         </Router>

@@ -1,0 +1,31 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "case_studies"
+    label: "Case Studies"
+    folder: "src/content/case-studies"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Slug", name: "slug", widget: "string"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Subtitle", name: "subtitle", widget: "text"}
+      - {label: "Client Profile", name: "client_profile", widget: "string"}
+      - {label: "Metrics - Before - Growth", name: "metrics.before.growth", widget: "string"}
+      - {label: "Metrics - Before - Win Rate", name: "metrics.before.win_rate", widget: "string"}
+      - {label: "Metrics - Before - CAC Payback", name: "metrics.before.cac_payback", widget: "string"}
+      - {label: "Metrics - After - Growth", name: "metrics.after.growth", widget: "string"}
+      - {label: "Metrics - After - Win Rate", name: "metrics.after.win_rate", widget: "string"}
+      - {label: "Metrics - After - CAC Payback", name: "metrics.after.cac_payback", widget: "string"}
+      - {label: "Context (HTML)", name: "sections.context", widget: "markdown"}
+      - {label: "The Misdiagnosis (HTML)", name: "sections.initialBelief", widget: "markdown"}
+      - {label: "Why Reasonable (HTML)", name: "sections.whyReasonable", widget: "markdown"}
+      - {label: "Diagnostic Reveal (HTML)", name: "sections.diagnosticReveal", widget: "markdown"}
+      - {label: "What Changed (HTML)", name: "sections.whatChanged", widget: "markdown"}
+      - {label: "Outcome (HTML)", name: "sections.outcome", widget: "markdown"}
+      - {label: "Why Matters (HTML)", name: "sections.whyMatters", widget: "markdown"}

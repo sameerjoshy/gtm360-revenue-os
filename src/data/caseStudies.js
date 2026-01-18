@@ -1,69 +1,12 @@
-export const caseStudies = {
-    "scaling-past-series-b-plateau": {
-        slug: "/insights/case-studies/scaling-past-series-b-plateau",
-        title: "Scaling Past the Series B Plateau",
-        subtitle: "How we moved a SaaS from $20M to $30M ARR by fixing decision architecture, not hiring more reps.",
-        client_profile: "Series B SaaS | Fintech | $22M ARR | 150 FTE",
-        metrics: {
-            before: {
-                growth: "12% YoY",
-                win_rate: "18%",
-                cac_payback: "22 mos"
-            },
-            after: {
-                growth: "45% YoY",
-                win_rate: "28%",
-                cac_payback: "14 mos"
-            }
-        },
-        sections: {
-            context: `
-                <p>The company had hit a wall. After a rapid run to $20M ARR, growth had flatlined at 12% YoY.</p>
-                <p>The Board was pushing for a "Go-to-Market Reset." The CRO had already hired 10 new reps, implemented Clari, and refreshed the sales deck. Activity metrics were at an all-time high, but revenue wasn't following.</p>
-                <p>The prevailing internal narrative was: <strong>"We have an execution problem. Our reps just aren't closing hard enough."</strong></p>
-            `,
-            initialBelief: `
-                 <p>The leadership team believed the constraint was <strong>Sales Effort</strong>.</p>
-                 <p>Their solution roadmap included:</p>
-                 <ul>
-                    <li>Replacing the bottom 20% of the sales force</li>
-                    <li>Doubling weekly call quotas</li>
-                    <li>Investing in an expensive sales methodology training</li>
-                 </ul>
-            `,
-            whyReasonable: `
-                <p>On the surface, this looked correct. CRM data showed "Stalled/Closed Lost" as the primary bucket for deals. Reps complained about pricing. Competitors were noisy.</p>
-                <p>It is standard wisdom to "topgrade" talent when growth slows. It feels like taking action.</p>
-            `,
-            diagnosticReveal: `
-                <p>We ignored the "Effort" hypothesis and traced the <strong>Decision Flow</strong>.</p>
-                <p>Our 10-day diagnostic revealed the actual constraint:</p>
-                <p><strong>1. The "Mid-Market" Trap:</strong> Marketing was incentivized on MQL volume, driving them to target smaller SMBs. Sales was incentivized on ACV, driving them to ignore those leads and hunt Enterprise whales they weren't qualified to close.</p>
-                <p><strong>2. The Pricing Disconnect:</strong> The product had consumption-based value, but was priced per-seat. Buyers loved the demo but stalled at the contract because the ROI math didn't work for their procurement teams.</p>
-                <p><strong>3. Hidden Churn:</strong> 40% of "New Business" bookings were actually just filling the hole from undisclosed churn in the legacy base. The "Growth" bucket was leaking.</p>
-            `,
-            whatChanged: `
-                <p>We did not fire a single rep. Instead, we re-engineered the Operating Model:</p>
-                <ul>
-                    <li><strong>Unified the Scorecard:</strong> We aligned Marketing and Sales on a single "Pipeline Quality" metric (Stage 2 Opportunity qualified by shared criteria), killing the MQL volume metric.</li>
-                    <li><strong>Pricing Pivot:</strong> We engaged a strike team to shift the pricing model from per-seat to a hybrid consumption model. This aligned the contract value with the customer's perceived value.</li>
-                    <li><strong>Churn Defense:</strong> We instituted a "Revenue Retention Council" that met bi-weekly to review account health signals <em>before</em> renewal discussions began.</li>
-                </ul>
-            `,
-            outcome: `
-                <p>Within two quarters, the system began to compound.</p>
-                <p>Win rates jumped from 18% to 28% because reps were working deals that actually fit the model. CAC Payback dropped from 22 months to 14 months as the "junk" leads were filtered out upstream.</p>
-                <p>Most importantly, the company crossed the $30M ARR mark with <strong>the same headcount</strong> they had at $20M.</p>
-            `,
-            whyMatters: `
-                <p>This illustrates the GTM-360 core belief: <strong>Most people problems are actually system problems.</strong></p>
-                <p>If this team had executed their original plan (firing reps and increasing quotas), they would have burned $2M in severance and hiring costs while driving their remaining top performers to quit.</p>
-                <p>They didn't need better players. They needed a better game.</p>
-            `
-        },
-        relatedLinks: [
-            { text: "Diagnose your own constraints", url: "/diagnostic" },
-            { text: "See our services", url: "/services" }
-        ]
-    }
-};
+// Load all case studies from JSON files
+const modules = import.meta.glob('../../src/content/case-studies/*.json', { eager: true });
+
+export const caseStudies = Object.keys(modules).reduce((acc, path) => {
+    // Extract slug from filename (e.g., .../scaling-past-series-b-plateau.json -> scaling-past-series-b-plateau)
+    const slug = path.split('/').pop().replace('.json', '');
+    const data = modules[path].default || modules[path]; // Handle JSON default export behavior
+
+    // Ensure slug in data matches filename (or override)
+    acc[slug] = { ...data, slug: `/insights/case-studies/${slug}` };
+    return acc;
+}, {});
