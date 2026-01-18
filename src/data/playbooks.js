@@ -90,7 +90,13 @@ export const playbooks = [
 
                 <strong>Section 4: Actionable Steps</strong><br/>
                 - Audit your ad account. What % is "Ask" vs. "Give"?<br/>
-            `
+            `,
+            bestPracticeSnippets: [
+                "Stop asking Demand Creation ads to generate leads. Ask them to generate trust.",
+                "Mental Availability is won when the buyer isn't in-market. Physical Availability is won when they are.",
+                "Split your budget: 80% for the 95% (Educate), 20% for the 5% (Capture).",
+                "If you can't describe your POV in one sentence without mentioning your product features, you don't have a strategy."
+            ]
         },
         relatedService: {
             title: "Fix Your Go-To-Market Model",
@@ -168,7 +174,13 @@ export const playbooks = [
                 <strong>Section 3: Handling Pushback</strong><br/>
                 - What to do when a Champion says "No, I handle everything."<br/>
                 - The concept of "Selling on Behalf Of".<br/>
-            `
+            `,
+            bestPracticeSnippets: [
+                "Don't go around your Champion. Empower them to look like the hero to their CFO.",
+                "Validating the 'Technical Blocker' early saves 2 months of security review at the finish line.",
+                "The person who signs the check usually cares about Risk and ROI, not features. Sell the outcome.",
+                "If you haven't identified at least 3 distinct stakeholders by Stage 2, your deal is at 90% risk."
+            ]
         },
         relatedService: {
             title: "Pipeline & Deal Quality Repair",
@@ -249,7 +261,13 @@ export const playbooks = [
                 <strong>Section 3: Building the "Executive View"</strong><br/>
                 - How to build a dashboard that fits on one screen.<br/>
                 - The 4 tiles every CRO needs.<br/>
-            `
+            `,
+            bestPracticeSnippets: [
+                "If a metric can be gamed by an employee pressing a button without a customer action, delete it.",
+                "Measure 'Stage Duration' over 'Opportunity Count'. Velocity is the best disinfectant.",
+                "A dashboard with more than 5 tiles is a research project, not a management tool.",
+                "Treat high MQL volume as a warning sign of 'Noise' until proven otherwise by conversion rates."
+            ]
         },
         relatedService: {
             title: "Forecasting & Revenue Governance",
@@ -325,7 +343,13 @@ export const playbooks = [
 
                 <strong>Section 3: The "Pre-Renew" Strategy</strong><br/>
                 - Using the QBR to close the renewal 90 days early.<br/>
-            `
+            `,
+            bestPracticeSnippets: [
+                "If you can't fill out the 'Proof of Impact' slide, cancel the QBR and go fix the value gap.",
+                "Usage is a lagging indicator of interest. Impact is the leading indicator of renewal.",
+                "Frame the Customer as the Hero and your product as the Guide in every review.",
+                "The renewal should be a formality, not a negotiation. Prove the ROI 90 days early."
+            ]
         },
         relatedService: {
             title: "GTM Operating Model Realignment",
@@ -405,7 +429,13 @@ export const playbooks = [
                 <strong>Section 3: The Board Conversation</strong><br/>
                 - How to tell your investors you are rebuilding the engine.<br/>
                 - Why "slowing down to speed up" is the only path.<br/>
-            `
+            `,
+            bestPracticeSnippets: [
+                "Stop hiring 'Rockstars' to fix broken systems. They'll just burn out faster.",
+                "Revenue Engineering > Founder Heroics. You can't scale a personality.",
+                "Build your systems in order: Data first, then Process, then Talent.",
+                "If you can't draw your revenue engine as a schematic, you don't have an engine; you have a casino."
+            ]
         },
         relatedService: {
             title: "GTM Operating Model Realignment",

@@ -5,6 +5,32 @@ import { playbooks } from '../../data/playbooks';
 import { BookOpen, Video, ArrowLeft, CheckCircle, Copy, Share2 } from 'lucide-react';
 import DOMPurify from 'dompurify';
 
+const SnippetCard = ({ snippet }) => {
+    const [copied, setCopied] = useState(false);
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(snippet);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    return (
+        <div className="group bg-white border border-gray-100 hover:border-[var(--color-primary)] p-6 rounded-xl shadow-sm hover:shadow-md transition-all relative">
+            <p className="text-gray-700 text-sm leading-relaxed pr-8">
+                "{snippet}"
+            </p>
+            <button
+                onClick={handleCopy}
+                className={`absolute top-4 right-4 p-2 rounded-lg transition-colors ${copied ? 'text-green-500 bg-green-50' : 'text-gray-400 hover:text-[var(--color-primary)] hover:bg-gray-50'
+                    }`}
+                title="Copy snippet"
+            >
+                {copied ? <CheckCircle className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+            </button>
+        </div>
+    );
+};
+
 const PlaybookDetail = () => {
     const { slug } = useParams();
     const playbook = playbooks.find(p => p.slug === slug);
@@ -61,8 +87,8 @@ const PlaybookDetail = () => {
                                 <button
                                     onClick={() => setActiveTab('strategy')}
                                     className={`pb-4 text-sm font-bold uppercase tracking-wide flex items-center gap-2 transition-all border-b-2 ${activeTab === 'strategy'
-                                            ? 'border-[var(--color-primary)] text-[var(--color-primary)]'
-                                            : 'border-transparent text-gray-400 hover:text-gray-600'
+                                        ? 'border-[var(--color-primary)] text-[var(--color-primary)]'
+                                        : 'border-transparent text-gray-400 hover:text-gray-600'
                                         }`}
                                 >
                                     <BookOpen className="w-4 h-4" /> The Strategy
@@ -70,8 +96,8 @@ const PlaybookDetail = () => {
                                 <button
                                     onClick={() => setActiveTab('creator')}
                                     className={`pb-4 text-sm font-bold uppercase tracking-wide flex items-center gap-2 transition-all border-b-2 ${activeTab === 'creator'
-                                            ? 'border-[var(--color-primary)] text-[var(--color-primary)]'
-                                            : 'border-transparent text-gray-400 hover:text-gray-600'
+                                        ? 'border-[var(--color-primary)] text-[var(--color-primary)]'
+                                        : 'border-transparent text-gray-400 hover:text-gray-600'
                                         }`}
                                 >
                                     <Video className="w-4 h-4" /> Creator Studio
@@ -115,6 +141,21 @@ const PlaybookDetail = () => {
                                             <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(playbook.content.scriptDeepDive) }} />
                                         </div>
                                     </div>
+
+                                    {/* Best Practice Snippets */}
+                                    {playbook.content.bestPracticeSnippets && (
+                                        <div className="space-y-6">
+                                            <div className="flex items-center gap-2">
+                                                <CheckCircle className="w-5 h-5 text-green-500" />
+                                                <h3 className="text-xl font-bold text-gray-900">Best Practice Snippets</h3>
+                                            </div>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                {playbook.content.bestPracticeSnippets.map((snippet, idx) => (
+                                                    <SnippetCard key={idx} snippet={snippet} />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>
