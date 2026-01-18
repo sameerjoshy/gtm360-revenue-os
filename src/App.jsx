@@ -22,6 +22,8 @@ const GTMOperatingModel = lazy(() => import('./pages/services/GTMOperatingModel'
 const PipelineQuality = lazy(() => import('./pages/services/PipelineQuality'));
 const ForecastingGovernance = lazy(() => import('./pages/services/ForecastingGovernance'));
 const GTMSignalsAI = lazy(() => import('./pages/services/GTMSignalsAI'));
+const Playbooks = lazy(() => import('./pages/Playbooks'));
+const PlaybookDetail = lazy(() => import('./pages/PlaybookDetail'));
 const InsightPost = lazy(() => import('./pages/insights/InsightPost'));
 const CaseStudyPost = lazy(() => import('./pages/insights/CaseStudyPost'));
 const ThankYou = lazy(() => import('./pages/ThankYou'));
@@ -74,6 +76,8 @@ const AnimatedRoutes = () => {
                 <Route path="/services/pipeline-quality" element={<PageTransition><PipelineQuality /></PageTransition>} />
                 <Route path="/services/forecasting-governance" element={<PageTransition><ForecastingGovernance /></PageTransition>} />
                 <Route path="/services/gtm-signals-and-ai" element={<PageTransition><GTMSignalsAI /></PageTransition>} />
+                <Route path="/playbooks" element={<PageTransition><Playbooks /></PageTransition>} />
+                <Route path="/playbooks/:category/:slug" element={<PageTransition><PlaybookDetail /></PageTransition>} />
                 <Route path="/insights/case-studies/:slug" element={<PageTransition><CaseStudyPost /></PageTransition>} />
                 <Route path="/insights/:slug" element={<PageTransition><InsightPost /></PageTransition>} />
                 <Route path="/thank-you" element={<PageTransition><ThankYou /></PageTransition>} />

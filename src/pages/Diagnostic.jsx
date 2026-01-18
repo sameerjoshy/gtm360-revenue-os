@@ -30,22 +30,19 @@ const Diagnostic = () => {
             <section className="section py-20 md:py-32 bg-white">
                 <div className="container max-w-4xl opacity-0 animate-fade-in-up" style={{ animationFillMode: 'forwards' }}>
                     <h1 className="text-4xl md:text-5xl font-semibold leading-tight mb-8 text-[var(--color-primary)]">
-                        Fix the real GTM constraint behind stalled B2B growth
+                        Initialize System Diagnostic
                     </h1>
                     <h2 className="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed font-normal">
-                        GTM-360 helps B2B companies design and realign their go-to-market systems<br className="hidden md:block" />
-                        so growth becomes predictable — not accidental.
-                        <br /><br />
-                        Most teams begin with a short diagnostic<br className="hidden md:block" />
-                        to ensure they are fixing the right problem first.
+                        Identify the structural constraint limiting revenue throughput.<br className="hidden md:block" />
+                        Analysis begins immediately upon data ingestion.
                     </h2>
 
                     <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
                         <a href="#diagnostic-form" className="btn bg-[var(--color-primary)] text-white hover:bg-opacity-90">
-                            Start with a Diagnostic
+                            Begin Diagnostic Sequence
                         </a>
                         <Link to="/problems" className="text-[var(--color-primary)] font-medium hover:underline">
-                            Explore common GTM failure patterns →
+                            Review Failure Patterns →
                         </Link>
                     </div>
                 </div>
@@ -267,10 +264,9 @@ const Diagnostic = () => {
             <section id="diagnostic-form" className="section bg-[var(--color-primary)] text-white">
                 <div className="container max-w-4xl">
                     <div className="text-center mb-12">
-                        <h2 className="text-4xl font-semibold text-white mb-4">Start with a Diagnostic</h2>
+                        <h2 className="text-4xl font-semibold text-white mb-4">Metric Ingestion</h2>
                         <p className="text-xl text-indigo-100">
-                            If this page reflects your situation,<br />
-                            a short diagnostic is usually the safest way to decide what to do next.
+                            Configure parameters to begin system analysis.
                         </p>
                     </div>
 
@@ -420,8 +416,8 @@ Timeline: ${formData.timeline}
                 <input type="text" name="timeline" value={formData.timeline} onChange={handleChange} className="w-full border border-gray-300 p-3 rounded-sm focus:border-[var(--color-primary)] outline-none" placeholder="e.g. ASAP, Next Quarter" />
             </div>
 
-            <button type="submit" disabled={status === 'submitting'} className="w-full btn bg-[var(--color-primary)] text-white hover:bg-opacity-90 py-4 text-lg">
-                {status === 'submitting' ? 'Submitting...' : 'Request Diagnostic'}
+            <button type="submit" disabled={status === 'submitting'} className="w-full btn bg-[var(--color-primary)] text-white hover:bg-opacity-90 py-4 text-lg font-mono tracking-wide">
+                {status === 'submitting' ? 'PROCESSING SIGNAL...' : 'INITIALIZE DIAGNOSTIC'}
             </button>
         </form>
     );

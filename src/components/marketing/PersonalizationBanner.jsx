@@ -1,6 +1,7 @@
 import React from 'react';
 import useVisitorData from '../../hooks/useVisitorData';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 const PersonalizationBanner = () => {
     const { visitor } = useVisitorData();
@@ -31,9 +32,9 @@ const PersonalizationBanner = () => {
                     <p className="text-white text-sm leading-relaxed">
                         We help companies in {visitor.industry || "your industry"} fix the GTM systems strictly executing growth strategy.
                     </p>
-                    <a href="/diagnostic" className="mt-4 inline-block text-xs font-bold text-white border-b border-[var(--color-primary)] pb-1 hover:text-[var(--color-primary)] transition-colors">
+                    <Link to="/diagnostic" className="mt-4 inline-block text-xs font-bold text-white border-b border-[var(--color-primary)] pb-1 hover:text-[var(--color-primary)] transition-colors">
                         See how we can help {visitor.company} →
-                    </a>
+                    </Link>
                 </div>
             </motion.div>
         </AnimatePresence>

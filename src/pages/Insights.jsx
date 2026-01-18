@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { insights, caseStudies } from '../data/insightsData';
+import { insights } from '../data/insightsData';
+import { caseStudies } from '../data/caseStudies';
 import { FileText, ArrowRight } from 'lucide-react';
 
 const Insights = () => {

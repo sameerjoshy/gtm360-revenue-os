@@ -70,13 +70,53 @@ export const insights = {
         description: "Deals don't die because reps forgot how to sell. They die because the system sent them to the wrong battle.",
         relatedService: { name: "Pipeline & Deal Quality Repair", link: "/services/pipeline-quality" },
         sections: {
-            problemRecognition: "<p>Coming soon...</p>",
-            wrongExplanation: "<p>Coming soon...</p>",
-            whyItFails: "<p>Coming soon...</p>",
-            actualConstraint: "<p>Coming soon...</p>",
-            consequences: "<p>Coming soon...</p>",
-            whatChanges: "<p>Coming soon...</p>",
-            ourView: "<p>Coming soon...</p>"
+            problemRecognition: `
+                <p>Win rates are the most scrutinized metric in B2B sales, yet the most misunderstood.</p>
+                <p>When win rates drop, the reaction is almost pavlovian: <strong>Train the reps.</strong></p>
+                <ul>
+                    <li>"We need better objection handling."</li>
+                    <li>"We need more negotiation training."</li>
+                    <li>"We need to be more aggressive closers."</li>
+                </ul>
+                <p>Sales enablement is deployed. Methodologies like MEDDIC or Challenger are rolled out. But 6 months later, the win rate is exactly the same.</p>
+            `,
+            wrongExplanation: `
+                <p>The failure comes from assuming that <em>"Closed Lost"</em> means <em>"Failed to Sell."</em></p>
+                <p>In mature markets, this is rarely true.</p>
+                <p>Most deals are not lost because the rep stumbled over a feature request or missed a closing trick. They are lost because <strong>the deal was structurally unwinnable from the start.</strong></p>
+                <p>If you send a Navy SEAL into a battle they are outnumbered 100:1, they will lose. That is not a "soldier problem." That is a "general problem."</p>
+            `,
+            whyItFails: `
+                <p>Training reps to "sell better" on bad opportunities is counter-productive.</p>
+                <p>It encourages them to spend <em>more</em> energy on deals that should have been disqualified in minute 5.</p>
+                <p>When you pressure reps to "improve win rates" without fixing the upstream filters, you effectively tell them: <em>"Never give up on anything."</em> This clogs the pipeline with zombie deals that suck oxygen from the few real opportunities that could actually close.</p>
+            `,
+            actualConstraint: `
+                <p>The constraint is <strong>Single-Threaded Selling</strong>.</p>
+                <p>Most lost deals aren't "lost" to a competitor. They are lost to <strong>Indecision</strong>.</p>
+                <p>This happens because the rep spent 3 months selling to a "Champion" who lacked the political capital to get the budget approved. We won the argument with the user, but we lost the vote in the boardroom.</p>
+            `,
+            consequences: `
+                <p>When you focus on "Closing Skills" instead of "Consensus Building":</p>
+                <ol>
+                    <li>Reps get "happy ears" from friendly champions.</li>
+                    <li>Forecasts are fictional because they depend on one person's optimism.</li>
+                    <li>Deals slip indefinitely because no one knows who actually holds the pen.</li>
+                </ol>
+            `,
+            whatChanges: `
+                <p>To actually close more deals, you must stop "selling" and start "orchestrating."</p>
+                <ul>
+                    <li><strong>Multithreading is Mandatory:</strong> You cannot be in Stage 3 with only one contact. You must access Power, Finance, and Technical Validation independently.</li>
+                    <li><strong>Sell the Problem, Not the Product:</strong> The CFO doesn't care about your features. They care about the risk of *doing nothing*. Build a business case that survives without you in the room.</li>
+                    <li><strong>Mutual Action Plans:</strong> Don't "hope" for a close date. Engineering the sequence of approval steps backwards from the go-live date.</li>
+                </ul>
+            `,
+            ourView: `
+                <p>Closing isn't a magic phrase you say at the end of the meeting.</p>
+                <p>Closing is the result of aligning the entire buying committee around a shared problem.</p>
+                <p>If you have to "hard close," you missed a step two months ago.</p>
+            `
         }
     },
     "forecasting-fails-with-good-data": {
