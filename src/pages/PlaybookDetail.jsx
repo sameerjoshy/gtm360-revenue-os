@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, Navigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { playbooks } from '../../data/playbooks';
+import { playbooks } from '../data/playbooks';
 import { BookOpen, Video, ArrowLeft, CheckCircle, Copy, Share2 } from 'lucide-react';
 import DOMPurify from 'dompurify';
 
