@@ -441,5 +441,168 @@ export const playbooks = [
             title: "GTM Operating Model Realignment",
             link: "/services/gtm-operating-model"
         }
+    },
+    {
+        id: "revops-revenue-engineering",
+        slug: "revenue-engineering-framework",
+        category: "RevOps",
+        title: "The Revenue Engineering Framework",
+        subtitle: "Stop treating revenue as a goal. Start treating it as a mathematical output of your system.",
+        readTime: "9 min read",
+        difficulty: "Strategic",
+        author: "GTM-360 Intelligence",
+        lastUpdated: "January 2026",
+        content: {
+            onePager: `
+                <h3>The Core Concept</h3>
+                <p><strong>Revenue is not something you "get." It is something that happens as a result of a healthy system.</strong></p>
+                <p>High-growth companies stop obsessing over the "Number" and start obsessing over the "Gears." If the gears turn at the right rate, the revenue output is guaranteed by physics.</p>
+                
+                <h3>The 3 Gears of Revenue Engineering</h3>
+                <div class="space-y-4 my-6">
+                    <div class="p-4 bg-slate-100 rounded-lg">
+                        <h4 class="font-bold text-slate-900 mt-0">Gear 1: Volume (The Fuel)</h4>
+                        <p class="text-sm">Not leads, but <em>qualified interactions</em>. How many times per week does your point of view meet a high-intent buyer?</p>
+                    </div>
+                    <div class="p-4 bg-slate-100 rounded-lg">
+                        <h4 class="font-bold text-slate-900 mt-0">Gear 2: Velocity (The Flow)</h4>
+                        <p class="text-sm">The time it takes to move from 'Curious' to 'Committed'. Friction is the enemy of velocity.</p>
+                    </div>
+                    <div class="p-4 bg-slate-100 rounded-lg">
+                        <h4 class="font-bold text-slate-900 mt-0">Gear 3: Value (The Yield)</h4>
+                        <p class="text-sm">The average yield per unit of effort. This is optimized by ICP focus and pricing integrity.</p>
+                    </div>
+                </div>
+
+                <h3>The Shift: Mathematical Forecasting</h3>
+                <p>Instead of asking "Will we hit the number?", Ask: "Is the ratio of Volume to Velocity holding steady?" If the ratio breaks, the number will fail regardless of how much you pressure the sales team.</p>
+            `,
+            scriptShort: `
+                <strong>[HOOK - 0:00-0:05]</strong><br/>
+                Revenue is not a goal.<br/>
+                Revenue is a mathematical output.<br/><br/>
+
+                <strong>[THE INSIGHT - 0:05-0:30]</strong><br/>
+                Most leaders treat revenue like a destination they can reach through effort.<br/>
+                But you don't "effort" your way to predictable growth.<br/>
+                You engineer it.<br/>
+                Think of your GTM as a machine with three gears: Volume, Velocity, and Value.<br/><br/>
+
+                <strong>[THE SHIFT - 0:30-0:50]</strong><br/>
+                Stop managing the outcome. Start managing the gears.<br/>
+                Is your velocity dropping? Pressure won't fix that. Removing friction will.<br/>
+                Is your value low? More leads won't fix that. ICP focus will.<br/><br/>
+
+                <strong>[CTA - 0:50-1:00]</strong><br/>
+                Stop guessing.<br/>
+                Start engineering.
+            `,
+            scriptDeepDive: `
+                <strong>Topic:</strong> The Math of the 3-Gear Engine<br/>
+                <strong>Format:</strong> Whiteboard / Logic Breakdown<br/>
+                <strong>Duration:</strong> 15 Minutes<br/><br/>
+
+                <strong>Section 1: Why Linear Scaling Fails</strong><br/>
+                - The "Double-Double" fallacy.<br/>
+                - Why adding reps often *decreases* efficiency.<br/><br/>
+
+                <strong>Section 2: The 3 Gears in Detail</strong><br/>
+                - Volume: Defining "Minimum Viable Signal".<br/>
+                - Velocity: Measuring decision-latency.<br/>
+                - Value: The price-to-problem alignment.<br/><br/>
+
+                <strong>Section 3: Designing Your Dashboard</strong><br/>
+                - Transitioning from lagging ROI to leading Engineering metrics.<br/>
+            `,
+            bestPracticeSnippets: [
+                "Obsess over the 'Gears' (Volume, Velocity, Value) and the revenue output will take care of itself.",
+                "Friction in the buying process is the primary killer of revenue velocity.",
+                "If you can't describe your revenue model as a series of conversion ratios, you don't have a model; you have a hope.",
+                "Revenue Engineering is the process of removing the 'Heroics' variable from your growth equation."
+            ]
+        },
+        relatedService: {
+            title: "GTM Operating Model Realignment",
+            link: "/services/gtm-operating-model"
+        }
+    },
+    {
+        id: "sales-discovery-disinfectant",
+        slug: "discovery-disinfectant",
+        category: "Sales",
+        title: "The Discovery Disinfectant",
+        subtitle: "How to find the real business constraint before you waste 3 months on a dead deal.",
+        readTime: "7 min read",
+        difficulty: "Tactical",
+        author: "GTM-360 Intelligence",
+        lastUpdated: "January 2026",
+        content: {
+            onePager: `
+                <h3>The Core Concept</h3>
+                <p><strong>The goal of discovery is not to confirm that the customer has a problem. It is to find the one problem they are WILLING to solve now.</strong></p>
+                <p>Most discovery is "Surface Level." The customer says they want X, the rep shows X. But 3 months later, the deal dies because X wasn't actually a priority.</p>
+                <p>The "Disinfectant" is a series of questions designed to uncover the *cost of inaction* and the *political will* to change.</p>
+
+                <h3>The Trap: The "Yes" Men</h3>
+                <p>Reps love hearing "Yes." But in discovery, "Yes" is often a polite way of saying "I'm not going to fight for this."</p>
+                <p>You need to look for the "No" or the "Maybe later." Only then do you know what you are actually fighting against.</p>
+
+                <h3>The Shift: The "Disinfectant" Questions</h3>
+                <ul class="list-disc pl-5 my-4 space-y-2">
+                    <li><em>"If you change nothing today, what is the specific cost to the business in 12 months?"</em></li>
+                    <li><em>"Whose bonus is tied to fixing this specific metric?"</em></li>
+                    <li><em>"What has failed in the past when you tried to solve this?"</em></li>
+                </ul>
+
+                <h3>Implementation</h3>
+                <p>Discard deals where the "Cost of Inaction" is lower than the "Cost of Change." Disinfect your pipeline by removing the "Nice to Haves" early.</p>
+            `,
+            scriptShort: `
+                <strong>[HOOK - 0:00-0:05]</strong><br/>
+                Stop doing "Checklist" discovery.<br/>
+                You are wasting your time on "Nice to Have" deals.<br/><br/>
+
+                <strong>[THE INSIGHT - 0:05-0:30]</strong><br/>
+                In B2B, a "Yes" is cheap. A "Budget Approval" is expensive.<br/>
+                Most discovery calls only find proof that the tool *could* help.<br/>
+                They don't find proof that the customer *will* buy.<br/>
+                You need to "Disinfect" your discovery.<br/><br/>
+
+                <strong>[THE SHIFT - 0:30-0:50]</strong><br/>
+                Ask the hard questions early.<br/>
+                "If you ignore this problem for another year, who actually gets fired?"<br/>
+                If the answer is "Nobody," then you don't have a deal. You have a conversation.<br/>
+                Kill the conversations. Close the deals.<br/><br/>
+
+                <strong>[CTA - 0:50-1:00]</strong><br/>
+                Disinfect your pipeline.<br/>
+                Find the real priority.
+            `,
+            scriptDeepDive: `
+                <strong>Topic:</strong> Advanced Discovery Logic<br/>
+                <strong>Format:</strong> Roleplay / Case Study Analysis<br/>
+                <strong>Duration:</strong> 12 Minutes<br/><br/>
+
+                <strong>Section 1: The Psychology of Priority</strong><br/>
+                - Why business priorities change mid-cycle.<br/>
+                - How to anchor your tool to the CEO's top 3 initiatives.<br/><br/>
+
+                <strong>Section 2: The 5 Disinfectant Questions</strong><br/>
+                - Deep dive into cost of inaction, political capital, and past failures.<br/><br/>
+
+                <strong>Section 3: The "Disqualification" Professional</strong><br/>
+                - Why the best reps have the highest disqualification rates.<br/>
+            `,
+            bestPracticeSnippets: [
+                "The goal of discovery is to find the truth, not to find a 'Yes'.",
+                "If the 'Cost of Inaction' isn't explicitly defined in terms of dollars or risk, you aren't in a deal yet.",
+                "Surface-level pain leads to surface-level deals. Dig until you find the structural constraint.",
+                "A polite 'No' at 15 minutes is worth 10x more than a fake 'Yes' at 3 months."
+            ]
+        },
+        relatedService: {
+            title: "Pipeline & Deal Quality Repair",
+            link: "/services/pipeline-quality"
+        }
     }
 ];

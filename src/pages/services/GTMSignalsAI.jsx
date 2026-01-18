@@ -2,8 +2,8 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import VisualConcept from '../../components/visuals/VisualConcept';
-import SignalNoiseDiagram from '../../components/visuals/SignalNoiseDiagram';
 import AEOSchema from '../../components/seo/AEOSchema';
+import SignalFilterDemo from '../../components/visuals/SignalFilterDemo';
 
 const GTMSignalsAI = () => {
     return (
@@ -75,15 +75,18 @@ const GTMSignalsAI = () => {
                 }}
             />
 
-            {/* VISUAL INTERMISSION */}
-            <section className="py-12 bg-white">
-                <div className="container max-w-4xl">
-                    <VisualConcept
-                        title="System Architecture: Filtered Signal"
-                        description="Filtering the noise of modern data stacks to isolate the few signals that actually predict revenue."
-                    >
-                        <SignalNoiseDiagram />
-                    </VisualConcept>
+            {/* INTERACTIVE DEMO: SIGNAL EXTRACTION */}
+            <section className="section bg-white border-y border-gray-100">
+                <div className="container max-w-5xl">
+                    <div className="text-center mb-12">
+                        <h3 className="text-sm font-bold uppercase text-gray-400 mb-4 tracking-widest text-center">Interactive Demo</h3>
+                        <h2 className="text-3xl font-semibold text-gray-900 mb-4">Extracting Signal from the Data Swamp</h2>
+                        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                            Most tools generate MORE activity (noise). Our systems use AI to find the few high-intent triggers that actually predict a buying decision.
+                        </p>
+                    </div>
+
+                    <SignalFilterDemo />
                 </div>
             </section>
 

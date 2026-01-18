@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 /**
  * Hook to access visitor data from RB2B (or other providers).
  * Listens for the 'reb2b' object on the window.
- * Fallback to FreeIPAPI for basic geo-personalization.
+ * Fallback to FreeIPAPI for basic geo-personalization with caching.
  */
 const useVisitorData = () => {
     const [visitor, setVisitor] = useState(null);
@@ -13,7 +13,26 @@ const useVisitorData = () => {
         let isMounted = true;
 
         const fetchStrategy = async () => {
-            // Strategy 1: RB2B (High Quality, but likely blocked on free tier)
+            // Check cache first
+            const cached = localStorage.getItem('gtm360_visitor');
+            if (cached) {
+                try {
+                    const parsed = JSON.parse(cached);
+                    const expiry = 1000 * 60 * 60 * 24; // 24 hours
+                    if (Date.now() - parsed.timestamp < expiry) {
+                        if (isMounted) {
+                            setVisitor(parsed.data);
+                            setLoading(false);
+                        }
+                        // Even if cached, check for RB2B if it loaded late
+                        if (!window.reb2b) return;
+                    }
+                } catch (e) {
+                    localStorage.removeItem('gtm360_visitor');
+                }
+            }
+
+            // Strategy 1: RB2B (Preferred)
             if (window.reb2b && window.reb2b.visitor) {
                 if (isMounted) {
                     setVisitor(window.reb2b.visitor);
@@ -22,50 +41,33 @@ const useVisitorData = () => {
                 }
             }
 
-            // Strategy 2: FreeIPAPI (Primary Fallback)
+            // Strategy 2: FreeIPAPI
             try {
                 const response = await fetch('https://freeipapi.com/api/json');
-                if (!response.ok) throw new Error('FreeIPAPI failed');
+                if (!response.ok) throw new Error('CORS or Network Error');
                 const data = await response.json();
 
                 if (isMounted && data) {
-                    const companyName = data.asnOrganization || data.cityName;
-                    if (companyName) {
-                        setVisitor({
-                            company: companyName,
-                            industry: data.countryName || "Visitor",
-                            isFallback: true
-                        });
-                        setLoading(false);
-                        return;
-                    }
-                }
-            } catch (err) {
-                console.warn("GTM-360 [Personalization]: Primary fallback failed", err);
-            }
-
-            // Strategy 3: ipapi.co (Secondary Fallback)
-            try {
-                const response = await fetch('https://ipapi.co/json/');
-                if (!response.ok) throw new Error('ipapi.co failed');
-                const data = await response.json();
-
-                if (isMounted && data) {
-                    setVisitor({
-                        company: data.org || data.city,
-                        industry: data.country_name || "Visitor",
+                    const visitObj = {
+                        company: data.asnOrganization || data.cityName,
+                        industry: data.countryName || "Visitor",
                         isFallback: true
-                    });
+                    };
+                    setVisitor(visitObj);
+                    localStorage.setItem('gtm360_visitor', JSON.stringify({
+                        data: visitObj,
+                        timestamp: Date.now()
+                    }));
                 }
             } catch (err) {
-                console.warn("GTM-360 [Personalization]: Secondary fallback failed", err);
+                // Silent fallback
             } finally {
                 if (isMounted) setLoading(false);
             }
         };
 
-        // Delay slightly to give RB2B a chance to load (2 seconds)
-        const timeout = setTimeout(fetchStrategy, 2000);
+        // Faster initial check (500ms instead of 2000ms)
+        const timeout = setTimeout(fetchStrategy, 500);
 
         return () => {
             isMounted = false;

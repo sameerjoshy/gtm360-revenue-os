@@ -28,48 +28,51 @@ const ThankYou = () => {
                 <meta name="robots" content="noindex" />
             </Helmet>
 
-            <section className="section py-32 bg-gray-50 min-h-[80vh] flex flex-col justify-center">
-                <div className="container max-w-3xl text-center">
-                    <div className="mb-8">
-                        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-600 mb-6">
-                            <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                        </div>
-                        <h1 className="text-4xl font-semibold text-[var(--color-primary)] mb-4 animate-fade-in-up">
-                            {content.title}
-                        </h1>
-                        <p className="text-xl text-gray-700 leading-relaxed animate-fade-in-up delay-100">
-                            {content.subtitle}
-                        </p>
-                    </div>
+            <section className="section py-20 bg-gray-50 min-h-[90vh] flex flex-col justify-center">
+                <div className="container max-w-5xl">
+                    <div className="flex flex-col lg:flex-row gap-12 items-center">
+                        {/* LEFT: STATUS */}
+                        <div className="flex-1 text-center lg:text-left">
+                            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-100 text-green-600 mb-6">
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <h1 className="text-4xl md:text-5xl font-semibold text-[var(--color-primary)] mb-6 tracking-tight">
+                                {content.title}
+                            </h1>
+                            <p className="text-xl text-gray-700 leading-relaxed mb-10 max-w-xl">
+                                {content.subtitle}
+                            </p>
 
-                    <div className="bg-white p-10 rounded-sm shadow-sm border-t-4 border-[var(--color-primary)] text-left animate-fade-in-up delay-200">
-                        <h2 className="text-2xl font-semibold mb-6">While you wait, explore our thinking.</h2>
-                        <div className="space-y-6">
-                            <Link to="/insights" className="block group">
-                                <h3 className="text-lg font-medium text-[var(--color-primary)] group-hover:underline">
-                                    Browse the Insights Library →
-                                </h3>
-                                <p className="text-gray-600 mt-1">
-                                    Case studies and anti-patterns from real revenue systems.
-                                </p>
-                            </Link>
-                            <Link to="/how-we-work" className="block group border-t border-gray-100 pt-6">
-                                <h3 className="text-lg font-medium text-[var(--color-primary)] group-hover:underline">
-                                    Understand the GTM Operating Model →
-                                </h3>
-                                <p className="text-gray-600 mt-1">
-                                    How we deconstruct revenue problems into architectural constraints.
-                                </p>
-                            </Link>
-                        </div>
-                    </div>
+                            <div className="space-y-4">
+                                <Link to="/insights" className="btn bg-white border border-gray-200 text-gray-900 hover:bg-gray-50 flex items-center justify-between group">
+                                    <span>Explore Insights Hub</span>
+                                    <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                                </Link>
+                                <Link to="/how-we-work" className="btn bg-[var(--color-primary)] text-white hover:bg-opacity-90 flex items-center justify-between group">
+                                    <span>Understand the Operating Model</span>
+                                    <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                                </Link>
+                            </div>
 
-                    <div className="mt-12">
-                        <Link to="/" className="text-gray-500 hover:text-[var(--color-primary)] text-sm font-medium">
-                            ← Return to Home
-                        </Link>
+                            <div className="mt-12 text-center lg:text-left">
+                                <Link to="/" className="text-gray-400 hover:text-[var(--color-primary)] text-sm font-medium">
+                                    ← Return to home
+                                </Link>
+                            </div>
+                        </div>
+
+                        {/* RIGHT: BLUEPRINT VISUAL */}
+                        <div className="flex-1 w-full max-w-md lg:max-w-none animate-fade-in-up delay-200">
+                            {type === 'diagnostic' ? (
+                                <GrowthBlueprintDesign />
+                            ) : (
+                                <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 italic text-gray-400 text-center">
+                                    <p>Your custom GTM roadmap will appear here after diagnostic completion.</p>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </section>
