@@ -6,6 +6,8 @@ import { BookOpen, Video, ArrowLeft, Share2, CheckCircle } from 'lucide-react';
 import DOMPurify from 'dompurify';
 
 import SnippetCard from '../components/content/SnippetCard';
+import VideoCard from '../components/content/VideoCard';
+import CourseCard from '../components/content/CourseCard';
 
 const PlaybookDetail = () => {
     const { slug } = useParams();
@@ -76,7 +78,7 @@ const PlaybookDetail = () => {
                                         : 'border-transparent text-gray-400 hover:text-gray-600'
                                         }`}
                                 >
-                                    <Video className="w-4 h-4" /> Creator Studio
+                                    <Video className="w-4 h-4" /> Learn & Deploy
                                 </button>
                             </div>
 
@@ -87,14 +89,44 @@ const PlaybookDetail = () => {
                                 </div>
                             )}
 
-                            {/* View: CREATOR STUDIO */}
+                            {/* View: LEARN & DEPLOY (Formerly Creator Studio) */}
                             {activeTab === 'creator' && (
                                 <div className="space-y-12">
+                                    {/* VIDEO MASTERCLASS SECTION (New Phase 6) */}
+                                    {playbook.videos && playbook.videos.length > 0 && (
+                                        <div className="space-y-6">
+                                            <div className="flex items-center gap-2">
+                                                <Video className="w-5 h-5 text-red-500" />
+                                                <h3 className="text-xl font-bold text-gray-900">Video Masterclass</h3>
+                                            </div>
+                                            <div className="grid grid-cols-1 gap-8">
+                                                {playbook.videos.map((video, idx) => (
+                                                    <VideoCard key={idx} video={video} />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* DEEP DIVE RESOURCES (New Phase 6) */}
+                                    {playbook.resources && playbook.resources.length > 0 && (
+                                        <div className="space-y-6">
+                                            <div className="flex items-center gap-2">
+                                                <BookOpen className="w-5 h-5 text-indigo-500" />
+                                                <h3 className="text-xl font-bold text-gray-900">Deep Dive Resources</h3>
+                                            </div>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                {playbook.resources.map((resource, idx) => (
+                                                    <CourseCard key={idx} resource={resource} />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
                                     {/* Shot Script */}
                                     <div className="bg-slate-50 border border-slate-200 rounded-xl p-8">
                                         <div className="flex justify-between items-center mb-6">
                                             <h3 className="text-xl font-bold flex items-center gap-2">
-                                                <Video className="w-5 h-5 text-red-500" />
+                                                <Video className="w-5 h-5 text-slate-400" />
                                                 Video Script: The 60s Short
                                             </h3>
                                             <span className="text-xs font-mono bg-slate-200 text-slate-600 px-2 py-1 rounded">linkedin / shorts / reels</span>
@@ -108,7 +140,7 @@ const PlaybookDetail = () => {
                                     <div className="bg-slate-50 border border-slate-200 rounded-xl p-8">
                                         <div className="flex justify-between items-center mb-6">
                                             <h3 className="text-xl font-bold flex items-center gap-2">
-                                                <BookOpen className="w-5 h-5 text-blue-500" />
+                                                <BookOpen className="w-5 h-5 text-slate-400" />
                                                 Conversation Guide: The Deep Dive
                                             </h3>
                                             <span className="text-xs font-mono bg-slate-200 text-slate-600 px-2 py-1 rounded">podcast / youtube</span>

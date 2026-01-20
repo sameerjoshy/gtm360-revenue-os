@@ -88,6 +88,22 @@ export const playbooks = [
                 "A bad process kills good talent. A good process protects the business from bad talent."
             ]
         },
+        videos: [
+            {
+                title: "How to Audit a GTM Engine in 4 Hours",
+                embedId: "dQw4w9WgXcQ", // Placeholder (Rick Roll, but standard placeholder ID) - Switch to real ID if available
+                platform: "youtube",
+                duration: "14:20"
+            }
+        ],
+        resources: [
+            {
+                title: "The GTM Audit Checklist",
+                valueProp: "The exact PDF we use with $50M+ ARR Companies.",
+                link: "#",
+                type: "template"
+            }
+        ],
         relatedService: {
             title: "GTM Operating Model Realignment",
             link: "/services/gtm-operating-model"
@@ -191,6 +207,34 @@ export const playbooks = [
                 "If you can't describe your POV in one sentence without mentioning your product features, you don't have a strategy."
             ]
         },
+        videos: [
+            {
+                title: "The 95/5 Rule: Fixing B2B Demand",
+                embedId: "6pGjK6h9qMI", // YouTube ID (Example: Chris Walker/Refine Labs content usually)
+                platform: "youtube",
+                duration: "8:42"
+            },
+            {
+                title: "How to Measure Dark Social",
+                embedId: "M7w3Kj3vk3U", // Placeholder
+                platform: "youtube",
+                duration: "12:15"
+            }
+        ],
+        resources: [
+            {
+                title: "Demand Creation Budget Template",
+                valueProp: "A Google Sheet to model your split between Capture and Creation spend.",
+                link: "#",
+                type: "template"
+            },
+            {
+                title: "The Dark Social Masterclass",
+                valueProp: "A 4-part video workshop on setting up self-reported attribution.",
+                link: "#",
+                type: "course"
+            }
+        ],
         relatedService: {
             title: "Fix Your Go-To-Market Model",
             link: "/services/gtm-operating-model"
