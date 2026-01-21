@@ -152,10 +152,11 @@ const Glossary = () => {
                                             <div className={`w-2 h-2 rounded-full bg-${getStageColor(term.stage)}-500`}></div>
                                             {engineStages.find(s => s.id === term.stage)?.title.split(' ')[0]}
                                         </span>
-                                        {/* Link placeholder for future */}
-                                        {/* <Link to={`/playbooks?topic=${term.slug}`} className="text-xs font-bold text-gray-400 hover:text-[var(--color-primary)] flex items-center gap-1 transition-colors">
-                                            Related Playbook <ArrowRight className="w-3 h-3" />
-                                        </Link> */}
+                                        {term.relatedPlaybook && (
+                                            <Link to={term.relatedPlaybook.link} className="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1 transition-colors bg-indigo-50 px-3 py-1.5 rounded-full hover:bg-indigo-100 border border-indigo-100">
+                                                View Playbook <ArrowRight className="w-3 h-3" />
+                                            </Link>
+                                        )}
                                     </div>
                                 </div>
                             </motion.div>

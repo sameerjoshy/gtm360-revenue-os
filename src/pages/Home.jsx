@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AlertTriangle, TrendingDown, HelpCircle, Activity, Users, Cpu, User, ArrowRight } from 'lucide-react';
+import { AlertTriangle, TrendingDown, HelpCircle, Activity, Users, Cpu, User, ArrowRight, BookOpen } from 'lucide-react';
 import SEO from '../components/SEO';
 import heroWarRoom from '../assets/hero_war_room.png';
 import operatingBlueprint from '../assets/operating_model_blueprint.png';
@@ -148,6 +148,63 @@ const Home = () => {
                                 <p className="text-lg font-medium text-gray-800">{item.text}</p>
                             </div>
                         ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* BLOCK 3.5: ECOSYSTEM TOOLS */}
+            <section className="section bg-gradient-to-b from-white to-gray-50 border-b border-gray-200">
+                <div className="container">
+                    <div className="text-center max-w-2xl mx-auto mb-12">
+                        <span className="text-[var(--color-primary)] font-mono text-xs tracking-widest uppercase block mb-3">
+                            Revenue Architecture Tools
+                        </span>
+                        <h2 className="text-3xl font-semibold mb-4">
+                            Engineering resources for GTM Leaders.
+                        </h2>
+                        <p className="text-lg text-gray-600">
+                            Stop guessing. Start building with standard definitions and proven plays.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                        {/* TOOL 1: GLOSSARY */}
+                        <Link to="/glossary" className="group relative overflow-hidden rounded-2xl bg-white border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 p-8 flex flex-col items-start">
+                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                                <BookOpen className="w-32 h-32 text-indigo-600" />
+                            </div>
+                            <div className="bg-indigo-50 p-3 rounded-xl mb-6 group-hover:bg-indigo-100 transition-colors">
+                                <BookOpen className="w-8 h-8 text-indigo-600" />
+                            </div>
+                            <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
+                                The GTM Dictionary
+                            </h3>
+                            <p className="text-gray-600 mb-6 leading-relaxed">
+                                The official lexicon of Revenue Engineering. Learn the difference between "Shadow Funnel" and "Dark Social".
+                            </p>
+                            <div className="mt-auto flex items-center font-semibold text-indigo-600">
+                                Browse 50+ Terms <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </div>
+                        </Link>
+
+                        {/* TOOL 2: PLAYBOOKS */}
+                        <Link to="/playbooks" className="group relative overflow-hidden rounded-2xl bg-white border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 p-8 flex flex-col items-start">
+                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                                <Activity className="w-32 h-32 text-emerald-600" />
+                            </div>
+                            <div className="bg-emerald-50 p-3 rounded-xl mb-6 group-hover:bg-emerald-100 transition-colors">
+                                <Activity className="w-8 h-8 text-emerald-600" />
+                            </div>
+                            <h3 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">
+                                The Playbook Repo
+                            </h3>
+                            <p className="text-gray-600 mb-6 leading-relaxed">
+                                Battle-tested systems for Audit, Strategy, and Execution. Deploy atomic plays to fix your funnel.
+                            </p>
+                            <div className="mt-auto flex items-center font-semibold text-emerald-600">
+                                Explore the Repo <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </div>
+                        </Link>
                     </div>
                 </div>
             </section>

@@ -15,7 +15,8 @@ export const glossaryTerms = [
         type: 'Reality',
         visualIcon: 'ghost',
         shortDefinition: 'The 90% of the buying journey that happens in "Dark Social" channels you can\'t track (Slack, WhatsApp, DMs).',
-        fullDefinition: 'Attribution software only sees the last click. The Shadow Funnel is where the actual decision happens—in peer-to-peer conversations, communities, and backchannels where your brand is either recommended or roasted without you knowing.'
+        fullDefinition: 'Attribution software only sees the last click. The Shadow Funnel is where the actual decision happens—in peer-to-peer conversations, communities, and backchannels where your brand is either recommended or roasted without you knowing.',
+        relatedPlaybook: { title: 'The 95/5 Rule', link: '/playbooks/the-95-5-rule' }
     },
     {
         id: 'zombie-pipeline',
@@ -25,7 +26,8 @@ export const glossaryTerms = [
         type: 'Killer',
         visualIcon: 'skull',
         shortDefinition: 'Opportunities that are dead, but your sales rep keeps pushing the close date because they are afraid to kill it.',
-        fullDefinition: 'The accumulation of deals in "Commit" or "Best Case" that have not had a bi-directional interaction in 30+ days. These deals artificially inflate forecasting and give leadership a false sense of security.'
+        fullDefinition: 'The accumulation of deals in "Commit" or "Best Case" that have not had a bi-directional interaction in 30+ days. These deals artificially inflate forecasting and give leadership a false sense of security.',
+        relatedPlaybook: { title: 'GTM Audit & Diagnostic', link: '/playbooks/gtm-audit-diagnostic' }
     },
     {
         id: 'gtm-debt',
@@ -35,7 +37,8 @@ export const glossaryTerms = [
         type: 'Killer',
         visualIcon: 'alert-triangle',
         shortDefinition: 'The accumulation of quick fixes, bad data, and disconnected tools that eventually slows your revenue velocity to zero.',
-        fullDefinition: 'Just like technical debt, GTM Debt gathers interest. Every time you add a field to Salesforce that nobody uses, or launch a campaign without clear signal definitions, you are adding friction to the engine.'
+        fullDefinition: 'Just like technical debt, GTM Debt gathers interest. Every time you add a field to Salesforce that nobody uses, or launch a campaign without clear signal definitions, you are adding friction to the engine.',
+        relatedPlaybook: { title: 'GTM Audit & Diagnostic', link: '/playbooks/gtm-audit-diagnostic' }
     },
     {
         id: 'champion-equity',
@@ -75,7 +78,8 @@ export const glossaryTerms = [
         type: 'Killer',
         visualIcon: 'droplet',
         shortDefinition: 'The silent compounding loss of revenue due to inefficient handoffs and poor process.',
-        fullDefinition: 'It’s the 8% of deals that slip because of bad notes. The 5% churn because CS didn\'t know the customer\'s goals. The 10% of leads ignored because they lacked a phone number. It adds up to 30%+ of your growth potential.'
+        fullDefinition: 'It’s the 8% of deals that slip because of bad notes. The 5% churn because CS didn\'t know the customer\'s goals. The 10% of leads ignored because they lacked a phone number. It adds up to 30%+ of your growth potential.',
+        relatedPlaybook: { title: 'GTM Audit & Diagnostic', link: '/playbooks/gtm-audit-diagnostic' }
     },
     {
         id: 'founders-dilemma',
@@ -145,7 +149,8 @@ export const glossaryTerms = [
         type: 'Reality',
         visualIcon: 'message-square',
         shortDefinition: 'The invisible network of peer-to-peer influence that drives 80% of B2B buying decisions.',
-        fullDefinition: 'Slack communities, Reddit threads, text messages between CROs. This is where the brand is built. You can\'t track it, but you can influence it by creating content that is "insanely shareable".'
+        fullDefinition: 'Slack communities, Reddit threads, text messages between CROs. This is where the brand is built. You can\'t track it, but you can influence it by creating content that is "insanely shareable".',
+        relatedPlaybook: { title: 'The 95/5 Rule', link: '/playbooks/the-95-5-rule' }
     },
     {
         id: 'rev-engineering',
