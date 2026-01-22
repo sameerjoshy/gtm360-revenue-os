@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { ArrowRight, DollarSign, Calculator, ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ArrowRight, DollarSign, Calculator, ChevronRight, TrendingDown, ShieldAlert, Zap, Download } from 'lucide-react';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import useSubmitLead from '../../hooks/useSubmitLead';
 
 const RevenueLeakageCalculator = () => {
@@ -13,210 +13,243 @@ const RevenueLeakageCalculator = () => {
     });
 
     // UI STATE
-    const [step, setStep] = useState('input'); // 'input', 'calculating', 'result'
+    const [view, setView] = useState('input'); // 'input', 'result'
     const [leadForm, setLeadForm] = useState({ email: '', role: '' });
     const { submit, status } = useSubmitLead();
 
     // CALCULATIONS
     const calculateLeakage = () => {
-        // Simple heuristic model for "Revenue Leakage" based on industry benchmarks
-        // Assumption: Most companies have ~15-25% inefficiency in their GTM engine
-
         const annualRevenue = Number(inputs.arr);
 
-        // 1. Pipeline Slippage (Deals pushing due to bad qualification)
-        const slippageFactor = 0.08;
+        // Dynamic factors based on inputs (simplified logic for demo)
+        const slippagePct = 0.08 * (inputs.salesCycle / 90);
+        const handoffPct = 0.05 * (1 + (inputs.growthRate / 100));
+        const wastePct = 0.04 * (1 / (inputs.winRate / 25));
 
-        // 2. Churn / Expansion Miss (Poor handover)
-        const handoffFactor = 0.05;
+        const slippageAmount = Math.round(annualRevenue * slippagePct);
+        const handoffAmount = Math.round(annualRevenue * handoffPct);
+        const wasteAmount = Math.round(annualRevenue * wastePct);
 
-        // 3. CAC Inefficiency (Marketing waste)
-        const wasteFactor = 0.04;
-
-        const totalLeakagePct = slippageFactor + handoffFactor + wasteFactor;
-        const totalLeakageAmount = Math.round(annualRevenue * totalLeakagePct);
+        const totalLeakageAmount = slippageAmount + handoffAmount + wasteAmount;
+        const totalLeakagePct = (totalLeakageAmount / annualRevenue) * 100;
 
         return {
             amount: totalLeakageAmount,
-            pct: (totalLeakagePct * 100).toFixed(0)
+            pct: totalLeakagePct.toFixed(1),
+            breakdown: [
+                { name: 'Pipeline Slippage', value: slippageAmount, color: '#ef4444' },
+                { name: 'Expansion Missed', value: handoffAmount, color: '#f97316' },
+                { name: 'Efficiency Waste', value: wasteAmount, color: '#facc15' }
+            ]
         };
     };
 
+    const leakageResults = calculateLeakage();
+
     const handleCalculate = (e) => {
         e.preventDefault();
-        setStep('calculating');
-        setTimeout(() => setStep('result'), 1500);
+        setView('result');
     };
 
     const formatCurrency = (num) => {
-        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumSignificantDigits: 3 }).format(num);
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0, notation: 'compact' }).format(num);
+    };
+
+    const handleExport = () => {
+        const headers = ["Category", "Loss Amount"];
+        const rows = leakageResults.breakdown.map(b => [b.name, b.value]);
+        rows.push(["Total Annual Leakage", leakageResults.amount]);
+
+        let csvContent = "data:text/csv;charset=utf-8,"
+            + headers.join(",") + "\n"
+            + rows.map(e => e.join(",")).join("\n");
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "revenue_leakage_audit.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
 
     const handleEmailSubmit = (e) => {
         e.preventDefault();
         if (!leadForm.email) return;
 
-        const leakage = calculateLeakage();
-
         submit('revenue_leakage_result', [
             { name: 'email', value: leadForm.email },
             { name: 'jobtitle', value: leadForm.role },
             { name: 'annualrevenue', value: inputs.arr },
-            { name: 'message', value: `Estimated Leakage: ${formatCurrency(leakage.amount)} (${leakage.pct}% of ARR)` }
+            { name: 'message', value: `Estimated Leakage: ${formatCurrency(leakageResults.amount)} (${leakageResults.pct}% of ARR)` }
         ]);
     };
 
     return (
-        <div className="bg-slate-900 rounded-2xl p-8 md:p-12 text-white relative overflow-hidden shadow-2xl border border-slate-800">
-            {/* Background Accent */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-[var(--color-primary)] opacity-10 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div className="bg-slate-900 rounded-3xl p-1 text-white relative overflow-hidden shadow-2xl border border-slate-800 h-full">
+            <div className="bg-slate-950 rounded-[inherit] p-8 md:p-12 relative z-10 h-full flex flex-col">
 
-            <div className="relative z-10">
-                <div className="mb-8 flex items-center justify-between">
+                {/* Background Accent */}
+                <div className="absolute top-0 right-0 w-96 h-96 bg-red-500/5 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
+
+                <div className="mb-10 flex items-center justify-between">
                     <div>
-                        <span className="text-emerald-400 font-mono text-xs tracking-widest uppercase mb-2 block flex items-center gap-2">
-                            <Calculator className="w-3 h-3" /> GTM Engineering Tool
+                        <span className="text-red-500 font-mono text-[10px] tracking-widest uppercase mb-2 block flex items-center gap-2">
+                            <ShieldAlert className="w-3 h-3" /> System Friction Audit
                         </span>
-                        <h3 className="text-2xl font-bold text-white">Revenue Leakage Calculator</h3>
+                        <h3 className="text-2xl font-bold text-white tracking-tight">Revenue Leakage <span className="text-red-500">Analyzer</span></h3>
                     </div>
+                    {view === 'result' && (
+                        <button onClick={handleExport} className="p-2 bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors border border-slate-700" title="Export CSV">
+                            <Download className="w-4 h-4 text-slate-400" />
+                        </button>
+                    )}
                 </div>
 
-                {step === 'input' && (
-                    <form onSubmit={handleCalculate} className="animate-in fade-in slide-in-from-right-4 duration-500">
-                        <p className="text-gray-400 mb-8 max-w-md">
-                            Estimate how much revenue your system is silently losing due to GTM friction (handoffs, slip, and waste).
+                {view === 'input' ? (
+                    <form onSubmit={handleCalculate} className="flex-grow flex flex-col">
+                        <p className="text-slate-400 mb-10 text-sm leading-relaxed max-w-md">
+                            Most GTM systems lose 15-25% of their potential revenue to invisible friction. Map your leakage in 30 seconds.
                         </p>
 
-                        <div className="space-y-6 mb-8">
-                            {/* ARR INPUT */}
+                        <div className="space-y-8 mb-12">
                             <div>
-                                <label className="block text-sm font-medium text-gray-400 mb-2">Current Annual Revenue (ARR)</label>
-                                <div className="relative">
-                                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                        <span className="text-gray-500">$</span>
+                                <label className="block text-[10px] font-bold text-slate-500 uppercase mb-3 tracking-widest">Annual Recurring Revenue (ARR)</label>
+                                <div className="relative group">
+                                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <span className="text-slate-500 font-bold">$</span>
                                     </div>
                                     <input
                                         type="number"
                                         value={inputs.arr}
                                         onChange={(e) => setInputs({ ...inputs, arr: e.target.value })}
-                                        className="w-full bg-slate-800 border border-slate-700 rounded-lg py-3 pl-8 pr-4 text-white focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all font-mono"
-                                        placeholder="5000000"
+                                        className="w-full bg-slate-900 border border-slate-800 group-hover:border-slate-700 rounded-xl py-4 pl-10 pr-4 text-white focus:border-red-500/50 outline-none transition-all font-mono text-lg"
+                                        placeholder="5,000,000"
                                         min="0"
                                     />
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">Growth Target</label>
-                                    <div className="relative">
-                                        <input
-                                            type="number"
-                                            value={inputs.growthRate}
-                                            onChange={(e) => setInputs({ ...inputs, growthRate: e.target.value })}
-                                            className="w-full bg-slate-800 border border-slate-700 rounded-lg py-3 px-4 text-white focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all font-mono"
-                                        />
-                                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                            <span className="text-gray-500">%</span>
-                                        </div>
-                                    </div>
+                                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-3 tracking-widest">Sales Cycle (Days)</label>
+                                    <input
+                                        type="number"
+                                        value={inputs.salesCycle}
+                                        onChange={(e) => setInputs({ ...inputs, salesCycle: e.target.value })}
+                                        className="w-full bg-slate-900 border border-slate-800 rounded-xl py-3 px-4 text-white focus:border-red-500/50 outline-none transition-all font-mono"
+                                    />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-400 mb-2">Sales Cycle</label>
-                                    <div className="relative">
-                                        <input
-                                            type="number"
-                                            value={inputs.salesCycle}
-                                            onChange={(e) => setInputs({ ...inputs, salesCycle: e.target.value })}
-                                            className="w-full bg-slate-800 border border-slate-700 rounded-lg py-3 px-4 text-white focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all font-mono"
-                                        />
-                                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                            <span className="text-gray-500 text-xs">Days</span>
-                                        </div>
-                                    </div>
+                                    <label className="block text-[10px] font-bold text-slate-500 uppercase mb-3 tracking-widest">Win Rate (%)</label>
+                                    <input
+                                        type="number"
+                                        value={inputs.winRate}
+                                        onChange={(e) => setInputs({ ...inputs, winRate: e.target.value })}
+                                        className="w-full bg-slate-900 border border-slate-800 rounded-xl py-3 px-4 text-white focus:border-red-500/50 outline-none transition-all font-mono"
+                                    />
                                 </div>
                             </div>
                         </div>
 
-                        <button type="submit" className="w-full btn bg-[var(--color-primary)] hover:bg-indigo-600 text-white py-4 rounded-lg flex items-center justify-center gap-2 font-semibold text-lg transition-all shadow-lg hover:shadow-indigo-500/25">
-                            Calculate Loss <ArrowRight className="w-5 h-5" />
+                        <button type="submit" className="w-full bg-red-600 hover:bg-red-500 text-white py-5 rounded-xl flex items-center justify-center gap-3 font-bold text-lg transition-all shadow-xl shadow-red-900/20 active:scale-[0.98]">
+                            Audit System Health <ArrowRight className="w-5 h-5" />
                         </button>
                     </form>
-                )}
-
-                {step === 'calculating' && (
-                    <div className="py-12 flex flex-col items-center justify-center animate-in fade-in duration-500">
-                        <div className="w-16 h-16 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin mb-6"></div>
-                        <p className="text-indigo-300 font-mono animate-pulse">Running system audit simulation...</p>
-                    </div>
-                )}
-
-                {step === 'result' && (
-                    <div className="animate-in fade-in zoom-in-95 duration-500">
-                        <div className="text-center mb-8">
-                            <p className="text-gray-400 text-sm uppercase tracking-widest mb-2">Estimated Annual Leakage</p>
-                            <h2 className="text-5xl md:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400 mb-4">
-                                {formatCurrency(calculateLeakage().amount)}
-                            </h2>
-                            <p className="text-xl text-gray-300">
-                                Your system is wasting <span className="text-white font-bold">{calculateLeakage().pct}%</span> of its potential revenue.
-                            </p>
-                        </div>
-
-                        <div className="bg-slate-800/50 rounded-lg p-6 border border-slate-700 mb-8">
-                            <h4 className="text-sm font-bold text-gray-300 mb-4 uppercase tracking-widest">Leakage Breakdown</h4>
-                            <div className="space-y-3">
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-400">Pipeline Slippage</span>
-                                    <span className="text-red-400">{formatCurrency(inputs.arr * 0.08)}</span>
+                ) : (
+                    <div className="flex-grow flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-10">
+                            {/* RESULTS HERO */}
+                            <div className="space-y-6">
+                                <div className="p-6 bg-red-500/5 rounded-2xl border border-red-500/20">
+                                    <p className="text-[10px] font-bold text-red-400 uppercase tracking-widest mb-2">Annual Leakage Estimate</p>
+                                    <h2 className="text-5xl font-bold text-white mb-2">{formatCurrency(leakageResults.amount)}</h2>
+                                    <div className="flex items-center gap-2 text-sm text-red-500 font-bold">
+                                        <TrendingDown className="w-4 h-4" /> {leakageResults.pct}% of Gross ARR
+                                    </div>
                                 </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-400">Expansion Missed</span>
-                                    <span className="text-red-400">{formatCurrency(inputs.arr * 0.05)}</span>
+
+                                <div className="space-y-4">
+                                    {leakageResults.breakdown.map((item, idx) => (
+                                        <div key={idx} className="flex items-center justify-between p-3 bg-slate-900 rounded-lg border border-slate-800">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }}></div>
+                                                <span className="text-xs text-slate-400 font-medium">{item.name}</span>
+                                            </div>
+                                            <span className="text-xs font-mono font-bold text-white">{formatCurrency(item.value)}</span>
+                                        </div>
+                                    ))}
                                 </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-400">CAC Inefficiency</span>
-                                    <span className="text-red-400">{formatCurrency(inputs.arr * 0.04)}</span>
-                                </div>
+                            </div>
+
+                            {/* PIE CHART */}
+                            <div className="h-64 bg-slate-900/50 rounded-2xl border border-slate-800 p-4">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <PieChart>
+                                        <Pie
+                                            data={leakageResults.breakdown}
+                                            innerRadius={60}
+                                            outerRadius={80}
+                                            paddingAngle={5}
+                                            dataKey="value"
+                                            stroke="none"
+                                        >
+                                            {leakageResults.breakdown.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={entry.color} />
+                                            ))}
+                                        </Pie>
+                                        <Tooltip
+                                            contentStyle={{ backgroundColor: '#0f172a', borderColor: '#334155', borderRadius: '12px' }}
+                                            formatter={(value) => formatCurrency(value)}
+                                        />
+                                    </PieChart>
+                                </ResponsiveContainer>
                             </div>
                         </div>
 
-                        {/* EMAIL CAPTURE */}
-                        {status === 'success' ? (
-                            <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 text-center">
-                                <p className="font-bold">Analysis Sent!</p>
-                                <p className="text-sm">We've emailed you the full breakdown and fix plan.</p>
-                            </div>
-                        ) : (
-                            <div className="bg-white/5 rounded-lg p-6">
-                                <h4 className="font-semibold text-white mb-2">Get the "Leakage Fix" Report</h4>
-                                <p className="text-sm text-gray-400 mb-4">Enter your email to see exactly where this money is going and how to recapture it.</p>
-                                <form onSubmit={handleEmailSubmit} className="flex gap-2">
-                                    <input
-                                        type="email"
-                                        placeholder="Work Email"
-                                        value={leadForm.email}
-                                        onChange={(e) => setLeadForm({ ...leadForm, email: e.target.value })}
-                                        className="flex-1 px-4 py-2 bg-slate-900 border border-slate-700 rounded-lg focus:outline-none focus:border-[var(--color-primary)] text-sm text-white"
-                                        required
-                                    />
-                                    <button
-                                        type="submit"
-                                        disabled={status === 'submitting'}
-                                        className="btn bg-white text-slate-900 hover:bg-gray-100 px-4 py-2 text-sm font-bold"
-                                    >
-                                        {status === 'submitting' ? '...' : 'Send Report'}
-                                    </button>
-                                </form>
-                            </div>
-                        )}
+                        {/* LEAD GEN FOOTER */}
+                        <div className="mt-auto pt-8 border-t border-slate-800">
+                            {status === 'success' ? (
+                                <div className="p-6 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl text-emerald-400 text-center animate-in zoom-in-95 duration-300">
+                                    <div className="flex justify-center mb-2">
+                                        <Zap className="w-8 h-8 fill-emerald-500/20" />
+                                    </div>
+                                    <p className="font-bold text-lg">Audit Sent to Inbox</p>
+                                    <p className="text-sm opacity-70">We've included the $1M+ ARR reclamation checklist.</p>
+                                </div>
+                            ) : (
+                                <div className="flex flex-col md:flex-row gap-6 items-center">
+                                    <div className="flex-grow">
+                                        <h4 className="font-bold text-white mb-1">Get the Reclamation Roadmap</h4>
+                                        <p className="text-xs text-slate-500">We'll send the detailed breakdown and a bespoke fix strategy.</p>
+                                    </div>
+                                    <form onSubmit={handleEmailSubmit} className="flex gap-2 w-full md:w-auto">
+                                        <input
+                                            type="email"
+                                            placeholder="Work Email"
+                                            value={leadForm.email}
+                                            onChange={(e) => setLeadForm({ ...leadForm, email: e.target.value })}
+                                            className="px-4 py-3 bg-slate-900 border border-slate-800 rounded-xl focus:border-red-500/50 outline-none text-sm text-white w-full md:w-64"
+                                            required
+                                        />
+                                        <button
+                                            type="submit"
+                                            disabled={status === 'submitting'}
+                                            className="bg-white text-slate-950 hover:bg-slate-100 px-6 py-3 rounded-xl text-xs font-black uppercase tracking-widest transition-all disabled:opacity-50 h-full"
+                                        >
+                                            {status === 'submitting' ? '...' : 'Send'}
+                                        </button>
+                                    </form>
+                                </div>
+                            )}
 
-                        <button
-                            onClick={() => setStep('input')}
-                            className="mt-6 w-full text-center text-sm text-gray-500 hover:text-white transition-colors"
-                        >
-                            Start Over
-                        </button>
+                            <button
+                                onClick={() => setView('input')}
+                                className="mt-8 w-full text-center text-[10px] font-bold text-slate-600 hover:text-red-400 uppercase tracking-widest transition-colors"
+                            >
+                                ← Recalibrate Baseline
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
