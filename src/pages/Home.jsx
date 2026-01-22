@@ -20,26 +20,39 @@ const Home = () => {
             />
             {/* BLOCK 1: HERO */}
             <section className="section !pt-0 pb-24 md:pb-32 aurora-bg relative overflow-hidden" style={{ paddingTop: '0px' }}>
-                <div className="container max-w-6xl relative z-10"> {/* Widened container for better image fit */}
+                <div className="container max-w-6xl relative z-10">
                     <div className="flex flex-col md:flex-row items-center gap-12 mt-16">
                         <div className="flex-1">
                             <h1 className="text-5xl md:text-6xl font-semibold leading-tight mb-6 text-[var(--color-primary)]">
-                                When growth stalls, the problem is rarely effort. <br />
-                                <span className="opacity-75">It’s the GTM operating model.</span>
+                                Unlock 2–3× Revenue from Your Existing Tech Assets
+                                <span className="block text-4xl md:text-5xl opacity-75 mt-2">Without Increasing Ad Spend</span>
                             </h1>
                             <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-2xl">
-                                GTM360 helps leadership teams fix the decision systems that convert go-to-market effort into revenue.
+                                We help growth-stage B2B tech companies shorten sales cycles, increase ticket sizes, and unlock hidden demand using proven GTM diagnostics, Buyer-2.0 frameworks, and execution systems.
                             </p>
-                            <div className="text-sm font-semibold tracking-wide text-gray-400 uppercase mb-10">
-                                GTM360 — Revenue OS
+
+                            {/* PROOF STRIP */}
+                            <div className="grid grid-cols-3 gap-4 mb-10 p-6 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200 shadow-sm">
+                                <div className="text-center">
+                                    <div className="text-3xl font-bold text-emerald-600">364%</div>
+                                    <div className="text-xs text-gray-600 uppercase tracking-wider">ROI for B2B SaaS</div>
+                                </div>
+                                <div className="text-center border-l border-r border-gray-200">
+                                    <div className="text-3xl font-bold text-indigo-600">3×</div>
+                                    <div className="text-xs text-gray-600 uppercase tracking-wider">Customers, Same Spend</div>
+                                </div>
+                                <div className="text-center">
+                                    <div className="text-3xl font-bold text-purple-600">1.4%</div>
+                                    <div className="text-xs text-gray-600 uppercase tracking-wider">vs 0.18% Baseline (Fintech)</div>
+                                </div>
                             </div>
 
                             <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center">
-                                <Link to="/problems" className="btn bg-[var(--color-primary)] text-white hover:bg-opacity-90 transition-all">
-                                    Explore the GTM Operating Model →
+                                <Link to="/tools" className="btn bg-[var(--color-primary)] text-white hover:bg-opacity-90 transition-all shadow-lg">
+                                    Enter the Workbench →
                                 </Link>
                                 <Link to="/insights" className="text-[var(--color-primary)] font-medium hover:underline">
-                                    See insights →
+                                    See Real Case Results →
                                 </Link>
                             </div>
                         </div>
@@ -62,6 +75,31 @@ const Home = () => {
 
             {/* BLOCK 1.5: TECH STACK MARQUEE */}
             <TechStackMarquee />
+
+            {/* BLOCK 1.6: ICP SELF-SELECTION */}
+            <section className="section bg-white border-b border-gray-100">
+                <div className="container max-w-4xl">
+                    <h2 className="text-3xl font-semibold text-center mb-12">Is This You?</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {[
+                            "You're generating leads, but deals stall or drag.",
+                            "Sales cycles are long and unpredictable.",
+                            "Marketing spend isn't translating into revenue.",
+                            "You suspect positioning, pricing, or messaging—not product—is the bottleneck."
+                        ].map((statement, i) => (
+                            <div key={i} className="flex items-start gap-4 p-6 bg-red-50 border border-red-100 rounded-lg">
+                                <div className="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center flex-shrink-0 mt-1">
+                                    <AlertTriangle className="w-4 h-4 text-white" />
+                                </div>
+                                <p className="text-lg text-gray-800">{statement}</p>
+                            </div>
+                        ))}
+                    </div>
+                    <p className="text-center text-xl font-medium text-gray-700 mt-12 italic">
+                        If this sounds familiar, the issue is structural—not tactical.
+                    </p>
+                </div>
+            </section>
 
             {/* BLOCK 2: MISDIAGNOSIS */}
             <section className="section bg-[var(--color-secondary)]">

@@ -63,11 +63,11 @@ const Services = () => {
                 <div className="absolute inset-0 bg-noise opacity-30"></div>
                 <div className="container max-w-4xl relative z-10 opacity-0 animate-fade-in-up" style={{ animationFillMode: 'forwards' }}>
                     <h1 className="text-4xl md:text-5xl font-semibold leading-tight mb-8 text-[var(--color-primary)]">
-                        What we help fix after diagnosis
+                        How We Unlock Revenue
                     </h1>
                     <h2 className="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed font-normal">
                         Once the real GTM constraint is clear, <br className="hidden md:block" />
-                        we help leadership teams realign the system — <br />
+                        we help leadership teams redesign and operationalize the system — <br />
                         <span className="font-semibold text-gray-900">so execution becomes predictable, not reactive.</span>
                     </h2>
                 </div>

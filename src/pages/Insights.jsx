@@ -36,8 +36,8 @@ const Insights = () => {
     return (
         <div className="insights-hub min-h-screen bg-slate-50">
             <Helmet>
-                <title>GTM Research Hub: The Science of Revenue | GTM-360</title>
-                <meta name="description" content="Diagnostic insights into common GTM failures in B2B companies — beyond tactics and tools." />
+                <title>GTM Breakdown: Strategic Revenue Intelligence | GTM-360</title>
+                <meta name="description" content="Strategic insights into why B2B tech GTM fails post-scale, why buyers disengage, and why pricing and messaging kill momentum." />
                 <link rel="canonical" href="https://gtm-360.com/insights" />
                 <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
             </Helmet>
@@ -53,11 +53,10 @@ const Insights = () => {
                         GTM-360 Intelligence
                     </span>
                     <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-8 tracking-tight">
-                        The Science of <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">Revenue</span>
+                        GTM <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">Breakdown</span>
                     </h1>
                     <h2 className="text-xl md:text-2xl text-slate-300 mb-10 max-w-3xl mx-auto leading-relaxed font-light">
-                        We don't publish "content". We publish <strong className="text-white">diagnostics</strong>.<br />
-                        Deep dives into why B2B systems fail and how to engineer them correctly.
+                        Strategic insights into why B2B tech GTM fails post-scale, why buyers disengage, and why pricing and messaging kill momentum.
                     </h2>
                 </div>
             </section>
