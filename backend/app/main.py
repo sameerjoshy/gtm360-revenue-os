@@ -10,7 +10,10 @@ app = FastAPI(
 from fastapi.middleware.cors import CORSMiddleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # In production, set to specific domain
+    allow_origins=[
+        "http://localhost:5173",
+        "https://82a37dbe.gtm-360.pages.dev"
+    ], # In production, set to specific domain
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
