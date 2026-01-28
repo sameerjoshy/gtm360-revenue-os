@@ -1,48 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Network, Mail, Database, PenTool, MessageSquare, Monitor, ArrowRight, Activity, Disc } from 'lucide-react';
-
-const swarms = [
-    {
-        id: 'outbound-swarm',
-        title: 'Outbound Motion',
-        subtitle: 'Target, Enrich, & Engage',
-        color: 'from-blue-500/10 to-indigo-500/5',
-        border: 'border-blue-200/50',
-        icon: Network,
-        agents: [
-            { id: 'researcher', name: 'Researcher', role: 'Deep Account Intelligence', status: 'ACTIVE', icon: Database },
-            { id: 'sniper', name: 'Sniper', role: 'Multi-Channel Outreach', status: 'ACTIVE', icon: Mail },
-            { id: 'scraper', name: 'Listen', role: 'Market Signal Monitoring', status: 'PLANNED', icon: Activity }
-        ]
-    },
-    {
-        id: 'inbound-swarm',
-        title: 'Inbound & Content',
-        subtitle: 'Attract & Nurture',
-        color: 'from-purple-500/10 to-pink-500/5',
-        border: 'border-purple-200/50',
-        icon: PenTool,
-        agents: [
-            { id: 'content-led', name: 'Publisher', role: 'Asset Distribution', status: 'PLANNED', icon: Disc },
-            { id: 'inbox', name: 'Concierge', role: 'Inbox & Reply Handling', status: 'PLANNED', icon: MessageSquare },
-            { id: 'deanonymize', name: 'Identifier', role: 'Visitor Deanonymization', status: 'PLANNED', icon: Monitor }
-        ]
-    },
-    {
-        id: 'ops-swarm',
-        title: 'RevOps Infrastructure',
-        subtitle: 'Synchronize & Enable',
-        color: 'from-slate-500/10 to-gray-500/5',
-        border: 'border-slate-200/50',
-        icon: Database,
-        agents: [
-            { id: 'crm-sync', name: 'Syncer', role: 'Bi-Directional Sync', status: 'PLANNED', icon: Database },
-            { id: 'calendly', name: 'Prep', role: 'Meeting Context', status: 'PLANNED', icon: Activity }
-        ]
-    }
-];
+import { ArrowRight } from 'lucide-react';
+import { agentSwarms } from '../../data/agents';
 
 const SwarmMap = () => {
     const navigate = useNavigate();
@@ -58,8 +18,8 @@ const SwarmMap = () => {
                         <span className="text-slate-600 font-medium">Active Agents</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                        <span className="w-2 h-2 rounded-full bg-slate-300"></span>
-                        <span className="text-slate-400">In Development</span>
+                        <span className="w-2 h-2 rounded-full bg-slate-200"></span>
+                        <span className="text-slate-400">Planned</span>
                     </div>
                 </div>
                 <div className="text-xs font-mono text-slate-400">
@@ -68,72 +28,60 @@ const SwarmMap = () => {
             </div>
 
             {/* Map Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative">
-                {/* Connecting Line Enhancement (Background) */}
-                <div className="hidden lg:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-slate-200 to-transparent -z-10 transform -translate-y-1/2"></div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 relative">
+                {/* Background Line */}
+                <div className="hidden xl:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-slate-200 to-transparent -z-10 transform -translate-y-1/2"></div>
 
-                {swarms.map((swarm, i) => (
+                {agentSwarms.map((swarm, i) => (
                     <motion.div
                         key={swarm.id}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1 }}
-                        className={`relative rounded-2xl border ${swarm.border} bg-gradient-to-br ${swarm.color} backdrop-blur-sm p-6 overflow-hidden`}
+                        className={`relative rounded-2xl border ${swarm.border} bg-gradient-to-br ${swarm.color} backdrop-blur-sm p-5 overflow-hidden flex flex-col h-full`}
                     >
                         {/* Header */}
-                        <div className="flex items-center space-x-4 mb-8">
-                            <div className="p-3 bg-white/80 rounded-xl shadow-sm">
-                                <swarm.icon className="w-6 h-6 text-slate-700" />
+                        <div className="flex items-center space-x-3 mb-6">
+                            <div className="p-2.5 bg-white/80 rounded-xl shadow-sm">
+                                <swarm.icon className="w-5 h-5 text-slate-700" />
                             </div>
                             <div>
-                                <h3 className="font-bold text-slate-900 text-lg">{swarm.title}</h3>
-                                <p className="text-xs text-slate-500 uppercase tracking-wider font-semibold">{swarm.subtitle}</p>
+                                <h3 className="font-bold text-slate-900 text-base">{swarm.title}</h3>
+                                <p className="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">{swarm.subtitle}</p>
                             </div>
                         </div>
 
                         {/* Agents Stack */}
-                        <div className="space-y-4 relative z-10">
+                        <div className="space-y-3 relative z-10 flex-1">
                             {swarm.agents.map((agent) => (
                                 <motion.div
                                     key={agent.id}
                                     onHoverStart={() => setHoveredAgent(agent.id)}
                                     onHoverEnd={() => setHoveredAgent(null)}
-                                    onClick={() => agent.status === 'ACTIVE' && navigate(`/agents/${agent.id}`)}
-                                    whileHover={agent.status === 'ACTIVE' ? { scale: 1.02, x: 4 } : {}}
+                                    onClick={() => agent.status === 'ACTIVE' && navigate(agent.route || `/agents/${agent.id}`)}
+                                    whileHover={agent.status === 'ACTIVE' ? { scale: 1.02, x: 2 } : {}}
                                     className={`
-                                        group relative p-4 rounded-xl border transition-all duration-300 flex items-center justify-between
+                                        group relative p-3 rounded-xl border transition-all duration-300 flex items-center justify-between
                                         ${agent.status === 'ACTIVE'
-                                            ? 'bg-white border-indigo-100 shadow-md cursor-pointer hover:border-indigo-300 hover:shadow-lg'
-                                            : 'bg-white/40 border-slate-100 opacity-70 cursor-not-allowed grayscale-[0.5]'
+                                            ? 'bg-white border-indigo-100 shadow-sm cursor-pointer hover:border-indigo-300 hover:shadow-md'
+                                            : 'bg-white/40 border-slate-100 opacity-70 cursor-not-allowed'
                                         }
                                     `}
                                 >
-                                    <div className="flex items-center space-x-4">
+                                    <div className="flex items-center space-x-3">
                                         <div className={`
-                                            w-10 h-10 rounded-full flex items-center justify-center text-lg
+                                            w-8 h-8 rounded-full flex items-center justify-center text-sm
                                             ${agent.status === 'ACTIVE' ? 'bg-indigo-50 text-indigo-600' : 'bg-slate-100 text-slate-400'}
                                         `}>
-                                            <agent.icon size={18} />
+                                            <agent.icon size={16} />
                                         </div>
                                         <div>
-                                            <h4 className={`font-bold text-sm ${agent.status === 'ACTIVE' ? 'text-slate-800' : 'text-slate-500'}`}>
+                                            <h4 className={`font-bold text-xs ${agent.status === 'ACTIVE' ? 'text-slate-800' : 'text-slate-500'}`}>
                                                 {agent.name}
                                             </h4>
-                                            <p className="text-xs text-slate-500">{agent.role}</p>
+                                            <p className="text-[10px] text-slate-500 leading-tight">{agent.role}</p>
                                         </div>
                                     </div>
-
-                                    {/* Action Indicator */}
-                                    {agent.status === 'ACTIVE' ? (
-                                        <div className="flex items-center text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <span className="text-xs font-bold mr-1">OPEN</span>
-                                            <ArrowRight size={14} />
-                                        </div>
-                                    ) : (
-                                        <div className="text-[10px] font-bold text-slate-400 bg-slate-100 px-2 py-1 rounded">
-                                            SOON
-                                        </div>
-                                    )}
                                 </motion.div>
                             ))}
                         </div>
