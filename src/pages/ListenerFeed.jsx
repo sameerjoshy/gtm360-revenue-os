@@ -5,11 +5,12 @@ const ListenerFeed = () => {
     const [logs, setLogs] = useState([]);
     const [processing, setProcessing] = useState(false);
 
-    // Mock incoming stream (Updated to trigger Vetoes)
+    // Mock incoming stream (Test Cases for Constitution)
     const mockEvents = [
-        { trigger: "Layoffs", domain: "struggling.co", industry: "SaaS" }, // SUPPRESSED
-        { trigger: "Funding Round (Series A/B/C)", domain: "rocketship.io", industry: "SaaS" }, // ACTION
-        { trigger: "Headcount growth", domain: "steady.inc", industry: "SaaS" }, // ROUTE_TO_HUMAN
+        { trigger: "Company announces Layoffs", domain: "struggling.co", industry: "SaaS" }, // COMBO 6: Silent Churn (Suppressed)
+        { trigger: "Wins 'Best Place to Work' Award", domain: "noisy.io", industry: "SaaS" }, // COMBO 10: Noise Cluster (Suppressed)
+        { trigger: "Receives $50M Financing", domain: "rocketship.io", industry: "SaaS" }, // COMBO 2: Post-Funding Scramble (Action)
+        { trigger: "Hiring for Sales roles", domain: "unknown.co", industry: "SaaS" }, // Single Signal (Downgrade to Human)
     ];
 
     const processStream = async () => {
@@ -37,11 +38,16 @@ const ListenerFeed = () => {
 
     return (
         <div className="max-w-5xl mx-auto pb-20">
-            <div className="mb-10">
-                <h1 className="text-4xl font-extrabold text-slate-900 mb-2 flex items-center gap-3">
+            <div className="mb-10 text-center">
+                <h1 className="text-4xl font-extrabold text-slate-900 mb-2 flex items-center justify-center gap-3">
                     <Activity className="text-pink-500" /> Listener Agent
                 </h1>
-                <p className="text-slate-500 text-lg">The Market Ear. Optimizing for Decision Quality, not volume.</p>
+                <p className="text-slate-500 text-lg">The Market Ear. Governed by the Signals Constitution.</p>
+                <div className="mt-4 inline-block bg-slate-100 px-4 py-2 rounded-full border border-slate-200">
+                    <p className="text-xs font-mono text-slate-600 font-medium">
+                        PRIME DIRECTIVE: "This agent exists to protect GTM teams from premature action."
+                    </p>
+                </div>
             </div>
 
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-8">
@@ -87,10 +93,10 @@ const ListenerFeed = () => {
                                     </div>
                                 </div>
                                 <span className={`text-xs font-bold px-3 py-1 rounded-full ${log.suppressed ? 'bg-red-100 text-red-700' :
-                                        log.decision === 'IGNORE' ? 'bg-slate-200 text-slate-500' :
-                                            log.decision === 'OUTREACH_ELIGIBLE' ? 'bg-emerald-100 text-emerald-800' :
-                                                log.decision === 'RESEARCH' ? 'bg-blue-100 text-blue-800' :
-                                                    'bg-orange-100 text-orange-800'
+                                    log.decision === 'IGNORE' ? 'bg-slate-200 text-slate-500' :
+                                        log.decision === 'OUTREACH_ELIGIBLE' ? 'bg-emerald-100 text-emerald-800' :
+                                            log.decision === 'RESEARCH' ? 'bg-blue-100 text-blue-800' :
+                                                'bg-orange-100 text-orange-800'
                                     }`}>
                                     {log.suppressed ? 'SUPPRESSED' : log.decision}
                                 </span>
