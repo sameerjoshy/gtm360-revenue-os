@@ -11,7 +11,10 @@ import {
     Activity,
     ChevronRight,
     ShieldCheck,
-    TrendingUp
+    TrendingUp,
+    BarChart3,
+    Sliders,
+    GitBranch
 } from 'lucide-react';
 
 const WorkbenchLayout = () => {
@@ -84,6 +87,34 @@ const WorkbenchLayout = () => {
                         <Database size={18} />
                         <span className="text-sm font-medium">Dossiers</span>
                     </div>
+
+                    <div className="mt-6 px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                        Configuration
+                    </div>
+
+                    <NavLink
+                        to="/agents/agent-analytics"
+                        className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${isActive ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}
+                    >
+                        <BarChart3 size={18} />
+                        <span className="text-sm font-medium">Analytics</span>
+                    </NavLink>
+
+                    <NavLink
+                        to="/agents/signal-config"
+                        className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${isActive ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}
+                    >
+                        <Sliders size={18} />
+                        <span className="text-sm font-medium">Signal Config</span>
+                    </NavLink>
+
+                    <NavLink
+                        to="/agents/workflows"
+                        className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${isActive ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}
+                    >
+                        <GitBranch size={18} />
+                        <span className="text-sm font-medium">Workflows</span>
+                    </NavLink>
                 </nav>
 
                 <div className="p-4 border-t border-slate-800">
