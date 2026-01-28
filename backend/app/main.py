@@ -325,6 +325,38 @@ async def run_expansion_agent(domain: str):
     return {
         "domain": domain,
         "usage_report": final_state.get("usage_data"),
+    return {
+        "domain": domain,
+        "usage_report": final_state.get("usage_data"),
         "opportunity_detected": final_state.get("expansion_signal"),
         "proposal_draft": final_state.get("proposal_draft")
+    }
+
+# --- RevOps Swarm Endpoints ---
+
+@app.post("/revops/hygiene/scan")
+async def run_hygiene_scan():
+    """
+    Triggers the Data Hygiene Agent.
+    1. Scans CRM (Mock Seeder).
+    2. Detects Stale Deals & Missing Fields.
+    3. Returns System Health Score.
+    """
+    logger.info("Running Hygiene Scan")
+    from app.agents.hygiene_graph import create_hygiene_graph
+    
+    graph = create_hygiene_graph()
+    
+    # Run
+    final_state = await graph.ainvoke({
+        "raw_data": {},
+        "issues": [],
+        "health_score": 0,
+        "status": "STARTING"
+    })
+    
+    return {
+        "health_score": final_state.get("health_score"),
+        "issues": final_state.get("issues"),
+        "record_count": len(final_state.get("raw_data").get("deals", [])) + len(final_state.get("raw_data").get("contacts", []))
     }

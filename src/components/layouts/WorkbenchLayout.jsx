@@ -9,7 +9,9 @@ import {
     Database,
     Crosshair,
     Activity,
-    ChevronRight
+    ChevronRight,
+    ShieldCheck,
+    TrendingUp
 } from 'lucide-react';
 
 const WorkbenchLayout = () => {
@@ -67,8 +69,16 @@ const WorkbenchLayout = () => {
                     </NavLink>
 
                     <div className="mt-6 px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                        Data Spine
+                        RevOps Grid
                     </div>
+
+                    <NavLink
+                        to="/agents/revops"
+                        className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${isActive ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}
+                    >
+                        <ShieldCheck size={18} />
+                        <span className="text-sm font-medium">System Health</span>
+                    </NavLink>
 
                     <div className="flex items-center gap-3 px-3 py-2 text-slate-400 hover:bg-slate-800 hover:text-white rounded-md cursor-not-allowed opacity-70">
                         <Database size={18} />
