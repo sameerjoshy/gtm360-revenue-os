@@ -3,36 +3,42 @@ import os
 from typing import TypedDict, List, Dict, Any, Optional
 from langgraph.graph import StateGraph, END
 
-# Define State
+# --- 1. State Definition (Decision Quality) ---
 class ListenerState(TypedDict):
     domain: str
-    raw_event: Dict[str, Any]      # Input event (e.g. from webhook/feed)
-    signal_def: Dict[str, Any]     # Matched definition from Canon
-    validated: bool                # Freshness/Source check
-    icp_fit: bool                  # ICP Veto check
-    hypothesis: str                # Generating reasoning
-    competing_hypothesis: str      # Mandatory counter-argument
-    context: List[str]             # Other signals for this domain
-    decision: str                  # IGNORE, RESEARCH, ROUTE_TO_HUMAN, OUTREACH
-    decision_reason: str           # Audit trail
-    draft_email: Optional[Dict]    # Final output if OUTREACH
+    raw_event: Dict[str, Any]
+    signal_def: Dict[str, Any]
+    
+    # Suppression Layer
+    suppressed: bool
+    suppression_reason: str
+    
+    # Analysis Layer
+    archetype: str             # e.g. "Post-Funding Scramble"
+    confidence_score: float
+    confidence_drivers: List[str]
+    confidence_risks: List[str]
+    
+    # Contract Output
+    decision: str              # IGNORE, RESEARCH, ROUTE_TO_HUMAN, OUTREACH
+    rationale: Dict[str, str]  # The 4-Part Contract: {why_matters, why_not, missing_info, choice_reason}
+    
+    draft_email: Optional[Dict]
 
+# --- 2. Logic & Nodes ---
 class ListenerNodes:
     def __init__(self):
-        # Load Canon
         try:
             with open("app/data/signals_canon.json", "r") as f:
                 self.canon = json.load(f)
         except:
-             # Fallback for compilation if file not found locally
              self.canon = {"signals": []}
 
     def convert_event_to_signal(self, state: ListenerState) -> Dict:
-        """1. Ingestor: Maps raw event to Canonical Signal ID."""
+        """Ingest: Maps raw event to Canonical Signal."""
         raw = state["raw_event"]
-        print(f"--- [Listener] Ingesting: {raw.get('trigger')} ---")
+        print(f"--- [Listener] Ingesting: {raw.get('trigger')} for {state['domain']} ---")
         
-        # Simple string matching for V1 (Real version uses semantic matcher)
         matched = None
         for sig in self.canon["signals"]:
             if sig["trigger"].lower() in raw.get("trigger", "").lower():
@@ -43,87 +49,117 @@ class ListenerNodes:
             return {
                 "signal_def": None, 
                 "decision": "IGNORE", 
-                "decision_reason": "No matching canonical trigger found."
+                "rationale": {"choice_reason": "No canonical trigger matched."}
             }
             
         return {"signal_def": matched, "decision": "PROCESSING"}
 
-    def validate_signal(self, state: ListenerState) -> Dict:
-        """2. Validator: checks Freshness & Source Reliability."""
+    def check_suppression(self, state: ListenerState) -> Dict:
+        """Suppression Layer: Checks for Negative Signals."""
         if state["decision"] == "IGNORE": return {}
         
-        # Mock Check: Is it older than 30 days?
-        # In real app, check raw_event['timestamp']
-        is_fresh = True 
+        # Mock Suppression Logic (In production, query DB for recent negative signals)
+        trigger = state["raw_event"].get("trigger", "").lower()
         
-        if not is_fresh:
-             return {"validated": False, "decision": "IGNORE", "decision_reason": "Signal too old (>30 days)."}
+        # Explicit Negative Signals from User Prompt
+        if "layoff" in trigger or "decreases_headcount" in trigger:
+             return {"suppressed": True, "suppression_reason": "Active Layoffs detected (45-day cooldown).", "decision": "IGNORE"}
+        if "legal" in trigger or "suit" in trigger:
+             return {"suppressed": True, "suppression_reason": "Legal issues detected.", "decision": "IGNORE"}
+        
+        return {"suppressed": False}
+
+    def match_archetype(self, state: ListenerState) -> Dict:
+        """Pattern Matching: Assigns Named Archetypes."""
+        if state["decision"] == "IGNORE": return {}
+        
+        sig_id = state["signal_def"]["signal_id"]
+        
+        # Mock Logic for V1 Archetypes
+        archetype = "Single Signal"
+        if "02" in sig_id or "14" in sig_id:
+             archetype = "Scaling Pain"
+        elif "11" in sig_id: # Funding
+             archetype = "Post-Funding Scramble"
+        elif "39" in sig_id: # Tech
+             archetype = "Tech Refresh"
              
-        return {"validated": True}
+        return {"archetype": archetype}
 
-    def check_icp(self, state: ListenerState) -> Dict:
-        """3. ICP Mapper: Veto if not fit."""
-        if state["decision"] == "IGNORE": return {}
-        
-        # Mock ICP Check (e.g. Industry = SaaS)
-        # Real app uses Researcher's previous output or simplistic lookup
-        industry = state["raw_event"].get("industry", "Unknown")
-        
-        if industry == "Retail": # Example Exclusion
-            return {"icp_fit": False, "decision": "IGNORE", "decision_reason": "ICP Veto: Retail industry not supported."}
-            
-        return {"icp_fit": True}
-
-    def build_hypothesis(self, state: ListenerState) -> Dict:
-        """4. Hypothesis Builder: Why does this matter?"""
+    def score_confidence(self, state: ListenerState) -> Dict:
+        """Confidence Explanation: Drivers vs Risks."""
         if state["decision"] == "IGNORE": return {}
         
         sig = state["signal_def"]
-        hypo = f"Primary: {sig['what_it_signals']} -> {sig['why_it_matters']}."
-        anti_hypo = "Competing: Maybe false positive or internal promotion only."
+        drivers = []
+        risks = []
         
-        return {"hypothesis": hypo, "competing_hypothesis": anti_hypo}
-
-    def build_context(self, state: ListenerState) -> Dict:
-        """5. Context Builder: Look for Combos."""
-        if state["decision"] == "IGNORE": return {}
+        # Drivers
+        if sig.get("intent_type") == "High Intent": drivers.append("Signal is classified as High Intent.")
+        if state["archetype"] != "Single Signal": drivers.append(f"Matches archetype: {state['archetype']}")
         
-        # Mock: Look up other signals for this domain in Supabase
-        # combos = db.fetch_signals(state['domain'])
-        combos = [] 
+        # Risks
+        if "news" in sig.get("dataset", ""): risks.append("PR sources can be exaggerated.")
+        if "job" in sig.get("dataset", ""): risks.append("Job posts may be backfills, not growth.")
         
-        return {"context": combos}
+        score = 0.5 + (0.1 * len(drivers)) - (0.1 * len(risks))
+        
+        return {
+            "confidence_score": round(score, 2),
+            "confidence_drivers": drivers,
+            "confidence_risks": risks
+        }
 
     def decide_action(self, state: ListenerState) -> Dict:
-        """6. Action Decider (Governor): The Veto Gate."""
+        """The Governor: Enforces Decision Quality Contract."""
         if state["decision"] == "IGNORE": return {}
         
         sig = state["signal_def"]
         allowed = sig.get("allowed_actions", ["RESEARCH"])
         
-        # Governance Rule: Default to non-intrusive
-        final_decision = "RESEARCH" # Fallback
+        # 1. Why this matters
+        why_matters = f"{sig['what_it_signals']} -> {sig['why_it_matters']}"
         
-        # If 'OUTREACH_ELIGIBLE' is allowed AND we have High Confidence...
-        # For V1, let's be conservative as requested.
+        # 2. Why it might not
+        why_not = "Isolated signal without corroboration." if len(state['confidence_drivers']) < 2 else "None observed."
+        if len(state['confidence_risks']) > 0:
+             why_not = f"Risks identified: {', '.join(state['confidence_risks'])}"
+             
+        # 3. What we need to look for
+        missing = "Need validation from a second dataset (e.g. Careers page confirmation)."
+        
+        # 4. Choice
+        # Restraint Principle: Downgrade Action if risks exist
+        choice = "RESEARCH" # Default
+        
         if "OUTREACH_ELIGIBLE" in allowed:
-            # Only if we have >1 signal or very strong fit
-            if len(state["context"]) > 0:
-                final_decision = "OUTREACH_ELIGIBLE"
+            if state["confidence_score"] > 0.7:
+                 choice = "OUTREACH_ELIGIBLE"
             else:
-                 final_decision = "ROUTE_TO_HUMAN" # Downgrade single signals
+                 choice = "ROUTE_TO_HUMAN" # Downgrade
+        elif "ROUTE_TO_HUMAN" in allowed:
+            choice = "ROUTE_TO_HUMAN"
+            
+        choice_reason = f"Allowed: {allowed}. Score: {state['confidence_score']}. Principle: Restraint."
         
-        return {"decision": final_decision, "decision_reason": f"Matched Canon {sig['signal_id']}. Allowed: {allowed}."}
+        rationale = {
+            "why_matters": why_matters,
+            "why_not": why_not,
+            "missing_info": missing,
+            "choice_reason": choice_reason
+        }
+        
+        return {"decision": choice, "rationale": rationale}
 
     def compose_copy(self, state: ListenerState) -> Dict:
-        """7. Copy Composer: Only if Outreach Eligible."""
+        """Composer: Only if Outreach Eligible."""
         if state["decision"] != "OUTREACH_ELIGIBLE":
             return {"draft_email": None}
             
         sig = state["signal_def"]
         draft = {
             "subject": f"Question re: {sig['trigger']}",
-            "body": f"Hi,\n\n{sig['ready_outreach_hook']}\n\nOpen to a chat?",
+            "body": f"Hi,\n\n{sig['ready_outreach_hook']}\n\n(Tone: Observer, not Seller)",
             "tone": "Calm, observant"
         }
         return {"draft_email": draft}
@@ -133,23 +169,17 @@ def create_listener_graph():
     workflow = StateGraph(ListenerState)
 
     workflow.add_node("ingest", nodes.convert_event_to_signal)
-    workflow.add_node("validate", nodes.validate_signal)
-    workflow.add_node("icp_check", nodes.check_icp)
-    workflow.add_node("hypothesis", nodes.build_hypothesis)
-    workflow.add_node("context", nodes.build_context)
+    workflow.add_node("suppress", nodes.check_suppression)
+    workflow.add_node("archetype", nodes.match_archetype)
+    workflow.add_node("confidence", nodes.score_confidence)
     workflow.add_node("decide", nodes.decide_action)
     workflow.add_node("compose", nodes.compose_copy)
 
-    # Linear flow with early exits handled by state["decision"] == "IGNORE" checks inside nodes
-    # Ideally we'd use conditional edges, but for readability in V1 linear is fine 
-    # as nodes just pass precise output if already ignored.
-    
     workflow.set_entry_point("ingest")
-    workflow.add_edge("ingest", "validate")
-    workflow.add_edge("validate", "icp_check")
-    workflow.add_edge("icp_check", "hypothesis")
-    workflow.add_edge("hypothesis", "context")
-    workflow.add_edge("context", "decide")
+    workflow.add_edge("ingest", "suppress")
+    workflow.add_edge("suppress", "archetype")
+    workflow.add_edge("archetype", "confidence")
+    workflow.add_edge("confidence", "decide")
     workflow.add_edge("decide", "compose")
     workflow.add_edge("compose", END)
 

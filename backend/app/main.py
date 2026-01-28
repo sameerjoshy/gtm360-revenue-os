@@ -404,20 +404,28 @@ async def process_signal(event: Dict[str, Any]):
         "domain": event.get("domain", "Unknown"),
         "raw_event": event,
         "signal_def": {},
-        "validated": False,
-        "icp_fit": False, 
-        "hypothesis": "",
-        "competing_hypothesis": "",
-        "context": [],
+        "suppressed": False,
+        "suppression_reason": "",
+        "archetype": "None",
+        "confidence_score": 0.0,
+        "confidence_drivers": [],
+        "confidence_risks": [],
         "decision": "STARTING",
-        "decision_reason": "",
+        "rationale": {},
         "draft_email": None
     })
     
     return {
         "signal": final_state.get("raw_event").get("trigger"),
         "decision": final_state.get("decision"),
-        "reason": final_state.get("decision_reason"),
-        "hypothesis": final_state.get("hypothesis"),
+        "suppressed": final_state.get("suppressed"),
+        "suppression_reason": final_state.get("suppression_reason"),
+        "archetype": final_state.get("archetype"),
+        "confidence": {
+            "score": final_state.get("confidence_score"),
+            "drivers": final_state.get("confidence_drivers"),
+            "risks": final_state.get("confidence_risks")
+        },
+        "rationale": final_state.get("rationale"),
         "draft": final_state.get("draft_email")
     }

@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { Activity, ShieldAlert, CheckCircle, XCircle, ArrowRight } from 'lucide-react';
+import { Activity, ShieldAlert, CheckCircle, XCircle, ArrowRight, AlertTriangle, Lock } from 'lucide-react';
 
 const ListenerFeed = () => {
     const [logs, setLogs] = useState([]);
     const [processing, setProcessing] = useState(false);
 
-    // Mock incoming stream
+    // Mock incoming stream (Updated to trigger Vetoes)
     const mockEvents = [
-        { trigger: "Company founded", domain: "startuplab.io", industry: "SaaS" }, // IGNORE (Early)
-        { trigger: "Headcount growth", domain: "scaleup.com", industry: "Retail" }, // IGNORE (ICP Veto)
-        { trigger: "Funding Round (Series A/B/C)", domain: "unicorn.tech", industry: "SaaS" }, // ACTION
+        { trigger: "Layoffs", domain: "struggling.co", industry: "SaaS" }, // SUPPRESSED
+        { trigger: "Funding Round (Series A/B/C)", domain: "rocketship.io", industry: "SaaS" }, // ACTION
+        { trigger: "Headcount growth", domain: "steady.inc", industry: "SaaS" }, // ROUTE_TO_HUMAN
     ];
 
     const processStream = async () => {
@@ -30,7 +30,7 @@ const ListenerFeed = () => {
             } catch (e) {
                 console.error(e);
             }
-            await new Promise(r => setTimeout(r, 1000)); // Delay for effect
+            await new Promise(r => setTimeout(r, 1500));
         }
         setProcessing(false);
     };
@@ -41,7 +41,7 @@ const ListenerFeed = () => {
                 <h1 className="text-4xl font-extrabold text-slate-900 mb-2 flex items-center gap-3">
                     <Activity className="text-pink-500" /> Listener Agent
                 </h1>
-                <p className="text-slate-500 text-lg">The Market Ear. Monitoring 52 signals. Filtering noise.</p>
+                <p className="text-slate-500 text-lg">The Market Ear. Optimizing for Decision Quality, not volume.</p>
             </div>
 
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-8">
@@ -53,7 +53,7 @@ const ListenerFeed = () => {
                         className={`px-4 py-2 rounded-lg font-bold text-white transition-all ${processing ? 'bg-slate-300' : 'bg-pink-600 hover:bg-pink-700'
                             }`}
                     >
-                        {processing ? 'Listening...' : 'Simulate Live Feed'}
+                        {processing ? 'Processing Stream...' : 'Simulate Feed'}
                     </button>
                 </div>
 
@@ -65,35 +65,102 @@ const ListenerFeed = () => {
                     )}
 
                     {logs.map((log, i) => (
-                        <div key={i} className="flex gap-4 p-4 rounded-xl border border-slate-100 highlight-enter">
-                            <div className="mt-1">
-                                {log.decision === 'IGNORE' && <XCircle className="text-slate-300" />}
-                                {log.decision === 'RESEARCH' && <CheckCircle className="text-blue-500" />}
-                                {log.decision === 'OUTREACH_ELIGIBLE' && <ShieldAlert className="text-emerald-500" />}
-                                {log.decision === 'ROUTE_TO_HUMAN' && <ArrowRight className="text-orange-500" />}
-                            </div>
-                            <div className="flex-1">
-                                <div className="flex justify-between items-start">
-                                    <h3 className="font-bold text-slate-900">{log.signal}</h3>
-                                    <span className={`text-xs font-bold px-2 py-1 rounded-full ${log.decision === 'IGNORE' ? 'bg-slate-100 text-slate-500' :
-                                            log.decision === 'OUTREACH_ELIGIBLE' ? 'bg-emerald-100 text-emerald-800' :
-                                                'bg-blue-50 text-blue-700'
-                                        }`}>
-                                        {log.decision}
-                                    </span>
+                        <div key={i} className="p-5 rounded-xl border border-slate-100 highlight-enter bg-slate-50/50">
+
+                            {/* Header: Signal & Decision */}
+                            <div className="flex justify-between items-start mb-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="mt-1">
+                                        {log.suppressed ? <Lock className="text-red-500" /> :
+                                            log.decision === 'IGNORE' ? <XCircle className="text-slate-300" /> :
+                                                log.decision === 'RESEARCH' ? <CheckCircle className="text-blue-500" /> :
+                                                    log.decision === 'OUTREACH_ELIGIBLE' ? <ShieldAlert className="text-emerald-500" /> :
+                                                        <ArrowRight className="text-orange-500" />}
+                                    </div>
+                                    <div>
+                                        <h3 className="font-bold text-slate-900 text-lg">{log.signal || 'Unknown Signal'}</h3>
+                                        {log.archetype && log.archetype !== 'None' && (
+                                            <span className="text-xs font-semibold bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded mr-2">
+                                                {log.archetype}
+                                            </span>
+                                        )}
+                                    </div>
                                 </div>
-                                <p className="text-sm text-slate-600 mt-1 font-mono">{log.reason}</p>
-                                {log.hypothesis && (
-                                    <div className="mt-2 text-xs bg-slate-50 p-2 rounded border-l-2 border-slate-300">
-                                        <strong>Hypothesis:</strong> {log.hypothesis}
-                                    </div>
-                                )}
-                                {log.draft && (
-                                    <div className="mt-2 p-3 bg-emerald-50 rounded border border-emerald-100 text-sm text-slate-700">
-                                        <strong>Draft:</strong> {log.draft.subject}
-                                    </div>
-                                )}
+                                <span className={`text-xs font-bold px-3 py-1 rounded-full ${log.suppressed ? 'bg-red-100 text-red-700' :
+                                        log.decision === 'IGNORE' ? 'bg-slate-200 text-slate-500' :
+                                            log.decision === 'OUTREACH_ELIGIBLE' ? 'bg-emerald-100 text-emerald-800' :
+                                                log.decision === 'RESEARCH' ? 'bg-blue-100 text-blue-800' :
+                                                    'bg-orange-100 text-orange-800'
+                                    }`}>
+                                    {log.suppressed ? 'SUPPRESSED' : log.decision}
+                                </span>
                             </div>
+
+                            {/* Suppression Message */}
+                            {log.suppressed && (
+                                <div className="bg-red-50 text-red-800 p-3 rounded-lg text-sm border border-red-100 flex items-center gap-2 mb-3">
+                                    <AlertTriangle className="w-4 h-4" />
+                                    <strong>Blocked:</strong> {log.suppression_reason}
+                                </div>
+                            )}
+
+                            {/* Decision Quality Contract Card */}
+                            {!log.suppressed && log.rationale && (
+                                <div className="bg-white p-4 rounded-lg border border-slate-200 text-sm space-y-2 shadow-sm">
+                                    <h4 className="text-xs uppercase tracking-wide text-slate-400 font-bold mb-2">Decision Quality Contract</h4>
+
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <p className="font-semibold text-slate-700">Why it matters:</p>
+                                            <p className="text-slate-600">{log.rationale.why_matters}</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-slate-700">Why NOT act:</p>
+                                            <p className="text-slate-600">{log.rationale.why_not}</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-slate-700">Missing info:</p>
+                                            <p className="text-slate-600">{log.rationale.missing_info}</p>
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-slate-700">Choice Rationale:</p>
+                                            <p className="text-slate-600">{log.rationale.choice_reason}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Confidence Drivers & Risks */}
+                            {!log.suppressed && log.confidence && (
+                                <div className="mt-4 flex gap-6 text-xs">
+                                    <div className="flex-1">
+                                        <p className="font-bold text-emerald-700 mb-1">Confidence Drivers</p>
+                                        <ul className="space-y-1">
+                                            {log.confidence.drivers.length > 0 ? log.confidence.drivers.map((d, idx) => (
+                                                <li key={idx} className="flex gap-1 text-emerald-600">
+                                                    <CheckCircle className="w-3 h-3 mt-0.5" /> {d}
+                                                </li>
+                                            )) : <span className="text-slate-400">None</span>}
+                                        </ul>
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="font-bold text-red-700 mb-1">Risks / Unknowns</p>
+                                        <ul className="space-y-1">
+                                            {log.confidence.risks.length > 0 ? log.confidence.risks.map((r, idx) => (
+                                                <li key={idx} className="flex gap-1 text-red-600">
+                                                    <AlertTriangle className="w-3 h-3 mt-0.5" /> {r}
+                                                </li>
+                                            )) : <span className="text-slate-400">None</span>}
+                                        </ul>
+                                    </div>
+                                </div>
+                            )}
+
+                            {log.draft && (
+                                <div className="mt-4 p-3 bg-emerald-50 rounded border border-emerald-100 text-sm text-slate-700">
+                                    <strong>Draft Created:</strong> {log.draft.subject}
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
