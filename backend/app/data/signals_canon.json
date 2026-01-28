@@ -8,39 +8,137 @@
     ],
     "signals": [
         {
-            "signal_id": "01_company_founded",
+            "signal_id": "01_company_description",
             "dataset": "company_signals",
-            "trigger": "Company founded",
-            "what_it_signals": "Very early-stage company",
-            "why_it_matters": "Too early for most GTM motions",
-            "intent_type": "awareness",
-            "ready_outreach_hook": "Saw you recently started the company — curious what GTM motion you’re considering when the time is right.",
+            "trigger": "Has company description",
+            "what_it_signals": "Strong metadata presence",
+            "why_it_matters": "Indicates public-facing maturity and positioning clarity",
+            "intent_type": "Qualified Account",
+            "ready_outreach_hook": "Saw your team focuses on [XYZ] – we help similar companies automate GTM ops.",
             "allowed_actions": [
-                "IGNORE",
                 "RESEARCH"
             ]
         },
         {
-            "signal_id": "02_company_headcount_growth",
+            "signal_id": "02_company_ticker_public",
             "dataset": "company_signals",
-            "trigger": "Headcount growth",
-            "what_it_signals": "Scaling phase",
-            "why_it_matters": "GTM systems often break during scale",
-            "intent_type": "growth_buying",
-            "ready_outreach_hook": "Noticed your team is growing — teams at this stage often start seeing GTM friction.",
+            "trigger": "Ticker is available (public company)",
+            "what_it_signals": "Listed company (e.g., NYSE:HUBS)",
+            "why_it_matters": "Likely to have larger budgets, structured GTM",
+            "intent_type": "Enterprise Readiness",
+            "ready_outreach_hook": "Congrats on becoming public – how are you scaling operations internally?",
             "allowed_actions": [
                 "RESEARCH",
                 "ROUTE_TO_HUMAN"
             ]
         },
         {
-            "signal_id": "03_news_funding_round",
+            "signal_id": "03_company_meta_keywords",
+            "dataset": "company_signals",
+            "trigger": "Meta title includes keywords",
+            "what_it_signals": "Keywords in meta title like 'CRM', 'Sales', 'AI'",
+            "why_it_matters": "Fast insight into ICP alignment",
+            "intent_type": "ICP Fit",
+            "ready_outreach_hook": "You're working in the CRM space – want to enrich your lead data pipeline?",
+            "allowed_actions": [
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "04_company_meta_description",
+            "dataset": "company_signals",
+            "trigger": "Meta description is present",
+            "what_it_signals": "Well-structured web presence",
+            "why_it_matters": "Indicates digital marketing readiness",
+            "intent_type": "Funnel Awareness",
+            "ready_outreach_hook": "Your positioning speaks to scale – we help reinforce that through sales insights.",
+            "allowed_actions": [
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "05_company_location_tech_hub",
+            "dataset": "company_signals",
+            "trigger": "Location includes tech hubs",
+            "what_it_signals": "e.g., SF Bay Area, NYC, Berlin, Toronto",
+            "why_it_matters": "Strong signal for SaaS readiness, high growth",
+            "intent_type": "Geography Signal",
+            "ready_outreach_hook": "We work with fast-scaling SaaS teams in [City] – happy to share benchmarks.",
+            "allowed_actions": [
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "06_company_language_english",
+            "dataset": "company_signals",
+            "trigger": "Company language = English",
+            "what_it_signals": "Easy to personalize and reach",
+            "why_it_matters": "Optimized for global SaaS workflows",
+            "intent_type": "Global Sales Fit",
+            "ready_outreach_hook": "Quick note from our team – your solution caught our eye!",
+            "allowed_actions": [
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "07_company_friendly_name",
+            "dataset": "company_signals",
+            "trigger": "Friendly name ≠ domain",
+            "what_it_signals": "Human-readable brand used",
+            "why_it_matters": "Indicates branding awareness, often active on LinkedIn",
+            "intent_type": "GTM maturity",
+            "ready_outreach_hook": "Noticed [Friendly Name] has been growing – curious how your team is scaling GTM.",
+            "allowed_actions": [
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "08_company_fuzzy_match",
+            "dataset": "company_signals",
+            "trigger": "Fuzzy match = true (if applied)",
+            "what_it_signals": "Slight match – use with caution",
+            "why_it_matters": "Lower confidence, might need verification",
+            "intent_type": "Enrichment Risk",
+            "ready_outreach_hook": "Wanted to double-check – is this your latest corporate site?",
+            "allowed_actions": [
+                "IGNORE",
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "09_company_location_hq",
+            "dataset": "company_signals",
+            "trigger": "Location = HQ country filter",
+            "what_it_signals": "Target strategic regions (e.g., EU, US, LATAM)",
+            "why_it_matters": "Helps route to regional sales teams",
+            "intent_type": "Geo Fit / Routing",
+            "ready_outreach_hook": "We support many growth-stage teams in [Country] – here's how.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "10_company_desc_icp",
+            "dataset": "company_signals",
+            "trigger": "Description includes ICP phrases",
+            "what_it_signals": "e.g., 'CRM', 'growth', 'pipeline', 'infrastructure'",
+            "why_it_matters": "Semantic match to pain points",
+            "intent_type": "Message Match",
+            "ready_outreach_hook": "Teams focused on CRM automation usually start with [X] – could that help you?",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "11_news_financing",
             "dataset": "news_events",
-            "trigger": "Funding Round (Series A/B/C)",
-            "what_it_signals": "Capital injection & Pressure to grow",
-            "why_it_matters": "They will be hiring and buying tools immediately",
-            "intent_type": "high_intent",
-            "ready_outreach_hook": "Congrats on the round. This usually means pressure to scale the revenue engine quickly.",
+            "trigger": "receives_financing",
+            "what_it_signals": "Received new investment",
+            "why_it_matters": "They have fresh budget → often reevaluating tools/vendors",
+            "intent_type": "Growth / Buying",
+            "ready_outreach_hook": "Congrats on the funding! Curious if you're scaling ops?",
             "allowed_actions": [
                 "RESEARCH",
                 "ROUTE_TO_HUMAN",
@@ -48,13 +146,180 @@
             ]
         },
         {
-            "signal_id": "04_job_hiring_vp_sales",
+            "signal_id": "12_news_office_expansion",
+            "dataset": "news_events",
+            "trigger": "expands_offices_to",
+            "what_it_signals": "Opened new office(s)",
+            "why_it_matters": "Physical expansion = growth, possibly hiring and scaling sales",
+            "intent_type": "Growth / Buying",
+            "ready_outreach_hook": "Saw you're expanding to NY – we help GTM teams on new markets.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "13_news_leadership_change",
+            "dataset": "news_events",
+            "trigger": "hires / promotes",
+            "what_it_signals": "Leadership change",
+            "why_it_matters": "New execs set new priorities → open to better solutions",
+            "intent_type": "Org Change",
+            "ready_outreach_hook": "Congrats on the new role! Many use us post-leadership change.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN",
+                "OUTREACH_ELIGIBLE"
+            ]
+        },
+        {
+            "signal_id": "14_news_hiring_growth",
+            "dataset": "news_events",
+            "trigger": "job_openings",
+            "what_it_signals": "Actively hiring",
+            "why_it_matters": "Growing team = budget + urgency → need for CRM/workflow support",
+            "intent_type": "Growth / Buying",
+            "ready_outreach_hook": "You're hiring for SDRs – we help ramp reps faster in HubSpot.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "15_news_product_launch",
+            "dataset": "news_events",
+            "trigger": "launches",
+            "what_it_signals": "New product/service",
+            "why_it_matters": "They're going to market → need GTM support and automation",
+            "intent_type": "Product / GTM Change",
+            "ready_outreach_hook": "Launching something new? We've helped teams in this stage.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "16_news_partnership",
+            "dataset": "news_events",
+            "trigger": "partners_with / integrates_with",
+            "what_it_signals": "New partnership or integration",
+            "why_it_matters": "Signals strategic expansion → room for complementary tools",
+            "intent_type": "Market / Competitive",
+            "ready_outreach_hook": "Just saw your integration with [X] – let’s help you scale it.",
+            "allowed_actions": [
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "17_news_mergers_acquisitions",
+            "dataset": "news_events",
+            "trigger": "acquires / merges_with",
+            "what_it_signals": "M&A activity",
+            "why_it_matters": "Merged orgs = new workflows, tools consolidation, opportunity",
+            "intent_type": "Market / Competitive",
+            "ready_outreach_hook": "Post-merger teams often streamline ops – want to chat?",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN",
+                "OUTREACH_ELIGIBLE"
+            ]
+        },
+        {
+            "signal_id": "18_news_ipo",
+            "dataset": "news_events",
+            "trigger": "goes_public",
+            "what_it_signals": "IPO announcement",
+            "why_it_matters": "High-growth, public status = needs enterprise-ready tools",
+            "intent_type": "Growth / Buying",
+            "ready_outreach_hook": "Congrats on the IPO! We support scale-up sales infrastructure.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "19_news_client_win",
+            "dataset": "news_events",
+            "trigger": "signs_new_client",
+            "what_it_signals": "Won a new customer",
+            "why_it_matters": "Product is selling well → GTM is working, but can be scaled",
+            "intent_type": "Growth / Buying",
+            "ready_outreach_hook": "Noticed you landed [Client X] – amazing! Want to amplify it?",
+            "allowed_actions": [
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "20_news_award",
+            "dataset": "news_events",
+            "trigger": "recognized_as / receives_award",
+            "what_it_signals": "Recognition or award",
+            "why_it_matters": "They’re in the spotlight → often looking to ride the momentum",
+            "intent_type": "Growth / Awareness",
+            "ready_outreach_hook": "Saw your award! Great time to build on that visibility.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "21_news_internal_investment",
+            "dataset": "news_events",
+            "trigger": "is_developing / invests_into",
+            "what_it_signals": "Internal development / asset investment",
+            "why_it_matters": "Indicates R&D focus or new direction → product/tech stack shifts",
+            "intent_type": "Product / GTM Change",
+            "ready_outreach_hook": "Saw you're building something new – we help speed up GTM.",
+            "allowed_actions": [
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "22_news_layoffs",
+            "dataset": "news_events",
+            "trigger": "decreases_headcount_by",
+            "what_it_signals": "Layoffs",
+            "why_it_matters": "Financial pressure or restructuring → risk OR cost-saving play",
+            "intent_type": "Risk / Churn",
+            "ready_outreach_hook": "Sorry to hear about the changes – let us know if we can help reduce overhead.",
+            "allowed_actions": [
+                "IGNORE",
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "23_news_office_closure",
+            "dataset": "news_events",
+            "trigger": "closes_offices",
+            "what_it_signals": "Office closures",
+            "why_it_matters": "Strategic downsizing → often implies churn risk",
+            "intent_type": "Risk / Churn",
+            "ready_outreach_hook": "Saw the office closure – could we help streamline ops?",
+            "allowed_actions": [
+                "IGNORE",
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "24_news_legal_issue",
+            "dataset": "news_events",
+            "trigger": "has_issues_with / files_suit",
+            "what_it_signals": "Legal or public issue",
+            "why_it_matters": "Signals internal risk → not ideal for sales, but may need help",
+            "intent_type": "Risk / Churn",
+            "ready_outreach_hook": "Noticed some challenges – let me know if we can help lighten the load.",
+            "allowed_actions": [
+                "IGNORE"
+            ]
+        },
+        {
+            "signal_id": "25_jobs_hiring_sales",
             "dataset": "job_openings",
-            "trigger": "Hiring VP Sales",
-            "what_it_signals": "Leadership change & Strategy shift",
-            "why_it_matters": "New leaders buy new tools and audit existing processes",
-            "intent_type": "trigger_event",
-            "ready_outreach_hook": "Saw the search for a VP Sales. Usually a perfect time to audit the data layer before they join.",
+            "trigger": "Hiring for Sales roles",
+            "what_it_signals": "e.g., 'Sales Development Rep', 'Account Executive'",
+            "why_it_matters": "Scaling GTM team, budget for tools, urgency to drive pipeline",
+            "intent_type": "Growth / GTM",
+            "ready_outreach_hook": "Saw you're hiring SDRs – we help ramp reps faster in HubSpot.",
             "allowed_actions": [
                 "RESEARCH",
                 "ROUTE_TO_HUMAN",
@@ -62,13 +327,353 @@
             ]
         },
         {
-            "signal_id": "05_tech_added_hubspot",
+            "signal_id": "26_jobs_hiring_marketing",
+            "dataset": "job_openings",
+            "trigger": "Hiring for Marketing roles",
+            "what_it_signals": "e.g., 'Growth Marketer', 'Head of Demand Gen'",
+            "why_it_matters": "Focus on pipeline growth, top-of-funnel, analytics need",
+            "intent_type": "Growth / GTM",
+            "ready_outreach_hook": "Many marketers use us to attribute leads more effectively.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "27_jobs_hiring_revops",
+            "dataset": "job_openings",
+            "trigger": "Hiring for Revenue/GTM Ops",
+            "what_it_signals": "e.g., 'RevOps Manager', 'Sales Operations Lead'",
+            "why_it_matters": "Process optimization focus – ideal for workflow automation tools",
+            "intent_type": "Process Efficiency",
+            "ready_outreach_hook": "RevOps teams often use us to simplify reporting + automation.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN",
+                "OUTREACH_ELIGIBLE"
+            ]
+        },
+        {
+            "signal_id": "28_jobs_hiring_cs",
+            "dataset": "job_openings",
+            "trigger": "Hiring for Customer Success",
+            "what_it_signals": "e.g., 'Customer Success Manager', 'Onboarding Specialist'",
+            "why_it_matters": "Focus on retention and activation – upsell or CS tools needed",
+            "intent_type": "Expansion / CS",
+            "ready_outreach_hook": "We help CS teams better track adoption within HubSpot.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "29_jobs_hiring_product",
+            "dataset": "job_openings",
+            "trigger": "Hiring for Product-Led Roles",
+            "what_it_signals": "e.g., 'Product Marketing', 'Growth PM'",
+            "why_it_matters": "Indicates PLG strategy, cross-functional GTM motions",
+            "intent_type": "Strategic GTM",
+            "ready_outreach_hook": "Working with a PLG motion? We can help connect product to revenue.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "30_jobs_hiring_data_ai",
+            "dataset": "job_openings",
+            "trigger": "Hiring for AI/Data/Analytics",
+            "what_it_signals": "e.g., 'Data Analyst', 'AI Engineer', 'ML Ops'",
+            "why_it_matters": "Indicates maturity in data ops – likely interested in enrichment",
+            "intent_type": "Advanced GTM",
+            "ready_outreach_hook": "Saw you're hiring AI Engineers – we help enrich data for ML-ready workflows.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "31_jobs_mention_tech_stack",
+            "dataset": "job_openings",
+            "trigger": "Job Description mentions 'HubSpot'",
+            "what_it_signals": "Direct reference to tech stack",
+            "why_it_matters": "Confirmed user of HubSpot, personalize use-case",
+            "intent_type": "Tech Match",
+            "ready_outreach_hook": "Since you're using HubSpot, we integrate directly into it…",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN",
+                "OUTREACH_ELIGIBLE"
+            ]
+        },
+        {
+            "signal_id": "32_jobs_pain_keywords",
+            "dataset": "job_openings",
+            "trigger": "Job Description mentions 'Pipeline', 'CRM', 'SQLs'",
+            "what_it_signals": "Reveals pain points (lead quality, reporting, funnel)",
+            "why_it_matters": "Shows inefficiencies in sales funnel",
+            "intent_type": "Pain-Based Trigger",
+            "ready_outreach_hook": "We help teams struggling with pipeline hygiene inside HubSpot.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "33_jobs_location_expansion",
+            "dataset": "job_openings",
+            "trigger": "Job Location = Strategic Market",
+            "what_it_signals": "e.g., NYC, London, Berlin, Toronto",
+            "why_it_matters": "Growing in new markets → expansion opportunity",
+            "intent_type": "Growth Geography",
+            "ready_outreach_hook": "You're expanding in London – we support GTM teams locally.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "34_jobs_category_growth",
+            "dataset": "job_openings",
+            "trigger": "Category = sales, marketing, product_management, engineering",
+            "what_it_signals": "Indicates investment into growth-related teams",
+            "why_it_matters": "Sign of maturity, or new product phase",
+            "intent_type": "Growth / Readiness",
+            "ready_outreach_hook": "Saw you're hiring across sales and product – planning a new launch?",
+            "allowed_actions": [
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "35_jobs_bulk_hiring",
+            "dataset": "job_openings",
+            "trigger": "Multiple open roles (5+ jobs)",
+            "what_it_signals": "Bulk hiring",
+            "why_it_matters": "Signals funding or high growth",
+            "intent_type": "Scaling Company",
+            "ready_outreach_hook": "Hiring across the board? We help automate parts of your GTM process.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN",
+                "OUTREACH_ELIGIBLE"
+            ]
+        },
+        {
+            "signal_id": "36_jobs_seniority_hiring",
+            "dataset": "job_openings",
+            "trigger": "Seniority: manager, director, vp",
+            "what_it_signals": "Mid/high-level decision makers",
+            "why_it_matters": "Good contact points or accounts to reach",
+            "intent_type": "Org Decision Layer",
+            "ready_outreach_hook": "We support GTM leaders with plug-and-play CRM insights.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "37_jobs_tags_growth",
+            "dataset": "job_openings",
+            "trigger": "Tags include 'Growth', 'GTM'",
+            "what_it_signals": "Strategic focus on expansion",
+            "why_it_matters": "Strong alignment with sales tools, enrichment, etc.",
+            "intent_type": "High Intent",
+            "ready_outreach_hook": "Saw you tagged growth in hiring – let’s talk funnel velocity.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN",
+                "OUTREACH_ELIGIBLE"
+            ]
+        },
+        {
+            "signal_id": "38_jobs_remote_hiring",
+            "dataset": "job_openings",
+            "trigger": "Full remote / distributed roles",
+            "what_it_signals": "Hiring remote team",
+            "why_it_matters": "Often requires scalable and async-friendly tools",
+            "intent_type": "Workflow Fit",
+            "ready_outreach_hook": "Remote GTM teams love our async sales insights inside HubSpot.",
+            "allowed_actions": [
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "39_tech_new_detection",
             "dataset": "technology_changes",
-            "trigger": "Added HubSpot CRM",
-            "what_it_signals": "Infrastructure investment",
-            "why_it_matters": "They are serious about CRM but likely need setup help",
-            "intent_type": "buying_signal",
-            "ready_outreach_hook": "Noticed the switch to HubSpot. It's powerful but easy to clutter if not governed early.",
+            "trigger": "New Tech Detected (first_seen_at recent)",
+            "what_it_signals": "Recent addition to their stack",
+            "why_it_matters": "They’re evolving – likely testing or expanding tools",
+            "intent_type": "Tech Adoption / Buying",
+            "ready_outreach_hook": "Noticed you recently started using [Tech] – how’s it going so far?",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "40_tech_integration_partner",
+            "dataset": "technology_changes",
+            "trigger": "Stack includes your integration partner",
+            "what_it_signals": "e.g., HubSpot, Salesforce, Segment",
+            "why_it_matters": "Makes it easier to position your tool (integration angle)",
+            "intent_type": "Tech Fit / Fast Start",
+            "ready_outreach_hook": "Since you're already using HubSpot, our tool plugs right in.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN",
+                "OUTREACH_ELIGIBLE"
+            ]
+        },
+        {
+            "signal_id": "41_tech_competitor_presence",
+            "dataset": "technology_changes",
+            "trigger": "Competitor technology detected",
+            "what_it_signals": "e.g., Clearbit, ZoomInfo, Clay",
+            "why_it_matters": "They’re solving a similar problem – opportunity to differentiate",
+            "intent_type": "Competitive Displacement",
+            "ready_outreach_hook": "Many teams switching from [X] tell us it was too complex/pricey…",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "42_tech_full_stack_maturity",
+            "dataset": "technology_changes",
+            "trigger": "Full Martech Stack in place",
+            "what_it_signals": "Marketing + Sales + Automation tools",
+            "why_it_matters": "Sign of maturity, higher budgets, good ICP fit",
+            "intent_type": "Qualified Account",
+            "ready_outreach_hook": "Your stack shows you're scaling GTM ops – we help streamline the funnel.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "43_tech_internal_usage",
+            "dataset": "technology_changes",
+            "trigger": "Tech behind firewall",
+            "what_it_signals": "Detected in closed systems (internal docs, job posts)",
+            "why_it_matters": "Indicates internal adoption, may not be public yet",
+            "intent_type": "Advanced Usage",
+            "ready_outreach_hook": "We noticed you're already using [X] internally – can we help you expand its impact?",
+            "allowed_actions": [
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "44_tech_high_visibility",
+            "dataset": "technology_changes",
+            "trigger": "Multiple subpage detections",
+            "what_it_signals": "Found across several pages (e.g., /careers, /pricing)",
+            "why_it_matters": "High usage or visibility – deeper integration in web experience",
+            "intent_type": "Active Use / High Intent",
+            "ready_outreach_hook": "Looks like [Tech] is live across your site – how are you leveraging it?",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "45_tech_hiring_for_tool",
+            "dataset": "technology_changes",
+            "trigger": "Detected on Job Openings",
+            "what_it_signals": "Tech mentioned in job listings",
+            "why_it_matters": "Planning to scale use, hiring for it",
+            "intent_type": "Expansion / Strategic Fit",
+            "ready_outreach_hook": "You're hiring for [Tech] – we can help that team move faster.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN",
+                "OUTREACH_ELIGIBLE"
+            ]
+        },
+        {
+            "signal_id": "46_tech_high_confidence",
+            "dataset": "technology_changes",
+            "trigger": "Tech Score > 0.8",
+            "what_it_signals": "High detection confidence",
+            "why_it_matters": "Very likely in active use – better targeting confidence",
+            "intent_type": "Reliable Detection",
+            "ready_outreach_hook": "We've verified you're actively using [X] – we’re a strong complement.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "47_tech_vendor_switch",
+            "dataset": "technology_changes",
+            "trigger": "Switch in technology provider",
+            "what_it_signals": "e.g., dropped Intercom, adopted Zendesk",
+            "why_it_matters": "Sign of vendor churn → outreach opportunity",
+            "intent_type": "Stack Transition",
+            "ready_outreach_hook": "Saw you're transitioning from [A] to [B] – want to make the most of it?",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN",
+                "OUTREACH_ELIGIBLE"
+            ]
+        },
+        {
+            "signal_id": "48_tech_analytics_adoption",
+            "dataset": "technology_changes",
+            "trigger": "Detects Analytics tools (e.g., GA4, Mixpanel)",
+            "what_it_signals": "They’re tracking behavior deeply",
+            "why_it_matters": "Good prospect for tools that tie into measurement or conversion",
+            "intent_type": "Data-Driven GTM",
+            "ready_outreach_hook": "Analytics-heavy teams use us to activate funnel insights inside HubSpot.",
+            "allowed_actions": [
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "49_tech_cx_tools",
+            "dataset": "technology_changes",
+            "trigger": "Detects Chat/Support tools (e.g., Intercom, Drift)",
+            "what_it_signals": "Indicates focus on CX",
+            "why_it_matters": "Opportunity to offer deeper funnel insights or integrations",
+            "intent_type": "CX Enablement",
+            "ready_outreach_hook": "Your team uses Intercom – here’s how we sync that into your CRM.",
+            "allowed_actions": [
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "50_tech_abm_adoption",
+            "dataset": "technology_changes",
+            "trigger": "Detects ABM/Attribution tools",
+            "what_it_signals": "e.g., 6sense, Demandbase",
+            "why_it_matters": "Indicates strategic GTM or complex sales motion",
+            "intent_type": "Sophisticated Buyer",
+            "ready_outreach_hook": "Advanced GTM teams like yours use us to enrich pipeline signals.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "51_tech_plg_tools",
+            "dataset": "technology_changes",
+            "trigger": "Adopted Product Analytics tools",
+            "what_it_signals": "e.g., Heap, Amplitude",
+            "why_it_matters": "Likely running PLG motions – opportunity for product-sales sync",
+            "intent_type": "PLG / GTM Automation",
+            "ready_outreach_hook": "Product-led teams use our platform to connect product activity with revenue workflows.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "52_tech_infra_change",
+            "dataset": "technology_changes",
+            "trigger": "Cloud/Infra tech changes (e.g., moving to AWS)",
+            "what_it_signals": "Backend evolution",
+            "why_it_matters": "May trigger vendor consolidation or new tool selection",
+            "intent_type": "Infrastructure Change",
+            "ready_outreach_hook": "As you're evolving infra, it may be a great time to unify your GTM data.",
             "allowed_actions": [
                 "RESEARCH"
             ]
