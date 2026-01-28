@@ -1,9 +1,11 @@
 
 import React, { useState } from 'react';
-import { ShieldCheck, AlertTriangle, CheckCircle, RefreshCw, Database } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ShieldCheck, AlertTriangle, CheckCircle, RefreshCw, Database, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const SystemHealth = () => {
+    const navigate = useNavigate();
     const [isScanning, setIsScanning] = useState(false);
     const [result, setResult] = useState(null);
 
@@ -26,27 +28,36 @@ const SystemHealth = () => {
     };
 
     return (
-        <div className="p-8 max-w-7xl mx-auto min-h-screen">
-            <header className="mb-10 flex justify-between items-end">
-                <div>
-                    <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
-                        <ShieldCheck className="text-indigo-600" size={32} />
-                        System Health
-                    </h1>
-                    <p className="text-slate-500 mt-2 text-lg">
-                        Revenue Integrity & Data Hygiene Monitor
-                    </p>
-                </div>
+        <div className="max-w-7xl mx-auto pb-20">
+            {/* Navigation */}
+            <button
+                onClick={() => navigate('/agent-workbench')}
+                className="flex items-center text-slate-400 hover:text-slate-600 text-sm mb-4 transition-colors"
+            >
+                <ArrowLeft size={16} className="mr-1" />
+                Back to Swarm Map
+            </button>
 
+            {/* Header */}
+            <div className="flex justify-between items-center mb-8">
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center text-slate-600">
+                        <ShieldCheck size={24} />
+                    </div>
+                    <div>
+                        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">System Health</h1>
+                        <p className="text-slate-500 text-sm">Revenue Integrity & Data Hygiene Monitor</p>
+                    </div>
+                </div>
                 <button
                     onClick={handleScan}
                     disabled={isScanning}
-                    className="btn bg-white border border-slate-300 text-slate-700 px-6 py-2 rounded-lg font-medium shadow-sm hover:bg-slate-50 flex items-center gap-2"
+                    className="px-6 py-2 bg-slate-600 text-white rounded-lg font-bold shadow-sm hover:bg-slate-700 flex items-center gap-2 transition-all"
                 >
                     <RefreshCw size={18} className={isScanning ? "animate-spin" : ""} />
-                    {isScanning ? "Scanning Environment..." : "Run Hygiene Scan"}
+                    {isScanning ? "Scanning..." : "Run Scan"}
                 </button>
-            </header>
+            </div>
 
             {!result && !isScanning && (
                 <div className="text-center py-20 bg-slate-50 rounded-xl border border-dashed border-slate-300">

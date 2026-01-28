@@ -1,9 +1,11 @@
 
 import React, { useState } from 'react';
-import { TrendingUp, Users, Zap, CheckCircle, AlertTriangle, FileText, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { TrendingUp, Users, Zap, CheckCircle, AlertTriangle, FileText, ArrowRight, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const ExpansionRadar = () => {
+    const navigate = useNavigate();
     const [domain, setDomain] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState(null);
@@ -32,16 +34,28 @@ const ExpansionRadar = () => {
     };
 
     return (
-        <div className="p-8 max-w-7xl mx-auto min-h-screen">
-            <header className="mb-10">
-                <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
-                    <TrendingUp className="text-indigo-600" size={32} />
-                    Expansion Radar
-                </h1>
-                <p className="text-slate-500 mt-2 text-lg">
-                    Detect upsell signals based on usage telemetry and feature constraints.
-                </p>
-            </header>
+        <div className="max-w-7xl mx-auto pb-20">
+            {/* Navigation */}
+            <button
+                onClick={() => navigate('/agent-workbench')}
+                className="flex items-center text-slate-400 hover:text-slate-600 text-sm mb-4 transition-colors"
+            >
+                <ArrowLeft size={16} className="mr-1" />
+                Back to Swarm Map
+            </button>
+
+            {/* Header */}
+            <div className="flex justify-between items-center mb-8">
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center text-emerald-600">
+                        <TrendingUp size={24} />
+                    </div>
+                    <div>
+                        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Expansion Radar</h1>
+                        <p className="text-slate-500 text-sm">Detect upsell signals based on usage telemetry and feature constraints.</p>
+                    </div>
+                </div>
+            </div>
 
             {/* Scanner Input */}
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 mb-8 max-w-2xl">
@@ -58,7 +72,7 @@ const ExpansionRadar = () => {
                     <button
                         type="submit"
                         disabled={isLoading}
-                        className={`btn px-8 py-3 rounded-lg font-bold text-white bg-indigo-600 hover:bg-indigo-700 transition-all ${isLoading ? 'opacity-80' : ''}`}
+                        className={`px-6 py-2 rounded-lg font-bold text-white transition-all ${isLoading ? 'opacity-80' : 'bg-emerald-600 hover:bg-emerald-700'}`}
                     >
                         {isLoading ? (
                             <span className="flex items-center gap-2">
@@ -142,7 +156,7 @@ const ExpansionRadar = () => {
                                         <p className="text-indigo-900 text-sm italic leading-relaxed">
                                             "{result.proposal_draft}"
                                         </p>
-                                        <button className="mt-3 w-full btn bg-indigo-600 text-white text-sm py-2 rounded shadow-sm hover:bg-indigo-700 flex justify-center items-center gap-2">
+                                        <button className="mt-3 w-full px-6 py-2 bg-emerald-600 text-white text-sm rounded-lg shadow-sm hover:bg-emerald-700 flex justify-center items-center gap-2 font-bold">
                                             Review & Send to CSM <ArrowRight size={16} />
                                         </button>
                                     </div>

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Activity, ShieldAlert, CheckCircle, XCircle, ArrowRight, AlertTriangle, Lock } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Activity, ShieldAlert, CheckCircle, XCircle, ArrowRight, AlertTriangle, Lock, ArrowLeft } from 'lucide-react';
 
 const ListenerFeed = () => {
+    const navigate = useNavigate();
     const [logs, setLogs] = useState([]);
     const [processing, setProcessing] = useState(false);
 
@@ -38,16 +40,32 @@ const ListenerFeed = () => {
 
     return (
         <div className="max-w-5xl mx-auto pb-20">
-            <div className="mb-10 text-center">
-                <h1 className="text-4xl font-extrabold text-slate-900 mb-2 flex items-center justify-center gap-3">
-                    <Activity className="text-pink-500" /> Listener Agent
-                </h1>
-                <p className="text-slate-500 text-lg">The Market Ear. Governed by the Signals Constitution.</p>
-                <div className="mt-4 inline-block bg-slate-100 px-4 py-2 rounded-full border border-slate-200">
-                    <p className="text-xs font-mono text-slate-600 font-medium">
-                        PRIME DIRECTIVE: "This agent exists to protect GTM teams from premature action."
-                    </p>
+            {/* Navigation */}
+            <button
+                onClick={() => navigate('/agent-workbench')}
+                className="flex items-center text-slate-400 hover:text-slate-600 text-sm mb-4 transition-colors"
+            >
+                <ArrowLeft size={16} className="mr-1" />
+                Back to Swarm Map
+            </button>
+
+            {/* Header */}
+            <div className="flex justify-between items-center mb-8">
+                <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
+                        <Activity size={24} />
+                    </div>
+                    <div>
+                        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Listener Agent</h1>
+                        <p className="text-slate-500 text-sm">The Market Ear. Governed by the Signals Constitution.</p>
+                    </div>
                 </div>
+            </div>
+
+            <div className="mb-6 bg-slate-100 px-4 py-2 rounded-lg border border-slate-200 inline-block">
+                <p className="text-xs font-mono text-slate-600 font-medium">
+                    PRIME DIRECTIVE: "This agent exists to protect GTM teams from premature action."
+                </p>
             </div>
 
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 mb-8">
@@ -56,7 +74,7 @@ const ListenerFeed = () => {
                     <button
                         onClick={processStream}
                         disabled={processing}
-                        className={`px-4 py-2 rounded-lg font-bold text-white transition-all ${processing ? 'bg-slate-300' : 'bg-pink-600 hover:bg-pink-700'
+                        className={`px-6 py-2 rounded-lg font-bold text-white transition-all ${processing ? 'bg-slate-300' : 'bg-blue-600 hover:bg-blue-700'
                             }`}
                     >
                         {processing ? 'Processing Stream...' : 'Simulate Feed'}
