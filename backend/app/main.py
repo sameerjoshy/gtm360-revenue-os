@@ -383,3 +383,41 @@ async def generate_briefing():
     })
     
     return final_state.get("briefing_memo")
+
+
+# --- Listener Swarm Endpoints ---
+
+@app.post("/listener/process")
+async def process_signal(event: Dict[str, Any]):
+    """
+    Triggers the Listener Agent (Signals).
+    7-Step Veto Pipeline.
+    Input: Raw Event (Trigger, Domain, etc.)
+    Output: Governance Decision.
+    """
+    logger.info(f"Listener receiving event: {event.get('trigger')}")
+    from app.agents.listener_graph import create_listener_graph
+    
+    graph = create_listener_graph()
+    
+    final_state = await graph.ainvoke({
+        "domain": event.get("domain", "Unknown"),
+        "raw_event": event,
+        "signal_def": {},
+        "validated": False,
+        "icp_fit": False, 
+        "hypothesis": "",
+        "competing_hypothesis": "",
+        "context": [],
+        "decision": "STARTING",
+        "decision_reason": "",
+        "draft_email": None
+    })
+    
+    return {
+        "signal": final_state.get("raw_event").get("trigger"),
+        "decision": final_state.get("decision"),
+        "reason": final_state.get("decision_reason"),
+        "hypothesis": final_state.get("hypothesis"),
+        "draft": final_state.get("draft_email")
+    }

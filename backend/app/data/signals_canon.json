@@ -1,0 +1,77 @@
+{
+    "version": "signals_canon_v1",
+    "datasets": [
+        "company_signals",
+        "news_events",
+        "job_openings",
+        "technology_changes"
+    ],
+    "signals": [
+        {
+            "signal_id": "01_company_founded",
+            "dataset": "company_signals",
+            "trigger": "Company founded",
+            "what_it_signals": "Very early-stage company",
+            "why_it_matters": "Too early for most GTM motions",
+            "intent_type": "awareness",
+            "ready_outreach_hook": "Saw you recently started the company — curious what GTM motion you’re considering when the time is right.",
+            "allowed_actions": [
+                "IGNORE",
+                "RESEARCH"
+            ]
+        },
+        {
+            "signal_id": "02_company_headcount_growth",
+            "dataset": "company_signals",
+            "trigger": "Headcount growth",
+            "what_it_signals": "Scaling phase",
+            "why_it_matters": "GTM systems often break during scale",
+            "intent_type": "growth_buying",
+            "ready_outreach_hook": "Noticed your team is growing — teams at this stage often start seeing GTM friction.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN"
+            ]
+        },
+        {
+            "signal_id": "03_news_funding_round",
+            "dataset": "news_events",
+            "trigger": "Funding Round (Series A/B/C)",
+            "what_it_signals": "Capital injection & Pressure to grow",
+            "why_it_matters": "They will be hiring and buying tools immediately",
+            "intent_type": "high_intent",
+            "ready_outreach_hook": "Congrats on the round. This usually means pressure to scale the revenue engine quickly.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN",
+                "OUTREACH_ELIGIBLE"
+            ]
+        },
+        {
+            "signal_id": "04_job_hiring_vp_sales",
+            "dataset": "job_openings",
+            "trigger": "Hiring VP Sales",
+            "what_it_signals": "Leadership change & Strategy shift",
+            "why_it_matters": "New leaders buy new tools and audit existing processes",
+            "intent_type": "trigger_event",
+            "ready_outreach_hook": "Saw the search for a VP Sales. Usually a perfect time to audit the data layer before they join.",
+            "allowed_actions": [
+                "RESEARCH",
+                "ROUTE_TO_HUMAN",
+                "OUTREACH_ELIGIBLE"
+            ]
+        },
+        {
+            "signal_id": "05_tech_added_hubspot",
+            "dataset": "technology_changes",
+            "trigger": "Added HubSpot CRM",
+            "what_it_signals": "Infrastructure investment",
+            "why_it_matters": "They are serious about CRM but likely need setup help",
+            "intent_type": "buying_signal",
+            "ready_outreach_hook": "Noticed the switch to HubSpot. It's powerful but easy to clutter if not governed early.",
+            "allowed_actions": [
+                "RESEARCH"
+            ]
+        }
+    ]
+}

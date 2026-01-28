@@ -53,7 +53,25 @@ export const agentSwarms = [
                     { q: 'Can I change the tone?', a: 'Yes, use the "Advanced Context" settings to inject your own style guide.' }
                 ]
             },
-            { id: 'scraper', name: 'Listen', role: 'Market Signal Monitoring', status: 'PLANNED', icon: Activity }
+            {
+                id: 'scraper',
+                name: 'Listener',
+                role: 'Market Ear',
+                status: 'ACTIVE',
+                icon: Activity,
+                route: '/agents/listener',
+                description: 'Real-time Signal Monitoring & Veto',
+                capabilities: [
+                    'Ingests Raw Market Events',
+                    'Validates against Canon',
+                    'Vetoes Non-ICP Signals',
+                    'Governs Outreach Decisions'
+                ],
+                faqs: [
+                    { q: 'What signals does it track?', a: '52 canonical triggers including Funding, Hiring, and Tech changes.' },
+                    { q: 'Does it auto-email?', a: 'Rarely. It defaults to "Research". Outreach requires strict criteria.' }
+                ]
+            }
         ]
     },
     {
