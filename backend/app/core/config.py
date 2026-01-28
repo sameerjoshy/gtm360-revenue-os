@@ -7,7 +7,8 @@ class Settings(BaseSettings):
     
     # Supabase
     SUPABASE_URL: str
-    SUPABASE_KEY: str
+    SUPABASE_SERVICE_ROLE_KEY: str  # Changed from SUPABASE_KEY
+    DEFAULT_WORKSPACE_ID: str = "00000000-0000-0000-0000-000000000001"
     
     # LLM Provider (Default to Gemini as discussed)
     GOOGLE_API_KEY: str | None = None

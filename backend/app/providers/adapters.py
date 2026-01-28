@@ -128,21 +128,36 @@ class HubSpotAdapter(CRMClient):
 from supabase import create_client, Client
 
 class SupabaseAdapter(StorageProvider):
-    def __init__(self):
+    def __init__(self, workspace_id: str | None = None):
+        from app.core.config import settings
         url = os.getenv("SUPABASE_URL")
-        key = os.getenv("SUPABASE_KEY")
+        key = os.getenv("SUPABASE_SERVICE_ROLE_KEY")  # Changed to service role key
+        self.workspace_id = workspace_id or settings.DEFAULT_WORKSPACE_ID
         if not url or not key:
-            print("WARNING: SUPABASE_URL or SUPABASE_KEY missing")
+            print("WARNING: SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY missing")
             self.client = None
         else:
             self.client: Client = create_client(url, key)
+    
+    async def ensure_account(self, domain: str, record_id: str | None = None) -> str:
+        """
+        Ensure account exists in the workspace and return account_id.
+        Uses create_or_get_account RPC for proper validation.
+        """
+        from app.core.supabase import create_or_get_account_rpc
+        return await create_or_get_account_rpc(
+            self.workspace_id,
+            domain,
+            record_id
+        )
 
     async def fetch_dossier(self, domain: str) -> Optional[Dict[str, Any]]:
         if not self.client: return None
         try:
-            # Look for latest dossier for this domain
+            # Look for latest dossier for this domain in this workspace
             response = self.client.table("account_dossiers")\
                 .select("dossier_json")\
+                .eq("workspace_id", self.workspace_id)\
                 .eq("domain", domain)\
                 .order("created_at", desc=True)\
                 .limit(1)\
@@ -160,6 +175,7 @@ class SupabaseAdapter(StorageProvider):
         try:
             response = self.client.table("sniper_drafts")\
                 .select("draft_json, status, draft_id")\
+                .eq("workspace_id", self.workspace_id)\
                 .eq("status", status)\
                 .execute()
             
@@ -175,11 +191,13 @@ class SupabaseAdapter(StorageProvider):
             print(f"Supabase Error (fetch_drafts): {e}")
             return []
 
-    async def save_draft(self, draft: Dict[str, Any]) -> bool:
+    async def save_draft(self, draft: Dict[str, Any], account_id: str) -> bool:
         if not self.client: return False
         try:
-            # Upsert based on draft_id
+            # Insert with workspace_id and account_id
             payload = {
+                "workspace_id": self.workspace_id,
+                "account_id": account_id,
                 "draft_id": draft["draft_id"],
                 "run_id": draft.get("run_id"),
                 "domain": draft.get("domain"),
@@ -187,25 +205,25 @@ class SupabaseAdapter(StorageProvider):
                 "draft_json": draft,
                 "status": draft.get("status", "NEEDS_REVIEW")
             }
-            self.client.table("sniper_drafts").upsert(payload).execute()
+            self.client.table("sniper_drafts").insert(payload).execute()
             return True
         except Exception as e:
             print(f"Supabase Error (save_draft): {e}")
             return False
 
-    async def save_dossier(self, dossier: Dict[str, Any]) -> bool:
+    async def save_dossier(self, dossier: Dict[str, Any], account_id: str) -> bool:
         if not self.client: return False
         try:
-             # Convert Pydantic to JSON if needed, or assume dict
+            # Convert Pydantic to JSON if needed, or assume dict
             payload = {
-                "dossier_id": dossier["dossier_id"],
+                "workspace_id": self.workspace_id,
+                "account_id": account_id,
                 "domain": dossier["domain"],
                 "record_id": dossier.get("record_id"),
                 "config_id": dossier.get("config_id"),
-                "dossier_json": dossier,
-                "created_at": dossier.get("created_at")
+                "dossier_json": dossier
             }
-            self.client.table("account_dossiers").upsert(payload).execute()
+            self.client.table("account_dossiers").insert(payload).execute()
             return True
         except Exception as e:
             print(f"Supabase Error (save_dossier): {e}")

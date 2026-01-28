@@ -14,6 +14,8 @@ class AgentState(TypedDict):
     record_id: str
     config: ResearchConfig
     status: str
+    workspace_id: str  # Added for multi-tenancy
+    account_id: str  # Added for account tracking
     
     # Internal working memory
     sources: List[EvidenceItem]
@@ -182,15 +184,22 @@ class ResearcherNodes:
         return {"status": "SAVING"}
 
     async def save_results(self, state: AgentState) -> Dict:
-        """Save the final dossier to Supabase."""
+        """Save the final dossier to Supabase with workspace support."""
         from app.providers.adapters import SupabaseAdapter
-        db = SupabaseAdapter()
+        
+        # Initialize adapter with workspace context
+        workspace_id = state.get("workspace_id")
+        account_id = state.get("account_id")
+        
+        db = SupabaseAdapter(workspace_id=workspace_id)
         
         # Convert Pydantic to Dict
         dossier_dict = state["dossier"].model_dump()
         
-        success = await db.save_dossier(dossier_dict)
+        # Save with account_id
+        success = await db.save_dossier(dossier_dict, account_id)
         if success:
+            logging.info(f"Saved dossier for {state['domain']} to workspace {workspace_id}")
             return {"status": "DONE"}
         else:
             return {"status": "FAILED", "error": "Database Save Failed"}

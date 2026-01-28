@@ -14,8 +14,10 @@ app = FastAPI(title="GTM360 Revenue OS")
 
 # --- Utilities ---
 async def run_researcher_bg(domain: str, record_id: str):
-    """Background task to run the Researcher Agent."""
-    from app.providers.adapters import HubSpotAdapter
+    """Background task to run the Researcher Agent with workspace support."""
+    from app.providers.adapters import HubSpotAdapter, SupabaseAdapter
+    from app.core.supabase import create_agent_run_rpc, get_workspace_id
+    import uuid
     
     # 0. Resolve Domain if missing
     if domain == "TBD":
@@ -33,10 +35,37 @@ async def run_researcher_bg(domain: str, record_id: str):
 
     logger.info(f"Starting Researcher for {domain} (Record: {record_id})")
     
-    # 1. Initialize Graph
+    # 1. Get workspace context
+    workspace_id = get_workspace_id()
+    
+    # 2. Ensure account exists and get account_id
+    db = SupabaseAdapter(workspace_id=workspace_id)
+    try:
+        account_id = await db.ensure_account(domain, record_id)
+        logger.info(f"Account ID for {domain}: {account_id}")
+    except Exception as e:
+        logger.error(f"Failed to create/get account for {domain}: {e}")
+        return
+    
+    # 3. Create agent_run via RPC
+    idempotency_key = f"researcher-{domain}-{uuid.uuid4()}"
+    try:
+        run_id = await create_agent_run_rpc(
+            workspace_id=workspace_id,
+            idempotency_key=idempotency_key,
+            agent_type='RESEARCHER',
+            account_id=account_id,
+            inputs={'domain': domain, 'record_id': record_id}
+        )
+        logger.info(f"Created agent run: {run_id}")
+    except Exception as e:
+        logger.error(f"Failed to create agent run for {domain}: {e}")
+        return
+    
+    # 4. Initialize Graph
     graph = create_researcher_graph()
     
-    # 2. Config (Load from DB in real v1, hardcode for MVP)
+    # 5. Config (Load from DB in real v1, hardcode for MVP)
     config = ResearchConfig(
         config_id="default_v1",
         proposition="Auto-Research",
@@ -45,11 +74,13 @@ async def run_researcher_bg(domain: str, record_id: str):
         refresh_policy=RefreshPolicy()
     )
     
-    # 3. Initial State
+    # 6. Initial State with workspace context
     initial_state = {
         "domain": domain,
         "record_id": record_id,
         "config": config,
+        "workspace_id": workspace_id,
+        "account_id": account_id,
         "status": "STARTING",
         "sources": [],
         "raw_content": {},
@@ -58,7 +89,7 @@ async def run_researcher_bg(domain: str, record_id: str):
         "error": None
     }
     
-    # 4. Invoke
+    # 7. Invoke
     try:
         final_state = await graph.ainvoke(initial_state)
         logger.info(f"Researcher Finished for {domain}. Status: {final_state.get('status')}")
@@ -147,14 +178,17 @@ def get_feed():
 
 @app.get("/sniper/drafts")
 async def get_sniper_drafts():
-    """Fetch drafts for review (Real Supabase Data)"""
+    """Fetch drafts for review (Real Supabase Data) with workspace filtering"""
     from app.providers.adapters import SupabaseAdapter
-    db = SupabaseAdapter()
+    from app.core.supabase import get_workspace_id
+    
+    workspace_id = get_workspace_id()
+    db = SupabaseAdapter(workspace_id=workspace_id)
     
     # Needs Review
     drafts = await db.fetch_drafts(status="NEEDS_REVIEW")
     
-    # If empty, return mock just for demo visibility if DB is empty
+    # If empty, return empty list (UI handles empty state)
     if not drafts:
         logger.info("No drafts in DB, return empty list (UI handles empty state)")
         return []

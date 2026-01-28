@@ -15,6 +15,8 @@ class SniperState(TypedDict):
     domain: str
     dossier: AccountDossier
     config: ResearchConfig
+    workspace_id: str  # Added for multi-tenancy
+    account_id: str  # Added for account tracking
     
     # Working Memory
     hooks: List[Hook]
@@ -32,9 +34,12 @@ class SniperNodes:
         self.llm = GeminiAdapter()
 
     async def load_dossier(self, state: SniperState) -> Dict:
-        """Load the dossier from DB (Real Supabase)."""
+        """Load the dossier from DB (Real Supabase) with workspace filtering."""
         from app.providers.adapters import SupabaseAdapter
-        db = SupabaseAdapter()
+        
+        # Initialize adapter with workspace context
+        workspace_id = state.get("workspace_id")
+        db = SupabaseAdapter(workspace_id=workspace_id)
         
         dossier_json = await db.fetch_dossier(state["domain"])
         
@@ -195,18 +200,25 @@ class SniperNodes:
         # Impl simplification: Just fail for now to avoid infinite loop potential in v1 demo.
         
     async def save_draft(self, state: SniperState) -> Dict:
-        """Persist the approved draft to Supabase."""
+        """Persist the approved draft to Supabase with workspace support."""
         from app.providers.adapters import SupabaseAdapter
-        db = SupabaseAdapter()
+        
+        # Initialize adapter with workspace context
+        workspace_id = state.get("workspace_id")
+        account_id = state.get("account_id")
+        
+        db = SupabaseAdapter(workspace_id=workspace_id)
         
         draft = state["draft"]
         draft_dict = draft.model_dump()
         # Ensure status is NEEDS_REVIEW
         draft_dict["status"] = "NEEDS_REVIEW"
         
-        success = await db.save_draft(draft_dict)
+        # Save with account_id
+        success = await db.save_draft(draft_dict, account_id)
         if success:
-             return {"status": "DONE"}
+            logging.info(f"Saved draft for {state['domain']} to workspace {workspace_id}")
+            return {"status": "DONE"}
         else:
              return {"status": "FAILED", "error": "Draft Save Failed"}
 
