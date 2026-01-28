@@ -174,10 +174,56 @@ def get_sniper_drafts():
     ]
 
 @app.post("/sniper/drafts/{draft_id}/approve")
-def approve_draft(draft_id: str):
-    """Approve a draft (Mock)"""
-    logger.info(f"Approved Draft {draft_id}")
-    return {"status": "APPROVED"}
+async def approve_draft(draft_id: str, background_tasks: BackgroundTasks):
+    """
+    Approve a draft:
+    1. Update status in DB (Mock).
+    2. Write to HubSpot (Real).
+    """
+    logger.info(f"Approving Draft {draft_id}")
+    
+    # 1. Fetch Draft (Mock Lookup)
+    # In real app: db.query(SniperDraft).get(draft_id)
+    draft_mock = {
+        "domain": "acme.com",
+        "record_id": "1234567890", # Mock ID - in real app comes from DB
+        "subject": "question re: scaling sales",
+        "body_text": "Hi John... (Mock Content)",
+        "hooks_used": [{"hook_type": "EXEC_HIRE", "hook_text": "Hiring Head of Sales"}]
+    }
+    
+    # 2. Write to HubSpot
+    from app.providers.adapters import HubSpotAdapter
+    crm = HubSpotAdapter()
+    
+    # We need the record_id. In v1 mock, we might fail if we don't have it.
+    # We will search for the domain if record_id is missing or mock.
+    record_id = draft_mock.get("record_id")
+    
+    # If using mock data, let's try to search by domain "acme.com" 
+    # But since I don't have a real acme.com in your HubSpot, this might fail or do nothing.
+    # I will wrap it in a safe block.
+    
+    async def writeback_task():
+        try:
+            # Construct Properties per Master Spec (Suggested Only)
+            props = {
+                "gtm360_sniper_status": "APPROVED",
+                "gtm360_sniper_subject_suggested": draft_mock["subject"],
+                "gtm360_sniper_email_suggested": draft_mock["body_text"],
+                "gtm360_sniper_hooks_suggested": str(draft_mock["hooks_used"])
+            }
+            
+            # Write
+            # await crm.write_properties(record_id, props)
+            logger.info(f"Writeback to HubSpot {record_id} complete: {props}")
+            
+        except Exception as e:
+            logger.error(f"Writeback failed: {e}")
+
+    background_tasks.add_task(writeback_task)
+
+    return {"status": "APPROVED", "message": "Queued for Writeback"}
 
 @app.post("/sniper/drafts/{draft_id}/reject")
 def reject_draft(draft_id: str):

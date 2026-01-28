@@ -33,11 +33,17 @@ const SniperQueue = () => {
     const [selectedDraftId, setSelectedDraftId] = useState(drafts[0].draft_id);
     const selectedDraft = drafts.find(d => d.draft_id === selectedDraftId);
 
-    const handleAction = (id, action) => {
+    const handleAction = async (id, action) => {
         // Optimistic UI Update
         if (action === 'APPROVE') {
-            // Call API
-            console.log(`Approving ${id}`);
+            try {
+                const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+                await fetch(`${API_BASE}/sniper/drafts/${id}/approve`, { method: 'POST' });
+                console.log(`Approved ${id}`);
+            } catch (e) {
+                console.error("Approval failed", e);
+                // In real app, revert optimistic update
+            }
         }
         // Remove from list for now
         setDrafts(drafts.filter(d => d.draft_id !== id));
