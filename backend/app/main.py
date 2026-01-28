@@ -295,3 +295,36 @@ async def run_deal_intelligence(deal_id: str):
         "buyer_readiness": final_state.get("buyer_readiness_score"),
         "risk_flags": final_state.get("risk_flags")
     }
+
+# --- Customer Success Swarm Endpoints ---
+
+@app.post("/cs/expansion/{domain}")
+async def run_expansion_agent(domain: str):
+    """
+    Triggers the Expansion Signal Agent.
+    1. Generates Mock Usage Data.
+    2. Analyzes for Upsell Signals.
+    3. Drafts Proposal.
+    """
+    logger.info(f"Running Expansion Agent for {domain}")
+    from app.agents.expansion_graph import create_expansion_graph
+    
+    # Init Graph
+    graph = create_expansion_graph()
+    
+    # Run
+    # Initial state only needs domain; the graph fetches usage data itself
+    final_state = await graph.ainvoke({
+        "domain": domain, 
+        "usage_data": {}, 
+        "expansion_signal": None,
+        "proposal_draft": "",
+        "status": "STARTING"
+    })
+    
+    return {
+        "domain": domain,
+        "usage_report": final_state.get("usage_data"),
+        "opportunity_detected": final_state.get("expansion_signal"),
+        "proposal_draft": final_state.get("proposal_draft")
+    }

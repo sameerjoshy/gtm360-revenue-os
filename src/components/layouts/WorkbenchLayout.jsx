@@ -58,6 +58,14 @@ const WorkbenchLayout = () => {
                         <span className="text-sm font-medium">Sales War Room</span>
                     </NavLink>
 
+                    <NavLink
+                        to="/agents/expansion"
+                        className={({ isActive }) => `flex items-center gap-3 px-3 py-2 rounded-md transition-colors ${isActive ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}
+                    >
+                        <TrendingUp size={18} />
+                        <span className="text-sm font-medium">Expansion Radar</span>
+                    </NavLink>
+
                     <div className="mt-6 px-3 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                         Data Spine
                     </div>
