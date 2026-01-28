@@ -123,3 +123,90 @@ class HubSpotAdapter(CRMClient):
                 json={"properties": properties}
             )
             return resp.status_code == 200
+
+# --- Supabase Adapter ---
+from supabase import create_client, Client
+
+class SupabaseAdapter(StorageProvider):
+    def __init__(self):
+        url = os.getenv("SUPABASE_URL")
+        key = os.getenv("SUPABASE_KEY")
+        if not url or not key:
+            print("WARNING: SUPABASE_URL or SUPABASE_KEY missing")
+            self.client = None
+        else:
+            self.client: Client = create_client(url, key)
+
+    async def fetch_dossier(self, domain: str) -> Optional[Dict[str, Any]]:
+        if not self.client: return None
+        try:
+            # Look for latest dossier for this domain
+            response = self.client.table("account_dossiers")\
+                .select("dossier_json")\
+                .eq("domain", domain)\
+                .order("created_at", desc=True)\
+                .limit(1)\
+                .execute()
+            
+            if response.data and len(response.data) > 0:
+                return response.data[0]["dossier_json"]
+            return None
+        except Exception as e:
+            print(f"Supabase Error (fetch_dossier): {e}")
+            return None
+
+    async def fetch_drafts(self, status: str = "NEEDS_REVIEW") -> List[Dict[str, Any]]:
+        if not self.client: return []
+        try:
+            response = self.client.table("sniper_drafts")\
+                .select("draft_json, status, draft_id")\
+                .eq("status", status)\
+                .execute()
+            
+            # Enrich the JSON with the top-level status/id if needed
+            results = []
+            for row in response.data:
+                d = row["draft_json"]
+                d["status"] = row["status"] 
+                d["draft_id"] = row["draft_id"] # Ensure ID matches DB
+                results.append(d)
+            return results
+        except Exception as e:
+            print(f"Supabase Error (fetch_drafts): {e}")
+            return []
+
+    async def save_draft(self, draft: Dict[str, Any]) -> bool:
+        if not self.client: return False
+        try:
+            # Upsert based on draft_id
+            payload = {
+                "draft_id": draft["draft_id"],
+                "run_id": draft.get("run_id"),
+                "domain": draft.get("domain"),
+                "sequence_type": draft.get("sequence_type"),
+                "draft_json": draft,
+                "status": draft.get("status", "NEEDS_REVIEW")
+            }
+            self.client.table("sniper_drafts").upsert(payload).execute()
+            return True
+        except Exception as e:
+            print(f"Supabase Error (save_draft): {e}")
+            return False
+
+    async def save_dossier(self, dossier: Dict[str, Any]) -> bool:
+        if not self.client: return False
+        try:
+             # Convert Pydantic to JSON if needed, or assume dict
+            payload = {
+                "dossier_id": dossier["dossier_id"],
+                "domain": dossier["domain"],
+                "record_id": dossier.get("record_id"),
+                "config_id": dossier.get("config_id"),
+                "dossier_json": dossier,
+                "created_at": dossier.get("created_at")
+            }
+            self.client.table("account_dossiers").upsert(payload).execute()
+            return True
+        except Exception as e:
+            print(f"Supabase Error (save_dossier): {e}")
+            return False

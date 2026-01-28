@@ -179,7 +179,21 @@ class ResearcherNodes:
              # Soft fail or retry? For v1, mark as Low Signal
              pass
              
-        return {"status": "DONE"}
+        return {"status": "SAVING"}
+
+    async def save_results(self, state: AgentState) -> Dict:
+        """Save the final dossier to Supabase."""
+        from app.providers.adapters import SupabaseAdapter
+        db = SupabaseAdapter()
+        
+        # Convert Pydantic to Dict
+        dossier_dict = state["dossier"].model_dump()
+        
+        success = await db.save_dossier(dossier_dict)
+        if success:
+            return {"status": "DONE"}
+        else:
+            return {"status": "FAILED", "error": "Database Save Failed"}
 
 # --- Graph Construction ---
 
@@ -192,6 +206,7 @@ def create_researcher_graph():
     workflow.add_node("extract_signals", nodes.extract_signals)
     workflow.add_node("fit_scoring", nodes.fit_scoring)
     workflow.add_node("validate_and_veto", nodes.validate_and_veto)
+    workflow.add_node("save_results", nodes.save_results)
     
     workflow.set_entry_point("check_existing_lock")
     
@@ -199,6 +214,7 @@ def create_researcher_graph():
     workflow.add_edge("collect_sources", "extract_signals")
     workflow.add_edge("extract_signals", "fit_scoring")
     workflow.add_edge("fit_scoring", "validate_and_veto")
-    workflow.add_edge("validate_and_veto", END)
+    workflow.add_edge("validate_and_veto", "save_results")
+    workflow.add_edge("save_results", END)
     
     return workflow.compile()

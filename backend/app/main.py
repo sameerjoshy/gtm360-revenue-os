@@ -146,32 +146,20 @@ def get_feed():
 # --- Sniper Endpoints ---
 
 @app.get("/sniper/drafts")
-def get_sniper_drafts():
-    """Fetch drafts for review (Mock for V1 UI)"""
-    return [
-        {
-            "draft_id": "draft_001",
-            "domain": "acme.com",
-            "sequence_type": "COLD_OUTBOUND",
-            "subject": "question re: scaling sales",
-            "body_text": "Hi John,\n\nNoticed you're hiring a Head of Sales. Usually implies you're ready to scale outbound.\n\nMost teams struggle because they add headcount before fixing the 'data fuel'.\n\nWe engineered a system that fixes the data layer first. Open to a 5-min peek?",
-            "hooks_used": [
-                { "hook_type": "EXEC_HIRE", "hook_text": "Hiring Head of Sales", "evidence_ids": ["ev_1"] }
-            ],
-            "status": "NEEDS_REVIEW"
-        },
-        {
-            "draft_id": "draft_002",
-            "domain": "globex.corp",
-            "sequence_type": "COLD_OUTBOUND",
-            "subject": "series b / revenue engineering",
-            "body_text": "Saw the Series B news on TechCrunch. Congrats.\n\nNow the pressure is on to double ARR. The default playbook is 'hire more reps'.\n\nWe typically see that break the funnel. There's a better way to engineer the growth.\n\nWorth a chat?",
-            "hooks_used": [
-                 { "hook_type": "FUNDING", "hook_text": "Series B Raise", "evidence_ids": ["ev_2"] }
-            ],
-            "status": "NEEDS_REVIEW"
-        }
-    ]
+async def get_sniper_drafts():
+    """Fetch drafts for review (Real Supabase Data)"""
+    from app.providers.adapters import SupabaseAdapter
+    db = SupabaseAdapter()
+    
+    # Needs Review
+    drafts = await db.fetch_drafts(status="NEEDS_REVIEW")
+    
+    # If empty, return mock just for demo visibility if DB is empty
+    if not drafts:
+        logger.info("No drafts in DB, return empty list (UI handles empty state)")
+        return []
+        
+    return drafts
 
 @app.post("/sniper/drafts/{draft_id}/approve")
 async def approve_draft(draft_id: str, background_tasks: BackgroundTasks):

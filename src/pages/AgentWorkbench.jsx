@@ -67,80 +67,86 @@ const AgentWorkbench = () => {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50/50 pt-20 pb-20">
-            <div className="container mx-auto px-4 py-8 max-w-6xl">
-                <div className="flex justify-between items-center mb-8">
-                    <div>
-                        <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Agent Swarm Control</h1>
-                        <p className="text-slate-500 mt-2">Monitor and control your autonomous revenue workforce.</p>
-                    </div>
+        <div className="max-w-7xl mx-auto">
+            <div className="flex justify-between items-center mb-8">
+                <div>
+                    <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Agent Swarm Control</h1>
+                    <p className="text-slate-500 mt-1">Monitor and control your autonomous revenue workforce.</p>
                 </div>
+                <div className="flex space-x-3">
+                    <button className="px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg text-sm font-medium hover:bg-slate-50">
+                        View Logs
+                    </button>
+                    <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm">
+                        + New Mission
+                    </button>
+                </div>
+            </div>
 
-                {/* Tabs */}
-                <div className="flex space-x-6 border-b border-slate-200 mb-8">
-                    <button
-                        onClick={() => setActiveTab('map')}
-                        className={`pb-4 px-2 font-medium text-sm transition-colors relative ${activeTab === 'map'
-                            ? 'text-indigo-600'
-                            : 'text-slate-500 hover:text-slate-700'
-                            }`}
-                    >
-                        Swarm Map
-                        {activeTab === 'map' && (
-                            <motion.div layoutId="underline" className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600" />
-                        )}
-                    </button>
-                    <button
-                        onClick={() => setActiveTab('live-feed')}
-                        className={`pb-4 px-2 font-medium text-sm transition-colors relative ${activeTab === 'live-feed'
-                            ? 'text-indigo-600'
-                            : 'text-slate-500 hover:text-slate-700'
-                            }`}
-                    >
-                        Live Feed
-                        {activeTab === 'live-feed' && (
-                            <motion.div layoutId="underline" className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600" />
-                        )}
-                    </button>
-                    <button
-                        onClick={() => setActiveTab('transparency')}
-                        className={`pb-4 px-2 font-medium text-sm transition-colors relative ${activeTab === 'transparency'
-                            ? 'text-indigo-600'
-                            : 'text-slate-500 hover:text-slate-700'
-                            }`}
-                    >
-                        Transparency & Safety
-                        {activeTab === 'transparency' && (
-                            <motion.div layoutId="underline" className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600" />
-                        )}
-                    </button>
-                </div>
+            {/* Tabs */}
+            <div className="flex space-x-6 border-b border-slate-200 mb-8">
+                <button
+                    onClick={() => setActiveTab('map')}
+                    className={`pb-4 px-2 font-medium text-sm transition-colors relative ${activeTab === 'map'
+                        ? 'text-indigo-600'
+                        : 'text-slate-500 hover:text-slate-700'
+                        }`}
+                >
+                    Swarm Map
+                    {activeTab === 'map' && (
+                        <motion.div layoutId="underline" className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600" />
+                    )}
+                </button>
+                <button
+                    onClick={() => setActiveTab('live-feed')}
+                    className={`pb-4 px-2 font-medium text-sm transition-colors relative ${activeTab === 'live-feed'
+                        ? 'text-indigo-600'
+                        : 'text-slate-500 hover:text-slate-700'
+                        }`}
+                >
+                    Live Feed
+                    {activeTab === 'live-feed' && (
+                        <motion.div layoutId="underline" className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600" />
+                    )}
+                </button>
+                <button
+                    onClick={() => setActiveTab('transparency')}
+                    className={`pb-4 px-2 font-medium text-sm transition-colors relative ${activeTab === 'transparency'
+                        ? 'text-indigo-600'
+                        : 'text-slate-500 hover:text-slate-700'
+                        }`}
+                >
+                    Transparency & Safety
+                    {activeTab === 'transparency' && (
+                        <motion.div layoutId="underline" className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600" />
+                    )}
+                </button>
+            </div>
 
-                {/* Content Area */}
-                <div className="bg-white rounded-xl shadow-sm border border-slate-200 min-h-[500px] p-6">
-                    <motion.div
-                        key={activeTab}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        {activeTab === 'map' && (
-                            <div className="max-w-6xl mx-auto py-4">
-                                <SwarmMap />
+            {/* Content Area */}
+            <div className="bg-white rounded-xl shadow-sm border border-slate-200 min-h-[500px] p-6">
+                <motion.div
+                    key={activeTab}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                >
+                    {activeTab === 'map' && (
+                        <div className="max-w-6xl mx-auto py-4">
+                            <SwarmMap />
+                        </div>
+                    )}
+                    {activeTab === 'transparency' && <AgentTransparency />}
+                    {activeTab === 'live-feed' && (
+                        <div className="max-w-2xl mx-auto">
+                            <TriggerForm onStart={handleStartMission} />
+                            <div className="mt-8">
+                                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Recent Missions</h3>
+                                <LiveFeed runs={runs} />
                             </div>
-                        )}
-                        {activeTab === 'transparency' && <AgentTransparency />}
-                        {activeTab === 'live-feed' && (
-                            <div className="max-w-2xl mx-auto">
-                                <TriggerForm onStart={handleStartMission} />
-                                <div className="mt-8">
-                                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Recent Missions</h3>
-                                    <LiveFeed runs={runs} />
-                                </div>
-                            </div>
-                        )}
-                    </motion.div>
-                </div>
+                        </div>
+                    )}
+                </motion.div>
             </div>
         </div>
     );

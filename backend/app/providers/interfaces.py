@@ -33,3 +33,20 @@ class CRMClient(ABC):
     async def search_company(self, domain: str) -> Optional[Dict[str, Any]]:
         """Find a company by domain."""
         pass
+
+class StorageProvider(ABC):
+    @abstractmethod
+    async def fetch_dossier(self, domain: str) -> Optional[Dict[str, Any]]:
+        pass
+    
+    @abstractmethod
+    async def fetch_drafts(self, status: str = "NEEDS_REVIEW") -> List[Dict[str, Any]]:
+        pass
+        
+    @abstractmethod
+    async def save_draft(self, draft: Dict[str, Any]) -> bool:
+        pass
+
+    @abstractmethod
+    async def save_dossier(self, dossier: Dict[str, Any]) -> bool:
+        pass

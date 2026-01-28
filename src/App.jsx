@@ -4,7 +4,6 @@ import ReactGA from 'react-ga4';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import IntelligenceLayer from './components/analytics/IntelligenceLayer';
-import PersonalizationBanner from './components/marketing/PersonalizationBanner';
 
 // Lazy load pages for performance
 const Home = lazy(() => import('./pages/Home'));
@@ -60,6 +59,10 @@ import PageTransition from './components/layout/PageTransition';
 
 // ... existing imports ...
 
+// Layouts
+import MarketingLayout from './components/layouts/MarketingLayout';
+import WorkbenchLayout from './components/layouts/WorkbenchLayout';
+
 // Animated Routes Component to handle useLocation
 const AnimatedRoutes = () => {
     const location = useLocation();
@@ -67,35 +70,45 @@ const AnimatedRoutes = () => {
     return (
         <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
-                <Route path="/" element={<PageTransition><Home /></PageTransition>} />
-                <Route path="/problems" element={<PageTransition><Problems /></PageTransition>} />
-                <Route path="/problems/:slug" element={<PageTransition><ProblemDetail /></PageTransition>} />
-                <Route path="/how-we-work" element={<PageTransition><HowWeWork /></PageTransition>} />
-                <Route path="/insights" element={<PageTransition><Insights /></PageTransition>} />
-                <Route path="/partners" element={<PageTransition><Partners /></PageTransition>} />
-                <Route path="/about" element={<PageTransition><About /></PageTransition>} />
-                <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
-                <Route path="/diagnostic" element={<PageTransition><Diagnostic /></PageTransition>} />
-                <Route path="/tools" element={<PageTransition><Tools /></PageTransition>} />
-                <Route path="/platform" element={<PageTransition><Platform /></PageTransition>} />
-                <Route path="/services" element={<PageTransition><Services /></PageTransition>} />
-                <Route path="/services/gtm-operating-model" element={<PageTransition><GTMOperatingModel /></PageTransition>} />
-                <Route path="/services/pipeline-quality" element={<PageTransition><PipelineQuality /></PageTransition>} />
-                <Route path="/services/forecasting-governance" element={<PageTransition><ForecastingGovernance /></PageTransition>} />
-                <Route path="/services/gtm-signals-and-ai" element={<PageTransition><GTMSignalsAI /></PageTransition>} />
-                <Route path="/playbooks" element={<PageTransition><Playbooks /></PageTransition>} />
-                <Route path="/playbooks/:category/:slug" element={<PageTransition><PlaybookDetail /></PageTransition>} />
-                <Route path="/insights/case-studies/:slug" element={<PageTransition><CaseStudyPost /></PageTransition>} />
-                <Route path="/insights/:slug" element={<PageTransition><InsightPost /></PageTransition>} />
-                <Route path="/thank-you" element={<PageTransition><ThankYou /></PageTransition>} />
-                <Route path="/privacy" element={<PageTransition><Privacy /></PageTransition>} />
-                <Route path="/terms" element={<PageTransition><Terms /></PageTransition>} />
-                <Route path="/glossary" element={<PageTransition><Glossary /></PageTransition>} />
-                <Route path="/glossary/:slug" element={<PageTransition><GlossaryDetail /></PageTransition>} />
-                <Route path="/agent-workbench" element={<PageTransition><AgentWorkbench /></PageTransition>} />
-                <Route path="/agents/sniper" element={<PageTransition><SniperQueue /></PageTransition>} />
-                <Route path="/agents/:agentId" element={<PageTransition><AgentDetail /></PageTransition>} />
-                <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+
+                {/* Marketing Site Routes */}
+                <Route element={<MarketingLayout />}>
+                    <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+                    <Route path="/problems" element={<PageTransition><Problems /></PageTransition>} />
+                    <Route path="/problems/:slug" element={<PageTransition><ProblemDetail /></PageTransition>} />
+                    <Route path="/how-we-work" element={<PageTransition><HowWeWork /></PageTransition>} />
+                    <Route path="/insights" element={<PageTransition><Insights /></PageTransition>} />
+                    <Route path="/partners" element={<PageTransition><Partners /></PageTransition>} />
+                    <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+                    <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
+                    <Route path="/diagnostic" element={<PageTransition><Diagnostic /></PageTransition>} />
+                    <Route path="/tools" element={<PageTransition><Tools /></PageTransition>} />
+                    <Route path="/platform" element={<PageTransition><Platform /></PageTransition>} />
+                    <Route path="/services" element={<PageTransition><Services /></PageTransition>} />
+                    <Route path="/services/gtm-operating-model" element={<PageTransition><GTMOperatingModel /></PageTransition>} />
+                    <Route path="/services/pipeline-quality" element={<PageTransition><PipelineQuality /></PageTransition>} />
+                    <Route path="/services/forecasting-governance" element={<PageTransition><ForecastingGovernance /></PageTransition>} />
+                    <Route path="/services/gtm-signals-and-ai" element={<PageTransition><GTMSignalsAI /></PageTransition>} />
+                    <Route path="/playbooks" element={<PageTransition><Playbooks /></PageTransition>} />
+                    <Route path="/playbooks/:category/:slug" element={<PageTransition><PlaybookDetail /></PageTransition>} />
+                    <Route path="/insights/case-studies/:slug" element={<PageTransition><CaseStudyPost /></PageTransition>} />
+                    <Route path="/insights/:slug" element={<PageTransition><InsightPost /></PageTransition>} />
+                    <Route path="/thank-you" element={<PageTransition><ThankYou /></PageTransition>} />
+                    <Route path="/privacy" element={<PageTransition><Privacy /></PageTransition>} />
+                    <Route path="/terms" element={<PageTransition><Terms /></PageTransition>} />
+                    <Route path="/glossary" element={<PageTransition><Glossary /></PageTransition>} />
+                    <Route path="/glossary/:slug" element={<PageTransition><GlossaryDetail /></PageTransition>} />
+                    <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
+                </Route>
+
+                {/* App / Workbench Routes */}
+                <Route element={<WorkbenchLayout />}>
+                    <Route path="/agent-workbench" element={<PageTransition><AgentWorkbench /></PageTransition>} />
+                    <Route path="/agents/sniper" element={<PageTransition><SniperQueue /></PageTransition>} />
+                    <Route path="/agents/sales" element={<PageTransition><SalesWarRoom /></PageTransition>} />
+                    <Route path="/agents/:agentId" element={<PageTransition><AgentDetail /></PageTransition>} />
+                </Route>
+
             </Routes>
         </AnimatePresence>
     );
@@ -106,18 +119,9 @@ function App() {
         <Router>
             <RouteTracker />
             <IntelligenceLayer />
-            <div className="min-h-screen flex flex-col font-sans text-gray-900 bg-white relative">
-                {/* Global Texture Overlay */}
-                <div className="bg-noise"></div>
-                <Header />
-                <main className="flex-grow pt-36">
-                    <Suspense fallback={<PageLoader />}>
-                        <AnimatedRoutes />
-                    </Suspense>
-                </main>
-                <PersonalizationBanner />
-                <Footer />
-            </div>
+            <Suspense fallback={<PageLoader />}>
+                <AnimatedRoutes />
+            </Suspense>
         </Router>
     );
 }

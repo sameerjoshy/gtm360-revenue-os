@@ -32,11 +32,21 @@ class SniperNodes:
         self.llm = GeminiAdapter()
 
     async def load_dossier(self, state: SniperState) -> Dict:
-        """Load the dossier from DB (Mocked for now)."""
-        # In real impl, fetch from account_dossiers table using state['domain']
-        if not state.get("dossier"):
-             return {"error": "Dossier not found", "status": "FAILED"}
-        return {"status": "SELECTING_HOOKS"}
+        """Load the dossier from DB (Real Supabase)."""
+        from app.providers.adapters import SupabaseAdapter
+        db = SupabaseAdapter()
+        
+        dossier_json = await db.fetch_dossier(state["domain"])
+        
+        if not dossier_json:
+             return {"error": f"Dossier not found for {state['domain']}", "status": "FAILED"}
+             
+        # Convert JSON back to Object
+        try:
+            dossier = AccountDossier(**dossier_json)
+            return {"dossier": dossier, "status": "SELECTING_HOOKS"}
+        except Exception as e:
+            return {"error": f"Dossier parse failed: {e}", "status": "FAILED"}
 
     async def select_hooks(self, state: SniperState) -> Dict:
         """Select the best 2 hooks from the Dossier signals."""
@@ -168,8 +178,21 @@ class SniperNodes:
         # and the `draft_email` node should ideally read previous attempts/feedback.
         # Impl simplification: Just fail for now to avoid infinite loop potential in v1 demo.
         
-        return {"status": "DRAFTING"} 
-        # (This edge needs careful prompt engineering in `draft_email` to see the critique)
+    async def save_draft(self, state: SniperState) -> Dict:
+        """Persist the approved draft to Supabase."""
+        from app.providers.adapters import SupabaseAdapter
+        db = SupabaseAdapter()
+        
+        draft = state["draft"]
+        draft_dict = draft.model_dump()
+        # Ensure status is NEEDS_REVIEW
+        draft_dict["status"] = "NEEDS_REVIEW"
+        
+        success = await db.save_draft(draft_dict)
+        if success:
+             return {"status": "DONE"}
+        else:
+             return {"status": "FAILED", "error": "Draft Save Failed"}
 
 # --- Graph ---
 
@@ -183,6 +206,8 @@ def create_sniper_graph():
     workflow.add_node("critic", nodes.critic)
     workflow.add_node("refine", nodes.refine)
     
+    workflow.add_node("save_draft", nodes.save_draft) # ADDED
+    
     workflow.set_entry_point("load_dossier")
     
     workflow.add_edge("load_dossier", "select_hooks")
@@ -192,7 +217,7 @@ def create_sniper_graph():
     # Conditional Edge
     def check_critique(state):
         if state["critique"]["passed"]:
-            return "DONE"
+            return "save_draft" # Changed from DONE
         else:
             return "refine"
             
@@ -200,11 +225,12 @@ def create_sniper_graph():
         "critic",
         check_critique,
         {
-            "DONE": END,
+            "save_draft": "save_draft",
             "refine": "refine"
         }
     )
     
     workflow.add_edge("refine", "draft_email")
+    workflow.add_edge("save_draft", END)
     
     return workflow.compile()
