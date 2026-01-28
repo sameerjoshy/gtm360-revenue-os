@@ -51,6 +51,7 @@ const SequencerAgent = lazy(() => import('./pages/SequencerAgent'));
 const ObjectionHandler = lazy(() => import('./pages/ObjectionHandler'));
 const HealthMonitor = lazy(() => import('./pages/HealthMonitor'));
 const PipelineAuditor = lazy(() => import('./pages/PipelineAuditor'));
+const ContentMultiplier = lazy(() => import('./pages/ContentMultiplier'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Loading component
@@ -139,6 +140,7 @@ const AnimatedRoutes = () => {
                     <Route path="/agents/objection-handler" element={<PageTransition><ObjectionHandler /></PageTransition>} />
                     <Route path="/agents/health-monitor" element={<PageTransition><HealthMonitor /></PageTransition>} />
                     <Route path="/agents/pipeline-auditor" element={<PageTransition><PipelineAuditor /></PageTransition>} />
+                    <Route path="/agents/content-multiplier" element={<PageTransition><ContentMultiplier /></PageTransition>} />
                     <Route path="/agents/:agentId" element={<PageTransition><AgentDetail /></PageTransition>} />
                 </Route>
 
