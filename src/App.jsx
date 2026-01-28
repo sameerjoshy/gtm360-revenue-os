@@ -34,6 +34,7 @@ const Glossary = lazy(() => import('./pages/Glossary'));
 const GlossaryDetail = lazy(() => import('./pages/GlossaryDetail'));
 const AgentWorkbench = lazy(() => import('./pages/AgentWorkbench'));
 const AgentDetail = lazy(() => import('./pages/AgentDetail'));
+const SniperQueue = lazy(() => import('./pages/SniperQueue'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Loading component
@@ -92,6 +93,7 @@ const AnimatedRoutes = () => {
                 <Route path="/glossary" element={<PageTransition><Glossary /></PageTransition>} />
                 <Route path="/glossary/:slug" element={<PageTransition><GlossaryDetail /></PageTransition>} />
                 <Route path="/agent-workbench" element={<PageTransition><AgentWorkbench /></PageTransition>} />
+                <Route path="/agents/sniper" element={<PageTransition><SniperQueue /></PageTransition>} />
                 <Route path="/agents/:agentId" element={<PageTransition><AgentDetail /></PageTransition>} />
                 <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
             </Routes>

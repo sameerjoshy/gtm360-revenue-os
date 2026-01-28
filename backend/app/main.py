@@ -1,33 +1,186 @@
-from fastapi import FastAPI
-from app.core.config import settings
+from fastapi import FastAPI, Request, BackgroundTasks, HTTPException
+from pydantic import BaseModel
+import logging
+from typing import Dict, Any
 
-app = FastAPI(
-    title=settings.PROJECT_NAME,
-    openapi_url=f"{settings.API_V1_STR}/openapi.json"
-)
+from app.agents.researcher_graph import create_researcher_graph
+from app.contracts.schemas import ResearchConfig, RefreshPolicy
 
-# --- CORS Configuration (Critical for UI) ---
-from fastapi.middleware.cors import CORSMiddleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "https://82a37dbe.gtm-360.pages.dev"
-    ], # In production, set to specific domain
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# Setup Logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("gtm360-backend")
 
-@app.get("/")
-async def root():
-    return {"message": "GTM360 Revenue OS - Autonomous Core Online", "version": "0.1.0"}
+app = FastAPI(title="GTM360 Revenue OS")
+
+# --- Utilities ---
+async def run_researcher_bg(domain: str, record_id: str):
+    """Background task to run the Researcher Agent."""
+    from app.providers.adapters import HubSpotAdapter
+    
+    # 0. Resolve Domain if missing
+    if domain == "TBD":
+        try:
+            crm = HubSpotAdapter()
+            company = await crm.read_company(record_id)
+            domain = company.get("properties", {}).get("domain")
+            if not domain:
+                 logger.warning(f"No domain found for record {record_id}. Aborting.")
+                 return
+            logger.info(f"Resolved domain {domain} for record {record_id}")
+        except Exception as e:
+            logger.error(f"Failed to resolve domain for {record_id}: {e}")
+            return
+
+    logger.info(f"Starting Researcher for {domain} (Record: {record_id})")
+    
+    # 1. Initialize Graph
+    graph = create_researcher_graph()
+    
+    # 2. Config (Load from DB in real v1, hardcode for MVP)
+    config = ResearchConfig(
+        config_id="default_v1",
+        proposition="Auto-Research",
+        persona="General",
+        icp_ruleset_id="default",
+        refresh_policy=RefreshPolicy()
+    )
+    
+    # 3. Initial State
+    initial_state = {
+        "domain": domain,
+        "record_id": record_id,
+        "config": config,
+        "status": "STARTING",
+        "sources": [],
+        "raw_content": {},
+        "extracted_signals": [],
+        "dossier": None,
+        "error": None
+    }
+    
+    # 4. Invoke
+    try:
+        final_state = await graph.ainvoke(initial_state)
+        logger.info(f"Researcher Finished for {domain}. Status: {final_state.get('status')}")
+    except Exception as e:
+        logger.error(f"Researcher Failed for {domain}: {e}")
+
+# --- Endpoints ---
 
 @app.get("/health")
-async def health_check():
-    return {"status": "healthy", "service": "backend"}
+def health_check():
+    return {"status": "healthy", "version": "v1.0"}
 
-from app.api.routes import router as research_router
+class WebhookPayload(BaseModel):
+    objectId: int
+    propertyName: str
+    propertyValue: str
+    subscriptionType: str
+    portalId: int
 
-app.include_router(research_router, prefix=f"{settings.API_V1_STR}/research", tags=["research"])
+@app.post("/webhooks/hubspot/company")
+async def hubspot_webhook(request: Request, background_tasks: BackgroundTasks):
+    """
+    Handle HubSpot Webhooks (e.g., Company Creation or Property Change).
+    """
+    # 1. Signature Validation (Mock for V1 MVP)
+    # signature = request.headers.get("X-HubSpot-Signature")
+    # if not validate_signature(signature): raise HTTPException(401)
+    
+    try:
+        body = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid JSON")
 
+    # HubSpot sends a list of events
+    events = body if isinstance(body, list) else [body]
+    
+    triggered_count = 0
+    for event in events:
+        # Check if this is a company event we care about
+        # In a real app, we check subscriptionType (e.g. company.creation)
+        record_id = str(event.get("objectId"))
+        
+        # We need the domain. The webhook might not include it if it's just a property change.
+        # For the MVP, we assume we can fetch it or it's passed (unlikely in standard hook).
+        # We'll rely on the Agent to fetch the domain from HubSpot using the record_id.
+        
+        # BUT, to start the agent we need a domain to init the state? 
+        # Actually, the Agent CAN fetch it in the first node. 
+        # Let's update the graph logic later to handle missing domain if needed.
+        # For now, let's look up the domain quickly or pass a placeholder.
+        
+        # SIMPLIFICATION: Triggers run, Agent resolves details.
+        # We pass record_id, Agent's first job is 'Hydrate Context'.
+        
+        # However, our Graph State expects 'domain'. 
+        # Let's just launch it. The `collect_sources` node relies on `domain`.
+        # We will need to inject a `fetch_domain` step in the graph or do it here.
+        # Doing it here is blocking. Doing it in graph is better. 
+        # For this MVP step, I will Assume we fetch it here loosely or pass a dummy to let the agent fail gracefully.
+        
+        # Ideally: usage of HubSpotAdapter to get domain.
+        # from app.providers.adapters import HubSpotAdapter
+        # crm = HubSpotAdapter()
+        # company = await crm.read_company(record_id)
+        # domain = company.get("properties", {}).get("domain")
+        
+        # For async strictness, let's just push to BG and let the function handle it.
+        # We'll infer domain inside `run_researcher_bg` (which I'll update momentarily).
+        
+        # Actually, let's keep it simple: We trigger for ANY company event for now.
+        background_tasks.add_task(run_researcher_bg, domain="TBD", record_id=record_id)
+        triggered_count += 1
+
+    return {"status": "ok", "triggered": triggered_count}
+
+@app.get("/feed")
+def get_feed():
+    """Unified Activity Feed"""
+    # TODO: Connect to Supabase 'agent_runs' table
+    return [
+        {"id": "1", "agent": "RESEARCHER", "message": "Researched Acme Corp", "time": "2 mins ago"},
+        {"id": "2", "agent": "SNIPER", "message": "Drafted 3 emails for John Doe", "time": "1 hour ago"}
+    ]
+
+# --- Sniper Endpoints ---
+
+@app.get("/sniper/drafts")
+def get_sniper_drafts():
+    """Fetch drafts for review (Mock for V1 UI)"""
+    return [
+        {
+            "draft_id": "draft_001",
+            "domain": "acme.com",
+            "sequence_type": "COLD_OUTBOUND",
+            "subject": "question re: scaling sales",
+            "body_text": "Hi John,\n\nNoticed you're hiring a Head of Sales. Usually implies you're ready to scale outbound.\n\nMost teams struggle because they add headcount before fixing the 'data fuel'.\n\nWe engineered a system that fixes the data layer first. Open to a 5-min peek?",
+            "hooks_used": [
+                { "hook_type": "EXEC_HIRE", "hook_text": "Hiring Head of Sales", "evidence_ids": ["ev_1"] }
+            ],
+            "status": "NEEDS_REVIEW"
+        },
+        {
+            "draft_id": "draft_002",
+            "domain": "globex.corp",
+            "sequence_type": "COLD_OUTBOUND",
+            "subject": "series b / revenue engineering",
+            "body_text": "Saw the Series B news on TechCrunch. Congrats.\n\nNow the pressure is on to double ARR. The default playbook is 'hire more reps'.\n\nWe typically see that break the funnel. There's a better way to engineer the growth.\n\nWorth a chat?",
+            "hooks_used": [
+                 { "hook_type": "FUNDING", "hook_text": "Series B Raise", "evidence_ids": ["ev_2"] }
+            ],
+            "status": "NEEDS_REVIEW"
+        }
+    ]
+
+@app.post("/sniper/drafts/{draft_id}/approve")
+def approve_draft(draft_id: str):
+    """Approve a draft (Mock)"""
+    logger.info(f"Approved Draft {draft_id}")
+    return {"status": "APPROVED"}
+
+@app.post("/sniper/drafts/{draft_id}/reject")
+def reject_draft(draft_id: str):
+    """Reject a draft (Mock)"""
+    logger.info(f"Rejected Draft {draft_id}")
+    return {"status": "REJECTED"}

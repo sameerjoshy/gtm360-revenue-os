@@ -13,7 +13,7 @@ const swarms = [
         icon: Network,
         agents: [
             { id: 'researcher', name: 'Researcher', role: 'Deep Account Intelligence', status: 'ACTIVE', icon: Database },
-            { id: 'sniper', name: 'Sniper', role: 'Multi-Channel Outreach', status: 'PLANNED', icon: Mail },
+            { id: 'sniper', name: 'Sniper', role: 'Multi-Channel Outreach', status: 'ACTIVE', icon: Mail },
             { id: 'scraper', name: 'Listen', role: 'Market Signal Monitoring', status: 'PLANNED', icon: Activity }
         ]
     },
