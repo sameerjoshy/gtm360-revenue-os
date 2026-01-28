@@ -529,3 +529,40 @@ async def scan_system_health():
         "scan_time": "just now"
     }
 
+# --- Analytics Endpoint ---
+
+@app.get("/analytics/agent-metrics")
+async def get_agent_metrics(range: str = "7d"):
+    """
+    Get agent performance metrics and analytics.
+    Returns aggregated stats for all agents.
+    """
+    logger.info(f"Fetching analytics for range: {range}")
+    
+    # In production, query Supabase for real metrics
+    # For now, return mock data
+    return {
+        "total_runs": 1247,
+        "success_rate": 94.2,
+        "avg_execution_time": 2.3,
+        "most_active_agent": "Researcher",
+        "agent_breakdown": [
+            {"agent": "Researcher", "runs": 456, "success": 98, "avg_time": 3.2},
+            {"agent": "Sniper", "runs": 342, "success": 95, "avg_time": 1.8},
+            {"agent": "Listener", "runs": 189, "success": 92, "avg_time": 0.9},
+            {"agent": "Sales", "runs": 123, "success": 91, "avg_time": 2.1},
+            {"agent": "Expansion", "runs": 87, "success": 89, "avg_time": 2.5},
+            {"agent": "RevOps", "runs": 50, "success": 96, "avg_time": 1.4}
+        ],
+        "daily_runs": [
+            {"date": "Jan 22", "runs": 45},
+            {"date": "Jan 23", "runs": 52},
+            {"date": "Jan 24", "runs": 48},
+            {"date": "Jan 25", "runs": 61},
+            {"date": "Jan 26", "runs": 58},
+            {"date": "Jan 27", "runs": 67},
+            {"date": "Jan 28", "runs": 72}
+        ]
+    }
+
+

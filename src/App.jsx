@@ -40,6 +40,7 @@ const ExpansionRadar = lazy(() => import('./pages/ExpansionRadar'));
 const SystemHealth = lazy(() => import('./pages/SystemHealth'));
 const ExecutiveBriefing = lazy(() => import('./pages/ExecutiveBriefing'));
 const ListenerFeed = lazy(() => import('./pages/ListenerFeed'));
+const AgentAnalytics = lazy(() => import('./pages/AgentAnalytics'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Loading component
@@ -117,6 +118,7 @@ const AnimatedRoutes = () => {
                     <Route path="/agents/revops" element={<PageTransition><SystemHealth /></PageTransition>} />
                     <Route path="/agents/executive" element={<PageTransition><ExecutiveBriefing /></PageTransition>} />
                     <Route path="/agents/listener" element={<PageTransition><ListenerFeed /></PageTransition>} />
+                    <Route path="/agents/agent-analytics" element={<PageTransition><AgentAnalytics /></PageTransition>} />
                     <Route path="/agents/:agentId" element={<PageTransition><AgentDetail /></PageTransition>} />
                 </Route>
 
