@@ -6,7 +6,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 
-from .interfaces import LLMProvider, SearchProvider, CRMClient
+from .interfaces import LLMProvider, SearchProvider, CRMClient, StorageProvider
 
 # --- Gemini Adapter ---
 class GeminiAdapter(LLMProvider):
