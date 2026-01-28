@@ -29,6 +29,7 @@ const Header = () => {
     const navLinks = [
         { title: 'Problems', path: '/problems' },
         { title: 'Diagnostic', path: '/diagnostic' },
+        { title: 'Agent Swarm', path: '/agent-workbench' }, // New!
         { title: 'Workbench', path: '/tools' },
         { title: 'Services', path: '/services' },
         { title: 'Insights', path: '/insights' },
