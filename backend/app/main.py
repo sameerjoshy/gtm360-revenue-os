@@ -325,9 +325,6 @@ async def run_expansion_agent(domain: str):
     return {
         "domain": domain,
         "usage_report": final_state.get("usage_data"),
-    return {
-        "domain": domain,
-        "usage_report": final_state.get("usage_data"),
         "opportunity_detected": final_state.get("expansion_signal"),
         "proposal_draft": final_state.get("proposal_draft")
     }
@@ -360,3 +357,29 @@ async def run_hygiene_scan():
         "issues": final_state.get("issues"),
         "record_count": len(final_state.get("raw_data").get("deals", [])) + len(final_state.get("raw_data").get("contacts", []))
     }
+
+@app.post("/executive/briefing/generate")
+async def generate_briefing():
+    """
+    Triggers the Executive Agent (Chief of Staff).
+    1. Gathers intelligence from Seeder.
+    2. Synthesizes a 'Smart Brevity' memo.
+    """
+    logger.info("Generating Executive Briefing")
+    from app.agents.executive_graph import create_executive_graph
+    from app.seeders.briefing_seeder import BriefingSeeder
+    
+    graph = create_executive_graph()
+    
+    # Seed Data
+    raw_stats = BriefingSeeder.generate_weekly_stats()
+    
+    # Run
+    final_state = await graph.ainvoke({
+        "input_period": "Current Week",
+        "raw_intelligence": raw_stats,
+        "briefing_memo": {},
+        "status": "STARTING"
+    })
+    
+    return final_state.get("briefing_memo")
