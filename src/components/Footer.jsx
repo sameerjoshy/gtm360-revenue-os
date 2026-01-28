@@ -45,10 +45,12 @@ const Footer = () => {
                     <div className="md:col-span-2">
                         <h4 className="text-white font-bold mb-6 tracking-wide text-sm uppercase">Platform</h4>
                         <ul className="space-y-4 text-sm">
+                            <li><Link to="/platform" className="hover:text-indigo-400 transition-colors">Interactive Demo</Link></li>
                             <li><Link to="/problems" className="hover:text-indigo-400 transition-colors">Problems Solved</Link></li>
                             <li><Link to="/services" className="hover:text-indigo-400 transition-colors">Services</Link></li>
                             <li><Link to="/playbooks" className="hover:text-indigo-400 transition-colors">Playbook Repo</Link></li>
                             <li><Link to="/diagnostic" className="hover:text-indigo-400 transition-colors">Diagnostic</Link></li>
+                            <li><Link to="/contact" className="hover:text-indigo-400 transition-colors">Contact Us</Link></li>
                         </ul>
                     </div>
 
