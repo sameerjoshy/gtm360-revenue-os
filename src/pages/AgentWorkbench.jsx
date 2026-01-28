@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import AgentTransparency from '../components/agents/AgentTransparency';
 import TriggerForm from '../components/agents/TriggerForm';
 import LiveFeed from '../components/agents/LiveFeed';
+import SwarmMap from '../components/agents/SwarmMap';
 import { motion } from 'framer-motion';
 
 const AgentWorkbench = () => {
-    const [activeTab, setActiveTab] = useState('transparency');
+    const [activeTab, setActiveTab] = useState('map');
     const [runs, setRuns] = useState([]);
 
     const handleStartMission = async ({ domain, persona }) => {
@@ -67,7 +68,7 @@ const AgentWorkbench = () => {
 
     return (
         <div className="min-h-screen bg-slate-50/50 pt-20 pb-20">
-            <div className="container mx-auto px-4 py-8 max-w-5xl">
+            <div className="container mx-auto px-4 py-8 max-w-6xl">
                 <div className="flex justify-between items-center mb-8">
                     <div>
                         <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Agent Workbench</h1>
@@ -77,6 +78,18 @@ const AgentWorkbench = () => {
 
                 {/* Tabs */}
                 <div className="flex space-x-6 border-b border-slate-200 mb-8">
+                    <button
+                        onClick={() => setActiveTab('map')}
+                        className={`pb-4 px-2 font-medium text-sm transition-colors relative ${activeTab === 'map'
+                            ? 'text-indigo-600'
+                            : 'text-slate-500 hover:text-slate-700'
+                            }`}
+                    >
+                        Swarm Map
+                        {activeTab === 'map' && (
+                            <motion.div layoutId="underline" className="absolute bottom-0 left-0 right-0 h-0.5 bg-indigo-600" />
+                        )}
+                    </button>
                     <button
                         onClick={() => setActiveTab('live-feed')}
                         className={`pb-4 px-2 font-medium text-sm transition-colors relative ${activeTab === 'live-feed'
@@ -111,6 +124,11 @@ const AgentWorkbench = () => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3 }}
                     >
+                        {activeTab === 'map' && (
+                            <div className="max-w-6xl mx-auto py-4">
+                                <SwarmMap />
+                            </div>
+                        )}
                         {activeTab === 'transparency' && <AgentTransparency />}
                         {activeTab === 'live-feed' && (
                             <div className="max-w-2xl mx-auto">
