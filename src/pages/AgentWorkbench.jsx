@@ -24,7 +24,8 @@ const AgentWorkbench = () => {
         // Note: Real API integration will happen in next step
         // We will wire this to the backend API we built
         try {
-            const response = await fetch('http://localhost:8000/api/v1/research/run', {
+            const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+            const response = await fetch(`${API_BASE}/api/v1/research/run`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -79,8 +80,8 @@ const AgentWorkbench = () => {
                     <button
                         onClick={() => setActiveTab('live-feed')}
                         className={`pb-4 px-2 font-medium text-sm transition-colors relative ${activeTab === 'live-feed'
-                                ? 'text-indigo-600'
-                                : 'text-slate-500 hover:text-slate-700'
+                            ? 'text-indigo-600'
+                            : 'text-slate-500 hover:text-slate-700'
                             }`}
                     >
                         Live Feed
@@ -91,8 +92,8 @@ const AgentWorkbench = () => {
                     <button
                         onClick={() => setActiveTab('transparency')}
                         className={`pb-4 px-2 font-medium text-sm transition-colors relative ${activeTab === 'transparency'
-                                ? 'text-indigo-600'
-                                : 'text-slate-500 hover:text-slate-700'
+                            ? 'text-indigo-600'
+                            : 'text-slate-500 hover:text-slate-700'
                             }`}
                     >
                         Transparency & Safety

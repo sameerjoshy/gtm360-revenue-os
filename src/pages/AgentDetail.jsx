@@ -28,7 +28,8 @@ const AgentDetail = () => {
 
         // Mock API Call
         try {
-            const response = await fetch('http://localhost:8000/api/v1/research/run', {
+            const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+            const response = await fetch(`${API_BASE}/api/v1/research/run`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
