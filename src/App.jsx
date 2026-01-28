@@ -43,6 +43,10 @@ const ListenerFeed = lazy(() => import('./pages/ListenerFeed'));
 const AgentAnalytics = lazy(() => import('./pages/AgentAnalytics'));
 const SignalConfig = lazy(() => import('./pages/SignalConfig'));
 const WorkflowBuilder = lazy(() => import('./pages/WorkflowBuilder'));
+const QualifierAgent = lazy(() => import('./pages/QualifierAgent'));
+const ChurnPredictor = lazy(() => import('./pages/ChurnPredictor'));
+const ProposalBuilder = lazy(() => import('./pages/ProposalBuilder'));
+const ForecastAnalyzer = lazy(() => import('./pages/ForecastAnalyzer'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Loading component
@@ -123,6 +127,10 @@ const AnimatedRoutes = () => {
                     <Route path="/agents/agent-analytics" element={<PageTransition><AgentAnalytics /></PageTransition>} />
                     <Route path="/agents/signal-config" element={<PageTransition><SignalConfig /></PageTransition>} />
                     <Route path="/agents/workflows" element={<PageTransition><WorkflowBuilder /></PageTransition>} />
+                    <Route path="/agents/qualifier" element={<PageTransition><QualifierAgent /></PageTransition>} />
+                    <Route path="/agents/churn-predictor" element={<PageTransition><ChurnPredictor /></PageTransition>} />
+                    <Route path="/agents/proposal" element={<PageTransition><ProposalBuilder /></PageTransition>} />
+                    <Route path="/agents/forecast" element={<PageTransition><ForecastAnalyzer /></PageTransition>} />
                     <Route path="/agents/:agentId" element={<PageTransition><AgentDetail /></PageTransition>} />
                 </Route>
 
