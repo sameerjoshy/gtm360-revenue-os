@@ -19,25 +19,39 @@ const SalesWarRoom = () => {
     const [analysis, setAnalysis] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const handleRunAnalysis = async (dealId) => {
+    const analyzeDeal = async (dealId) => {
         setLoading(true);
         setAnalysis(null);
+        setLastRun(new Date());
+
         try {
             const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-            const res = await fetch(`${API_BASE}/sales/deal-intelligence/${dealId}`, {
-                method: 'POST'
+            const res = await fetch(`${API_BASE}/sales/analyze`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ deal_id: dealId })
             });
-            const data = await res.json();
-            setAnalysis(data);
+
+            if (res.ok) {
+                const data = await res.json();
+                setAnalysis(data);
+            } else {
+                throw new Error('Analysis failed');
+            }
         } catch (e) {
             console.error(e);
             // Mock Fallback for Demo if backend offline
             setTimeout(() => {
                 setAnalysis({
-                    status: "COMPLETE",
-                    risk_assessment: { risk_level: "MEDIUM", risk_factors: ["Budget approval pending", "Champion distracted"] },
-                    buyer_readiness: { score: 72, signal: "Evaluating Competitors" },
-                    next_best_action: "Schedule technical deep dive with CTO."
+                    deal_id: dealId,
+                    summary: "Enterprise expansion deal with strong technical champion but budget approval pending.",
+                    stakeholders: [
+                        { name: "John Smith", role: "CTO", influence: "Champion" },
+                        { name: "Sarah Johnson", role: "CFO", influence: "Blocker" }
+                    ],
+                    buyer_readiness: 72,
+                    risk_score: 45,
+                    next_actions: ["Schedule technical deep dive with CTO", "Address CFO budget concerns"]
                 });
             }, 1500);
         } finally {

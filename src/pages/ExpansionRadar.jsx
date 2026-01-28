@@ -17,21 +17,37 @@ const ExpansionRadar = () => {
         e.preventDefault();
         setIsLoading(true);
         setResult(null);
+        setLastRun(new Date());
 
         try {
-            // Call the new Mock Agent Endpoint
-            // In a real app this would go through a service layer, but fetch is fine for V1
-            const response = await fetch(`/api/cs/expansion/${domain}`, { method: 'POST' });
-            const data = await response.json();
+            const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+            const response = await fetch(`${API_BASE}/expansion/scan`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ domain })
+            });
 
-            // Simulate a "Radar Sweep" delay for effect
-            setTimeout(() => {
+            if (response.ok) {
+                const data = await response.json();
                 setResult(data);
-                setIsLoading(false);
-            }, 1500);
-
+            } else {
+                throw new Error('Scan failed');
+            }
         } catch (error) {
             console.error("Scan failed", error);
+            // Mock fallback
+            setTimeout(() => {
+                setResult({
+                    domain,
+                    expansion_score: 85,
+                    signals: [
+                        { type: "High Usage", description: "95% license utilization" },
+                        { type: "Feature Spike", description: "Premium features accessed 3x more" }
+                    ],
+                    proposal: "Recommend upgrading to Enterprise tier based on usage patterns."
+                });
+            }, 1500);
+        } finally {
             setIsLoading(false);
         }
     };

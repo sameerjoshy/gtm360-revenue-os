@@ -429,3 +429,103 @@ async def process_signal(event: Dict[str, Any]):
         "rationale": final_state.get("rationale"),
         "draft": final_state.get("draft_email")
     }
+
+# --- Sales War Room Endpoint ---
+
+class DealAnalysisRequest(BaseModel):
+    deal_id: str
+
+@app.post("/sales/analyze")
+async def analyze_deal(request: DealAnalysisRequest):
+    """
+    Analyze a deal using the Sales Graph.
+    Returns deal intelligence, buyer readiness, and risk assessment.
+    """
+    logger.info(f"Analyzing deal: {request.deal_id}")
+    
+    from app.agents.sales_graph import create_sales_graph
+    
+    graph = create_sales_graph()
+    
+    # Initial state
+    final_state = await graph.ainvoke({
+        "deal_id": request.deal_id,
+        "deal_data": {},
+        "summary": "",
+        "stakeholders": [],
+        "buyer_readiness": 0,
+        "risk_score": 0,
+        "next_actions": []
+    })
+    
+    return {
+        "deal_id": request.deal_id,
+        "summary": final_state.get("summary"),
+        "stakeholders": final_state.get("stakeholders"),
+        "buyer_readiness": final_state.get("buyer_readiness"),
+        "risk_score": final_state.get("risk_score"),
+        "next_actions": final_state.get("next_actions")
+    }
+
+# --- Expansion Radar Endpoint ---
+
+class ExpansionScanRequest(BaseModel):
+    domain: str
+
+@app.post("/expansion/scan")
+async def scan_expansion(request: ExpansionScanRequest):
+    """
+    Scan for expansion opportunities using the Expansion Graph.
+    Returns upsell signals and proposal drafts.
+    """
+    logger.info(f"Scanning expansion for: {request.domain}")
+    
+    from app.agents.expansion_graph import create_expansion_graph
+    
+    graph = create_expansion_graph()
+    
+    # Initial state
+    final_state = await graph.ainvoke({
+        "domain": request.domain,
+        "usage_data": {},
+        "expansion_score": 0,
+        "signals": [],
+        "proposal": ""
+    })
+    
+    return {
+        "domain": request.domain,
+        "expansion_score": final_state.get("expansion_score"),
+        "signals": final_state.get("signals"),
+        "proposal": final_state.get("proposal")
+    }
+
+# --- RevOps System Health Endpoint ---
+
+@app.post("/revops/scan")
+async def scan_system_health():
+    """
+    Run system health check using the Hygiene Graph.
+    Returns data quality issues and auto-fix suggestions.
+    """
+    logger.info("Running system health scan")
+    
+    from app.agents.hygiene_graph import create_hygiene_graph
+    
+    graph = create_hygiene_graph()
+    
+    # Initial state
+    final_state = await graph.ainvoke({
+        "crm_data": {},
+        "issues": [],
+        "health_score": 0,
+        "auto_fixes": []
+    })
+    
+    return {
+        "health_score": final_state.get("health_score"),
+        "issues": final_state.get("issues"),
+        "auto_fixes": final_state.get("auto_fixes"),
+        "scan_time": "just now"
+    }
+
