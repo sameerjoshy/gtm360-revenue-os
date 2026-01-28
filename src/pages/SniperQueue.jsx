@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Mail, Check, X, RefreshCw, AlertTriangle, ExternalLink } from 'lucide-react';
-
 const SniperQueue = () => {
+    // ... data ...
+
+    const Navigate = React.lazy(() => import('react-router-dom').then(module => ({ default: module.Navigate })));
+    const navigate = useNavigate();
+
     // Mock Data (Matches DraftEmail Schema)
     const [drafts, setDrafts] = useState([
         {
@@ -48,10 +49,27 @@ const SniperQueue = () => {
     return (
         <div className="min-h-screen bg-slate-50 pt-24 pb-12 px-4">
             <div className="container max-w-6xl mx-auto">
+                {/* Back Button */}
+                <button
+                    onClick={() => navigate('/agent-workbench')}
+                    className="flex items-center text-slate-400 hover:text-slate-600 text-sm mb-6 transition-colors"
+                >
+                    <ArrowLeft size={16} className="mr-1" />
+                    Back to Swarm Map
+                </button>
+
                 <div className="flex justify-between items-center mb-8">
-                    <div>
-                        <h1 className="text-3xl font-bold text-slate-900">Sniper Queue</h1>
-                        <p className="text-slate-500">Review and approve autonomous outreach drafts.</p>
+                    <div className="flex items-center gap-4">
+                        <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center text-indigo-600">
+                            <Mail size={24} />
+                        </div>
+                        <div>
+                            <h1 className="text-3xl font-bold text-slate-900">Sniper Queue</h1>
+                            <p className="text-slate-500">Review and approve autonomous outreach drafts.</p>
+                        </div>
+                    </div>
+                    <div className="flex gap-2">
+                        <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded uppercase">System Active</span>
                     </div>
                 </div>
 
