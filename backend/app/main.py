@@ -230,3 +230,29 @@ def reject_draft(draft_id: str):
     """Reject a draft (Mock)"""
     logger.info(f"Rejected Draft {draft_id}")
     return {"status": "REJECTED"}
+
+# --- Sales Swarm Endpoints ---
+
+@app.post("/sales/deal-intelligence/{deal_id}")
+async def run_deal_intelligence(deal_id: str):
+    """
+    Triggers the Sales Execution Swarm (Deal Intel -> Readiness -> Risk)
+    Uses 'sales_graph.py'
+    """
+    logger.info(f"Starting Sales Swarm for Deal {deal_id}")
+    from app.agents.sales_graph import build_sales_graph
+    
+    # 1. Initialize Graph
+    graph = build_sales_graph()
+    
+    # 2. Run (with mock inputs for V1)
+    # The 'load_context' node handles fetching, so we start with just the ID
+    final_state = await graph.ainvoke({"deal_id": deal_id})
+    
+    return {
+        "deal_id": deal_id,
+        "deal_summary": final_state.get("deal_summary"),
+        "stakeholders": final_state.get("stakeholders"),
+        "buyer_readiness": final_state.get("buyer_readiness_score"),
+        "risk_flags": final_state.get("risk_flags")
+    }
