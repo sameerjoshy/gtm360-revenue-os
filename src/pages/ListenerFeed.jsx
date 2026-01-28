@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Activity, ShieldAlert, CheckCircle, XCircle, ArrowRight, AlertTriangle, Lock, ArrowLeft } from 'lucide-react';
+import AgentLoader from '../components/agents/AgentLoader';
+import EmptyState from '../components/agents/EmptyState';
+import StatusBadge from '../components/agents/StatusBadge';
+import LastRunBadge from '../components/agents/LastRunBadge';
 
 const ListenerFeed = () => {
     const navigate = useNavigate();
     const [logs, setLogs] = useState([]);
     const [processing, setProcessing] = useState(false);
+    const [lastRun, setLastRun] = useState(null);
 
     // Mock incoming stream (Test Cases for Constitution)
     const mockEvents = [
@@ -17,6 +22,7 @@ const ListenerFeed = () => {
 
     const processStream = async () => {
         setProcessing(true);
+        setLastRun(new Date());
         setLogs([]);
 
         const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -59,6 +65,10 @@ const ListenerFeed = () => {
                         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Listener Agent</h1>
                         <p className="text-slate-500 text-sm">The Market Ear. Governed by the Signals Constitution.</p>
                     </div>
+                </div>
+                <div className="flex items-center gap-3">
+                    <StatusBadge status="ACTIVE" />
+                    <LastRunBadge timestamp={lastRun} />
                 </div>
             </div>
 

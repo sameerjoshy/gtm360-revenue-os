@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Database, ArrowLeft, Search, CheckCircle, AlertTriangle, TrendingUp } from 'lucide-react';
+import { Database, ArrowLeft, Search, CheckCircle, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
+import AgentLoader from '../components/agents/AgentLoader';
+import EmptyState from '../components/agents/EmptyState';
+import ErrorState from '../components/agents/ErrorState';
+import LastRunBadge from '../components/agents/LastRunBadge';
+import StatusBadge from '../components/agents/StatusBadge';
 
 const ResearcherAgent = () => {
     const navigate = useNavigate();
     const [domain, setDomain] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [dossier, setDossier] = useState(null);
+    const [error, setError] = useState(null);
+    const [lastRun, setLastRun] = useState(null);
 
     const handleResearch = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         setDossier(null);
+        setError(null);
 
         try {
             const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -35,11 +43,13 @@ const ResearcherAgent = () => {
             if (res.ok) {
                 const data = await res.json();
                 setDossier(data);
+                setLastRun(new Date());
             } else {
                 throw new Error('Research failed');
             }
         } catch (e) {
             console.error(e);
+            setError(e.message || 'Failed to connect to backend');
             // Mock fallback for demo
             setTimeout(() => {
                 setDossier({
@@ -56,6 +66,7 @@ const ResearcherAgent = () => {
                     ],
                     icp_score: 78
                 });
+                setLastRun(new Date());
             }, 1500);
         } finally {
             setIsLoading(false);
@@ -83,6 +94,10 @@ const ResearcherAgent = () => {
                         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Researcher Agent</h1>
                         <p className="text-slate-500 text-sm">Autonomous Account Enrichment & Diagnosis</p>
                     </div>
+                </div>
+                <div className="flex items-center gap-3">
+                    <StatusBadge status="ACTIVE" />
+                    <LastRunBadge timestamp={lastRun} />
                 </div>
             </div>
 
@@ -192,11 +207,16 @@ const ResearcherAgent = () => {
                 </motion.div>
             )}
 
-            {!dossier && !isLoading && (
-                <div className="text-center py-20 bg-slate-50 rounded-xl border border-dashed border-slate-300">
-                    <Database size={48} className="mx-auto text-slate-300 mb-4" />
-                    <p className="text-slate-500">Enter a domain to begin autonomous research.</p>
-                </div>
+            {isLoading && <AgentLoader message="Researching account..." />}
+
+            {error && <ErrorState error={error} onRetry={() => { setError(null); handleResearch({ preventDefault: () => { } }); }} />}
+
+            {!dossier && !isLoading && !error && (
+                <EmptyState
+                    icon={Database}
+                    message="Enter a domain to begin autonomous research"
+                    subMessage="We'll analyze their website, tech stack, and GTM signals"
+                />
             )}
         </div>
     );
