@@ -41,6 +41,8 @@ const SystemHealth = lazy(() => import('./pages/SystemHealth'));
 const ExecutiveBriefing = lazy(() => import('./pages/ExecutiveBriefing'));
 const ListenerFeed = lazy(() => import('./pages/ListenerFeed'));
 const AgentAnalytics = lazy(() => import('./pages/AgentAnalytics'));
+const SignalConfig = lazy(() => import('./pages/SignalConfig'));
+const WorkflowBuilder = lazy(() => import('./pages/WorkflowBuilder'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Loading component
@@ -119,6 +121,8 @@ const AnimatedRoutes = () => {
                     <Route path="/agents/executive" element={<PageTransition><ExecutiveBriefing /></PageTransition>} />
                     <Route path="/agents/listener" element={<PageTransition><ListenerFeed /></PageTransition>} />
                     <Route path="/agents/agent-analytics" element={<PageTransition><AgentAnalytics /></PageTransition>} />
+                    <Route path="/agents/signal-config" element={<PageTransition><SignalConfig /></PageTransition>} />
+                    <Route path="/agents/workflows" element={<PageTransition><WorkflowBuilder /></PageTransition>} />
                     <Route path="/agents/:agentId" element={<PageTransition><AgentDetail /></PageTransition>} />
                 </Route>
 
