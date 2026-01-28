@@ -42,18 +42,28 @@ const SniperQueue = () => {
         // Optimistic UI Update failure fallback logic omitted for brevity
         try {
             const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-            const endpoint = action === 'APPROVE' ? 'approve' : 'reject'; // Fix logic
 
-            await fetch(`${API_BASE}/sniper/drafts/${id}/${endpoint}`, { method: 'POST' });
-            console.log(`${action} ${id}`);
+            if (action === 'REGENERATE') {
+                const res = await fetch(`${API_BASE}/sniper/drafts/${id}/regenerate`, { method: 'POST' });
+                if (!res.ok) throw new Error("Regeneration failed");
+                const updatedDraft = await res.json();
 
-            // Success - Remove from list
-            const remaining = drafts.filter(d => d.draft_id !== id);
-            setDrafts(remaining);
+                // Update local state with new draft content
+                setDrafts(prev => prev.map(d => d.draft_id === id ? { ...d, ...updatedDraft } : d));
+                console.log(`Regenerated ${id}`);
+            } else {
+                const endpoint = action === 'APPROVE' ? 'approve' : 'reject';
+                await fetch(`${API_BASE}/sniper/drafts/${id}/${endpoint}`, { method: 'POST' });
+                console.log(`${action} ${id}`);
 
-            if (selectedDraftId === id) {
-                if (remaining.length > 0) setSelectedDraftId(remaining[0].draft_id);
-                else setSelectedDraftId(null);
+                // Success - Remove from list
+                const remaining = drafts.filter(d => d.draft_id !== id);
+                setDrafts(remaining);
+
+                if (selectedDraftId === id) {
+                    if (remaining.length > 0) setSelectedDraftId(remaining[0].draft_id);
+                    else setSelectedDraftId(null);
+                }
             }
         } catch (e) {
             console.error("Action failed", e);
@@ -149,20 +159,26 @@ const SniperQueue = () => {
                             <div className="p-6 border-t border-slate-100 bg-slate-50 flex justify-between items-center">
                                 <button
                                     onClick={() => handleAction(selectedDraft.draft_id, 'REJECT')}
-                                    className="flex items-center space-x-2 px-6 py-3 rounded-lg border border-slate-300 text-slate-600 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-all font-medium"
+                                    disabled={!!actionLoading}
+                                    className="flex items-center space-x-2 px-6 py-3 rounded-lg border border-slate-300 text-slate-600 hover:bg-red-50 hover:text-red-600 hover:border-red-200 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <X size={18} />
                                     <span>{actionLoading === 'REJECT' ? 'Rejecting...' : 'Reject'}</span>
                                 </button>
 
                                 <div className="flex gap-3">
-                                    <button className="flex items-center space-x-2 px-6 py-3 rounded-lg border border-slate-300 text-slate-600 hover:bg-white transition-all font-medium">
-                                        <RefreshCw size={18} />
-                                        <span>Regenerate</span>
+                                    <button
+                                        onClick={() => handleAction(selectedDraft.draft_id, 'REGENERATE')}
+                                        disabled={!!actionLoading}
+                                        className="flex items-center space-x-2 px-6 py-3 rounded-lg border border-slate-300 text-slate-600 hover:bg-white hover:text-indigo-600 hover:border-indigo-200 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                                    >
+                                        <RefreshCw size={18} className={actionLoading === 'REGENERATE' ? 'animate-spin text-indigo-600' : ''} />
+                                        <span>{actionLoading === 'REGENERATE' ? 'Refining...' : 'Regenerate'}</span>
                                     </button>
                                     <button
                                         onClick={() => handleAction(selectedDraft.draft_id, 'APPROVE')}
-                                        className="flex items-center space-x-2 px-8 py-3 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 shadow-md hover:shadow-lg transition-all font-bold"
+                                        disabled={!!actionLoading}
+                                        className="flex items-center space-x-2 px-8 py-3 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 shadow-md hover:shadow-lg transition-all font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
                                         {actionLoading === 'APPROVE' ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Check size={18} />}
                                         <span>{actionLoading === 'APPROVE' ? 'Sending...' : 'Approve & Send'}</span>
