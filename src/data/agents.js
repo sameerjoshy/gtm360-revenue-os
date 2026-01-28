@@ -1,8 +1,10 @@
 
 import {
     Database, Mail, Activity, PenTool, MessageSquare, Monitor, Disc,
-    TrendingUp, ShieldCheck, Search, Crosshair, Network
+    TrendingUp, ShieldCheck, Search, Crosshair, Network, FileText
 } from 'lucide-react';
+
+
 
 export const agentSwarms = [
     {
@@ -140,7 +142,34 @@ export const agentSwarms = [
                 ]
             }
         ]
+    },
+    {
+        id: 'exec-swarm',
+        title: 'Executive Governance',
+        subtitle: 'Synthesize & Direct',
+        color: 'from-slate-800/10 to-black/5',
+        border: 'border-slate-800/20',
+        icon: Monitor,
+        agents: [
+            {
+                id: 'executive',
+                name: 'Chief of Staff',
+                role: 'Executive Briefing',
+                status: 'ACTIVE',
+                icon: FileText,
+                route: '/agents/executive',
+                description: 'Weekly Strategy & Risk Synthesis',
+                capabilities: [
+                    'Aggregates all Swarm Data',
+                    'Identifies Systemic Risks',
+                    'Writes Weekly Memos',
+                    'Suggests Strategic Moves'
+                ],
+                faqs: [
+                    { q: 'Who writes the memo?', a: 'The Agent synthesizes inputs from Researcher, Sales, and CS agents.' },
+                    { q: 'Can I edit the format?', a: 'Yes, it follows a strict "Smart Brevity" template you can adjust.' }
+                ]
+            }
+        ]
     }
 ];
-
-

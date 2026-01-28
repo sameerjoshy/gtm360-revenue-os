@@ -37,6 +37,7 @@ const SniperQueue = lazy(() => import('./pages/SniperQueue'));
 const SalesWarRoom = lazy(() => import('./pages/SalesWarRoom'));
 const ExpansionRadar = lazy(() => import('./pages/ExpansionRadar'));
 const SystemHealth = lazy(() => import('./pages/SystemHealth'));
+const ExecutiveBriefing = lazy(() => import('./pages/ExecutiveBriefing'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Loading component
@@ -111,6 +112,7 @@ const AnimatedRoutes = () => {
                     <Route path="/agents/sales" element={<PageTransition><SalesWarRoom /></PageTransition>} />
                     <Route path="/agents/expansion" element={<PageTransition><ExpansionRadar /></PageTransition>} />
                     <Route path="/agents/revops" element={<PageTransition><SystemHealth /></PageTransition>} />
+                    <Route path="/agents/executive" element={<PageTransition><ExecutiveBriefing /></PageTransition>} />
                     <Route path="/agents/:agentId" element={<PageTransition><AgentDetail /></PageTransition>} />
                 </Route>
 
