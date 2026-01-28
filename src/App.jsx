@@ -47,6 +47,10 @@ const QualifierAgent = lazy(() => import('./pages/QualifierAgent'));
 const ChurnPredictor = lazy(() => import('./pages/ChurnPredictor'));
 const ProposalBuilder = lazy(() => import('./pages/ProposalBuilder'));
 const ForecastAnalyzer = lazy(() => import('./pages/ForecastAnalyzer'));
+const SequencerAgent = lazy(() => import('./pages/SequencerAgent'));
+const ObjectionHandler = lazy(() => import('./pages/ObjectionHandler'));
+const HealthMonitor = lazy(() => import('./pages/HealthMonitor'));
+const PipelineAuditor = lazy(() => import('./pages/PipelineAuditor'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Loading component
@@ -131,6 +135,10 @@ const AnimatedRoutes = () => {
                     <Route path="/agents/churn-predictor" element={<PageTransition><ChurnPredictor /></PageTransition>} />
                     <Route path="/agents/proposal" element={<PageTransition><ProposalBuilder /></PageTransition>} />
                     <Route path="/agents/forecast" element={<PageTransition><ForecastAnalyzer /></PageTransition>} />
+                    <Route path="/agents/sequencer" element={<PageTransition><SequencerAgent /></PageTransition>} />
+                    <Route path="/agents/objection-handler" element={<PageTransition><ObjectionHandler /></PageTransition>} />
+                    <Route path="/agents/health-monitor" element={<PageTransition><HealthMonitor /></PageTransition>} />
+                    <Route path="/agents/pipeline-auditor" element={<PageTransition><PipelineAuditor /></PageTransition>} />
                     <Route path="/agents/:agentId" element={<PageTransition><AgentDetail /></PageTransition>} />
                 </Route>
 
