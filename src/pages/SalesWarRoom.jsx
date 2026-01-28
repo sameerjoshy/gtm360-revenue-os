@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Target, TrendingUp, AlertTriangle, CheckCircle, Smartphone, Users, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
+import StatusBadge from '../components/agents/StatusBadge';
+import LastRunBadge from '../components/agents/LastRunBadge';
 
 const SalesWarRoom = () => {
     const navigate = useNavigate();
+    const [lastRun, setLastRun] = useState(null);
     // Mock Active Deals
     const [deals, setDeals] = useState([
         { id: 'deal_101', name: 'Acme Corp - Enterprise Expansion', value: '$125,000', stage: 'Negotiation', probability: 75, last_activity: '2 days ago' },
@@ -65,6 +68,10 @@ const SalesWarRoom = () => {
                         <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Sales War Room</h1>
                         <p className="text-slate-500 text-sm">Live Deal Context & Risk Analysis</p>
                     </div>
+                </div>
+                <div className="flex items-center gap-3">
+                    <StatusBadge status="ACTIVE" />
+                    <LastRunBadge timestamp={lastRun} />
                 </div>
             </div>
 

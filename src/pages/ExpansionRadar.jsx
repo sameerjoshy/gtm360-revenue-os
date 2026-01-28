@@ -3,12 +3,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { TrendingUp, Users, Zap, CheckCircle, AlertTriangle, FileText, ArrowRight, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
+import StatusBadge from '../components/agents/StatusBadge';
+import LastRunBadge from '../components/agents/LastRunBadge';
 
 const ExpansionRadar = () => {
     const navigate = useNavigate();
     const [domain, setDomain] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState(null);
+    const [lastRun, setLastRun] = useState(null);
 
     const handleScan = async (e) => {
         e.preventDefault();

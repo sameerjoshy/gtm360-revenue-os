@@ -3,11 +3,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, AlertTriangle, CheckCircle, RefreshCw, Database, ArrowLeft } from 'lucide-react';
 import { motion } from 'framer-motion';
+import StatusBadge from '../components/agents/StatusBadge';
+import LastRunBadge from '../components/agents/LastRunBadge';
 
 const SystemHealth = () => {
     const navigate = useNavigate();
     const [isScanning, setIsScanning] = useState(false);
     const [result, setResult] = useState(null);
+    const [lastRun, setLastRun] = useState(null);
 
     const handleScan = async () => {
         setIsScanning(true);

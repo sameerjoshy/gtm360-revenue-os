@@ -2,9 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Mail, ArrowLeft, Check, X, RefreshCw } from 'lucide-react';
+import StatusBadge from '../components/agents/StatusBadge';
+import LastRunBadge from '../components/agents/LastRunBadge';
 
 const SniperQueue = () => {
     const navigate = useNavigate();
+    const [lastRun, setLastRun] = useState(null);
 
     // Mock Data (Matches DraftEmail Schema)
     const [drafts, setDrafts] = useState([
@@ -94,8 +97,9 @@ const SniperQueue = () => {
                             <p className="text-slate-500 text-sm">Review and approve autonomous outreach drafts.</p>
                         </div>
                     </div>
-                    <div className="flex gap-2">
-                        <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-bold rounded uppercase border border-green-200">System Active</span>
+                    <div className="flex items-center gap-3">
+                        <StatusBadge status="ACTIVE" />
+                        <LastRunBadge timestamp={lastRun} />
                     </div>
                 </div>
             </div>
