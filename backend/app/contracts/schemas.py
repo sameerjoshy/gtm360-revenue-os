@@ -30,12 +30,17 @@ class RefreshPolicy(BaseModel):
     ttl_days: int = 14
     force_refresh_signals: List[str] = []
 
+class ContextOverrides(BaseModel):
+    tone_guide: Optional[str] = None
+    reference_url: Optional[str] = None
+
 class ResearchConfig(BaseModel):
     config_id: str
     proposition: str
     persona: str
     icp_ruleset_id: str
     refresh_policy: RefreshPolicy
+    context_overrides: Optional[ContextOverrides] = None
 
 # --- 2.4 AccountDossier ---
 class GTMDiagnosis(BaseModel):

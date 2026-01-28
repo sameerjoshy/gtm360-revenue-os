@@ -93,6 +93,19 @@ class SniperNodes:
         
         hook_context = "\n".join([f"- {h.hook_type}: {h.hook_text}" for h in hooks])
         
+        
+        # Prompt Template Construction:
+        config = state["config"]
+        overrides = config.context_overrides
+        
+        # Build Override String
+        custom_instructions = ""
+        if overrides:
+            if overrides.tone_guide:
+                custom_instructions += f"\n- CUSTOM TONE: {overrides.tone_guide}"
+            if overrides.reference_url:
+                custom_instructions += f"\n- REFERENCE MATERIAL: {overrides.reference_url} (Emulate this style/content)"
+
         prompt = f"""
         You are an elite SDR executing a 'Sniper' campaign.
         
@@ -102,12 +115,15 @@ class SniperNodes:
         Hooks:
         {hook_context}
         
+        User Instructions (HIGHEST PRIORITY):
+        {custom_instructions if custom_instructions else "- None. Use default best practices."}
+        
         Goal: Write a COLD_OUTBOUND email.
         - Subject: Short, lowercase, internal-sounding.
         - Opening: References the Hook immediately.
-        - Pitch: Connect the Hook to our value prop (Revenue Engineering).
+        - Pitch: Connect the Hook to our value prop.
         - CTA: Soft ask (Interest based).
-        - Tone: Professional, Direct, No Fluff.
+        - Tone: {overrides.tone_guide if overrides and overrides.tone_guide else "Professional, Direct, No Fluff"}
         
         Constraints:
         - Max 100 words.
