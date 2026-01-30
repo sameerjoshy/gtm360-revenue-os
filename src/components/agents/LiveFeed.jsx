@@ -34,8 +34,15 @@ const LiveFeed = ({ runs }) => {
                         </div>
                     </div>
                     {/* Log Snippet */}
-                    <div className="mt-3 bg-slate-900 rounded p-2 text-xs font-mono text-green-400 overflow-hidden truncate">
-                        {'>'} {run.lastLog}
+                    <div className="mt-3 bg-slate-900 rounded p-2 text-xs font-mono text-green-400 overflow-hidden truncate flex justify-between items-center group">
+                        <span>{'>'} {run.lastLog}</span>
+                        <button
+                            onClick={() => navigator.clipboard.writeText(run.lastLog)}
+                            className="text-slate-500 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                            title="Copy Log"
+                        >
+                            <span className="text-[10px] uppercase border border-slate-600 px-1 rounded">Copy</span>
+                        </button>
                     </div>
                 </div>
             ))}

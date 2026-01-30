@@ -7,7 +7,16 @@ import { motion } from 'framer-motion';
 
 const AgentWorkbench = () => {
     const [activeTab, setActiveTab] = useState('map');
-    const [runs, setRuns] = useState([]);
+    // Load from LocalStorage or default to []
+    const [runs, setRuns] = useState(() => {
+        const saved = localStorage.getItem('gtm360_runs');
+        return saved ? JSON.parse(saved) : [];
+    });
+
+    // Save to LocalStorage whenever runs change
+    React.useEffect(() => {
+        localStorage.setItem('gtm360_runs', JSON.stringify(runs));
+    }, [runs]);
 
     const handleStartMission = async ({ domain, persona }) => {
         // Quick Mock to update UI immediately
@@ -16,10 +25,10 @@ const AgentWorkbench = () => {
             domain,
             persona,
             status: 'RUNNING',
-            time: 'Just now',
+            time: new Date().toLocaleString(), // Better timestamp
             lastLog: 'Initializing Researcher Graph...'
         };
-        setRuns([newRun, ...runs]);
+        setRuns(prev => [newRun, ...prev]);
         setActiveTab('live-feed');
 
         // Note: Real API integration will happen in next step
