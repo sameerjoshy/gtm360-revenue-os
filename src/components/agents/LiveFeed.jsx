@@ -1,12 +1,18 @@
 import React from 'react';
+import EmptyState from '../common/EmptyState';
+import { Activity } from 'lucide-react';
 
 const LiveFeed = ({ runs }) => {
     if (!runs || runs.length === 0) {
         return (
-            <div className="text-center py-20 bg-slate-50 rounded-lg border border-slate-200 border-dashed">
-                <h3 className="text-lg font-medium text-slate-900">No active missions running</h3>
-                <p className="text-slate-500">Start a new mission above to see live agent logs.</p>
-            </div>
+            <EmptyState
+                icon={Activity}
+                title="No active missions yet"
+                description="Your agent swarm is ready. Start a new diagnostic mission to uncover hidden revenue constraints in your GTM system."
+                actionLabel="Initialize First Mission"
+                onAction={() => window.scrollTo({ top: 0, behavior: 'smooth' })} // Simple scroll to form
+                color="indigo"
+            />
         );
     }
 
