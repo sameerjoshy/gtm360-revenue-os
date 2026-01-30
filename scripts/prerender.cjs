@@ -34,7 +34,8 @@ async function main() {
 
     // 1. Start static server
     console.log('📦 Starting preview server...');
-    const server = spawn('npm.cmd', ['run', 'preview', '--', '--port', PORT], {
+    const npmCmd = process.platform === 'win32' ? 'npm.cmd' : 'npm';
+    const server = spawn(npmCmd, ['run', 'preview', '--', '--port', PORT], {
         cwd: path.join(__dirname, '..'),
         stdio: 'pipe',
         shell: true

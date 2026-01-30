@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 Disallow: /404
 
-Sitemap: https://gtm-360.com/sitemap.xml
+Sitemap: https://app.gtm-360.com/sitemap.xml
 
 User-agent: GPTBot
 Allow: /

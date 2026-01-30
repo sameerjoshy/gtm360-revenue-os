@@ -131,18 +131,19 @@ const WorkbenchLayout = () => {
             {/* Main Content */}
             <main className="flex-1 overflow-auto relative">
                 {/* Top Header (App Context) */}
+                {/* Top Header (App Context) */}
                 <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 sticky top-0 z-10">
                     <div className="flex items-center gap-2 text-sm text-slate-500">
                         <span>Organization</span>
                         <ChevronRight size={14} />
-                        <span className="font-semibold text-slate-900">Your Workspace</span>
+                        <span className="font-semibold text-slate-900">Demo Sandbox</span>
                     </div>
                     <div className="flex items-center gap-4">
                         <button className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200">
                             <Settings size={16} />
                         </button>
-                        <div className="w-8 h-8 rounded-full bg-indigo-100 border border-indigo-200 text-indigo-700 flex items-center justify-center font-bold text-xs">
-                            JD
+                        <div className="w-8 h-8 rounded-full bg-indigo-100 border border-indigo-200 text-indigo-700 flex items-center justify-center font-bold text-xs" title="Guest User">
+                            G
                         </div>
                     </div>
                 </header>
