@@ -210,6 +210,34 @@ async def get_feed():
         logger.error(f"Feed fetch failed: {e}")
         return []
 
+@app.get("/api/v1/runs/{run_id}")
+async def get_run_details(run_id: str):
+    """
+    Fetch details for a single run by ID.
+    Real DB Fetch.
+    """
+    from app.providers.adapters import SupabaseAdapter
+    from app.core.supabase import get_workspace_id
+    
+    workspace_id = get_workspace_id()
+    db = SupabaseAdapter(workspace_id=workspace_id)
+    
+    try:
+        # Fetch from 'agent_runs'
+        response = db.client.table("agent_runs")\
+            .select("*")\
+            .eq("run_id", run_id)\
+            .execute()
+            
+        if not response.data or len(response.data) == 0:
+            raise HTTPException(status_code=404, detail="Run not found")
+            
+        return response.data[0]
+        
+    except Exception as e:
+        logger.error(f"Get Run Failed: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # --- Sniper Endpoints ---
 
 @app.get("/sniper/drafts")
