@@ -4,7 +4,12 @@
 -- ============================================
 
 -- ============================================
--- PART 0: Create Base Tables (Original Schema)
+-- PART 0: Extensions (Required for UUID)
+-- ============================================
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+-- ============================================
+-- PART 0.5: Create Base Tables (Original Schema)
 -- ============================================
 
 -- 1. Agent Runs (Base Table)

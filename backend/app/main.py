@@ -165,14 +165,50 @@ async def hubspot_webhook(request: Request, background_tasks: BackgroundTasks):
 
     return {"status": "ok", "triggered": triggered_count}
 
+    return {"status": "ok", "triggered": triggered_count}
+
+class ManualTriggerRequest(BaseModel):
+    domain: str
+    record_id: str = "manual_trigger"
+
+@app.post("/research/run")
+async def manual_trigger_research(request: ManualTriggerRequest, background_tasks: BackgroundTasks):
+    """
+    Manually trigger the Researcher Agent from the Workbench UI.
+    """
+    logger.info(f"Manual Trigger for: {request.domain}")
+    
+    # Launch Background Task
+    background_tasks.add_task(run_researcher_bg, domain=request.domain, record_id=request.record_id)
+    
+    return {"status": "QUEUED", "message": f"Researcher started for {request.domain}"}
+
 @app.get("/feed")
-def get_feed():
-    """Unified Activity Feed"""
-    # TODO: Connect to Supabase 'agent_runs' table
-    return [
-        {"id": "1", "agent": "RESEARCHER", "message": "Researched Acme Corp", "time": "2 mins ago"},
-        {"id": "2", "agent": "SNIPER", "message": "Drafted 3 emails for John Doe", "time": "1 hour ago"}
-    ]
+async def get_feed():
+    """Unified Activity Feed (Real Data from Supabase)"""
+    from app.providers.adapters import SupabaseAdapter
+    from app.core.supabase import get_workspace_id
+    
+    workspace_id = get_workspace_id()
+    db = SupabaseAdapter(workspace_id=workspace_id)
+    
+    if not db.client:
+        return []
+        
+    try:
+        # Fetch recent runs
+        response = db.client.table("agent_runs")\
+            .select("*")\
+            .eq("workspace_id", workspace_id)\
+            .order("created_at", desc=True)\
+            .limit(20)\
+            .execute()
+            
+        print(f"Feed fetched: {len(response.data)} items")
+        return response.data
+    except Exception as e:
+        logger.error(f"Feed fetch failed: {e}")
+        return []
 
 # --- Sniper Endpoints ---
 
