@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Database, ArrowLeft, Search, CheckCircle, TrendingUp } from 'lucide-react';
+import { Database, ArrowLeft, Search, CheckCircle, TrendingUp, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
 import AgentLoader from '../components/agents/AgentLoader';
 import EmptyState from '../components/agents/EmptyState';
@@ -56,15 +56,15 @@ const ResearcherAgent = () => {
                     domain,
                     company_name: domain.split('.')[0].toUpperCase(),
                     gtm_diagnosis: {
-                        diagnosis_label: 'Pipeline Visibility Gap',
-                        confidence: 0.85,
-                        evidence: ['No CRM detected', 'Hiring Sales Ops']
+                        diagnosis_label: 'High Intent',
+                        judgment_reasoning: 'Multiple hiring signals correlated with tech stack installation.',
+                        evidence: ['Hiring Head of Sales (LinkedIn)', 'HubSpot tag detected (BuiltWith)']
                     },
                     signals: [
                         { type: 'HIRING', description: 'Hiring Head of Sales', source: 'LinkedIn' },
                         { type: 'TECH', description: 'Using HubSpot CRM', source: 'BuiltWith' }
                     ],
-                    icp_score: 78
+                    // icp_score removed per 'No scoring' rule
                 });
                 setLastRun(new Date());
             }, 1500);
@@ -91,8 +91,8 @@ const ResearcherAgent = () => {
                         <Database size={24} />
                     </div>
                     <div>
-                        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Researcher Agent</h1>
-                        <p className="text-slate-500 text-sm">Autonomous Account Enrichment & Diagnosis</p>
+                        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Signals Scout</h1>
+                        <p className="text-slate-500 text-sm">Signal-to-Intent Owner</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-3">
@@ -141,18 +141,21 @@ const ResearcherAgent = () => {
                     className="space-y-6"
                 >
                     {/* Scorecard */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                            <span className="text-xs uppercase font-bold text-slate-400 tracking-wider">Company</span>
-                            <div className="text-xl font-bold mt-1 text-slate-900">{dossier.company_name}</div>
-                        </div>
-                        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                            <span className="text-xs uppercase font-bold text-slate-400 tracking-wider">ICP Score</span>
-                            <div className="text-xl font-bold mt-1 text-blue-600">{dossier.icp_score}/100</div>
-                        </div>
-                        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                            <span className="text-xs uppercase font-bold text-slate-400 tracking-wider">Diagnosis</span>
-                            <div className="text-sm font-bold mt-1 text-slate-900">{dossier.gtm_diagnosis?.diagnosis_label}</div>
+                    {/* Operator Log Header */}
+                    <div className="bg-slate-900 text-white p-6 rounded-xl shadow-sm border border-slate-800">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div>
+                                <span className="text-xs uppercase font-bold text-slate-400 tracking-wider">Target</span>
+                                <div className="text-xl font-bold mt-1 text-white">{dossier.company_name}</div>
+                            </div>
+                            <div>
+                                <span className="text-xs uppercase font-bold text-slate-400 tracking-wider">Judgment</span>
+                                <div className="text-xl font-bold mt-1 text-emerald-400">{dossier.gtm_diagnosis?.diagnosis_label || 'Pending'}</div>
+                            </div>
+                            <div>
+                                <span className="text-xs uppercase font-bold text-slate-400 tracking-wider">Action</span>
+                                <div className="text-sm font-bold mt-1 text-slate-300">Human Review Required</div>
+                            </div>
                         </div>
                     </div>
 
@@ -180,23 +183,27 @@ const ResearcherAgent = () => {
                     </div>
 
                     {/* Diagnosis */}
+                    {/* Judgment Reasoning */}
                     {dossier.gtm_diagnosis && (
                         <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
                             <h3 className="font-bold text-slate-900 mb-4 flex items-center gap-2">
-                                <TrendingUp size={18} className="text-blue-500" />
-                                GTM Diagnosis
+                                <FileText size={18} className="text-slate-500" />
+                                Operator Judgment
                             </h3>
-                            <div className="space-y-3">
-                                <div className="flex items-center gap-2">
-                                    <span className="text-sm font-semibold text-slate-700">Confidence:</span>
-                                    <span className="text-sm text-slate-600">{Math.round(dossier.gtm_diagnosis.confidence * 100)}%</span>
+                            <div className="space-y-4">
+                                <div>
+                                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Reasoning</span>
+                                    <p className="text-slate-700 leading-relaxed border-l-2 border-slate-200 pl-4">
+                                        {dossier.gtm_diagnosis.judgment_reasoning || "Analysis complete. Waiting for reasoning..."}
+                                    </p>
                                 </div>
                                 <div>
-                                    <span className="text-sm font-semibold text-slate-700 block mb-2">Evidence:</span>
-                                    <ul className="space-y-1">
+                                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-2">Evidence Chain</span>
+                                    <ul className="space-y-2">
                                         {dossier.gtm_diagnosis.evidence?.map((ev, i) => (
-                                            <li key={i} className="text-sm text-slate-600 flex items-start gap-2">
-                                                <span className="text-blue-500 mt-0.5">•</span> {ev}
+                                            <li key={i} className="text-sm text-slate-600 flex items-start gap-3 bg-slate-50 p-2 rounded">
+                                                <span className="text-slate-400 font-mono text-xs mt-0.5">FACT {i + 1}</span>
+                                                {ev}
                                             </li>
                                         ))}
                                     </ul>

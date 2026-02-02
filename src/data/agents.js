@@ -16,13 +16,13 @@ export const agentSwarms = [
         icon: Network,
         agents: [
             {
-                id: 'researcher',
-                name: 'Researcher',
-                role: 'Deep Account Intelligence',
+                id: 'researcher', // keeping ID stable for routing
+                name: 'Signals Scout',
+                role: 'Signal-to-Intent Owner',
                 status: 'ACTIVE',
                 icon: Database,
                 route: '/agents/researcher',
-                description: 'Autonomous Account Enrichment & Diagnosis',
+                description: 'Converts weak external signals into a human-reviewable intent judgment.',
                 capabilities: [
                     'Scrapes Homepage & Careers',
                     'Detects Tech Stack',
