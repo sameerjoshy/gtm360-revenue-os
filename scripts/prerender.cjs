@@ -22,7 +22,27 @@ const ROUTES = [
     '/insights/more-pipeline-doesnt-fix-growth',
     '/insights/win-rate-is-not-a-sales-problem',
     '/insights/case-studies/fixing-the-wrong-problem',
-    '/insights/case-studies/when-ai-created-noise-not-clarity'
+    '/insights/case-studies/when-ai-created-noise-not-clarity',
+    '/agent-workbench',
+    '/agents/researcher',
+    '/agents/sniper',
+    '/agents/sales',
+    '/agents/expansion',
+    '/agents/revops',
+    '/agents/executive',
+    '/agents/listener',
+    '/agents/agent-analytics',
+    '/agents/signal-config',
+    '/agents/workflows',
+    '/agents/qualifier',
+    '/agents/churn-predictor',
+    '/agents/proposal',
+    '/agents/forecast',
+    '/agents/sequencer',
+    '/agents/objection-handler',
+    '/agents/health-monitor',
+    '/agents/pipeline-auditor',
+    '/agents/content-multiplier'
 ];
 
 const PORT = 4173; // Vite preview port

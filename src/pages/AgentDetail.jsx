@@ -4,6 +4,7 @@ import TriggerForm from '../components/agents/TriggerForm';
 import LiveFeed from '../components/agents/LiveFeed';
 import { agentSwarms } from '../data/agents';
 import { HelpCircle } from 'lucide-react';
+import SEO from '../components/SEO';
 
 const AgentDetail = () => {
     const { agentId } = useParams();
@@ -42,6 +43,10 @@ const AgentDetail = () => {
 
     return (
         <div className="max-w-7xl mx-auto">
+            <SEO
+                title={`${agent.name} Agent`}
+                description={agent.description}
+            />
             <button onClick={() => navigate('/agent-workbench')} className="text-slate-400 hover:text-slate-600 text-sm mb-4 flex items-center gap-1 transition-colors">
                 <span className="text-lg">←</span> Back to Map
             </button>
@@ -66,12 +71,12 @@ const AgentDetail = () => {
                 {/* Left Col: Cockpit */}
                 <div className="md:col-span-2 space-y-6">
                     <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-                        <h3 className="font-bold text-slate-900 mb-4 text-sm uppercase tracking-wide">Manual Override</h3>
+                        <h3 className="font-bold text-slate-900 mb-4 text-sm uppercase tracking-wide">Run Agent</h3>
                         <TriggerForm onStart={handleStartMission} />
                     </div>
 
                     <div>
-                        <h3 className="font-bold text-slate-400 uppercase text-xs tracking-wider mb-3">Recent Missions</h3>
+                        <h3 className="font-bold text-slate-400 uppercase text-xs tracking-wider mb-3">Recent Runs</h3>
                         <LiveFeed runs={runs} />
                     </div>
                 </div>

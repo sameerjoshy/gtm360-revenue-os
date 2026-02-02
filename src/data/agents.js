@@ -9,7 +9,7 @@ import {
 export const agentSwarms = [
     {
         id: 'outbound-swarm',
-        title: 'Outbound Motion',
+        title: 'Outbound Swarm',
         subtitle: 'Target, Enrich, & Engage',
         color: 'from-blue-500/10 to-indigo-500/5',
         border: 'border-blue-200/50',
@@ -76,7 +76,7 @@ export const agentSwarms = [
     },
     {
         id: 'sales-swarm',
-        title: 'Sales Execution',
+        title: 'Sales Swarm',
         subtitle: 'Close & Convert',
         color: 'from-orange-500/10 to-red-500/5',
         border: 'border-orange-200/50',
@@ -105,7 +105,7 @@ export const agentSwarms = [
     },
     {
         id: 'cs-swarm',
-        title: 'Customer Success',
+        title: 'CS Swarm',
         subtitle: 'Retain & Expand',
         color: 'from-emerald-500/10 to-teal-500/5',
         border: 'border-emerald-200/50',
@@ -134,7 +134,7 @@ export const agentSwarms = [
     },
     {
         id: 'ops-swarm',
-        title: 'RevOps Infrastructure',
+        title: 'RevOps Swarm',
         subtitle: 'Synchronize & Enable',
         color: 'from-slate-500/10 to-gray-500/5',
         border: 'border-slate-200/50',
@@ -163,7 +163,7 @@ export const agentSwarms = [
     },
     {
         id: 'exec-swarm',
-        title: 'Executive Governance',
+        title: 'Executive Swarm',
         subtitle: 'Synthesize & Direct',
         color: 'from-slate-800/10 to-black/5',
         border: 'border-slate-800/20',

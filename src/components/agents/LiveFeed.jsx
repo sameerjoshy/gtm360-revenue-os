@@ -7,9 +7,9 @@ const LiveFeed = ({ runs }) => {
         return (
             <EmptyState
                 icon={Activity}
-                title="No active missions yet"
-                description="Your agent swarm is ready. Start a new diagnostic mission to uncover hidden revenue constraints in your GTM system."
-                actionLabel="Initialize First Mission"
+                title="System Standby"
+                description="Awaiting mission parameters. Deploy the swarm to identify revenue constraints and generate actionable signal."
+                actionLabel="Deploy Swarm"
                 onAction={() => window.scrollTo({ top: 0, behavior: 'smooth' })} // Simple scroll to form
                 color="indigo"
             />

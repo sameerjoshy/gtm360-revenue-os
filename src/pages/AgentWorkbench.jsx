@@ -4,6 +4,7 @@ import TriggerForm from '../components/agents/TriggerForm';
 import LiveFeed from '../components/agents/LiveFeed';
 import SwarmMap from '../components/agents/SwarmMap';
 import { motion } from 'framer-motion';
+import SEO from '../components/SEO';
 
 const AgentWorkbench = () => {
     const [activeTab, setActiveTab] = useState('map');
@@ -77,17 +78,21 @@ const AgentWorkbench = () => {
 
     return (
         <div className="max-w-7xl mx-auto">
+            <SEO
+                title="Agent Workbench"
+                description="Monitor and control your autonomous GTM agent swarm. View live activity, active missions, and system status."
+            />
             <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Agent Swarm Control</h1>
-                    <p className="text-slate-500 mt-1">Monitor and control your autonomous revenue workforce.</p>
+                    <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Agent Swarm Workbench</h1>
+                    <p className="text-slate-500 mt-1">Monitor and control your autonomous Swarm.</p>
                 </div>
                 <div className="flex space-x-3">
                     <button className="px-4 py-2 bg-white border border-slate-200 text-slate-600 rounded-lg text-sm font-medium hover:bg-slate-50">
                         View Logs
                     </button>
                     <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm">
-                        + New Mission
+                        + New Run
                     </button>
                 </div>
             </div>
@@ -150,7 +155,7 @@ const AgentWorkbench = () => {
                         <div className="max-w-2xl mx-auto">
                             <TriggerForm onStart={handleStartMission} />
                             <div className="mt-8">
-                                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Recent Missions</h3>
+                                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">Recent Runs</h3>
                                 <LiveFeed runs={runs} />
                             </div>
                         </div>
