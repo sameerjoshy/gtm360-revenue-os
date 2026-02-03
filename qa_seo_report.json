@@ -1,0 +1,59 @@
+{
+  "totalPages": 2,
+  "pagesWithIssues": 2,
+  "issues": [
+    {
+      "page": "admin\\index.html",
+      "url": "admin\\",
+      "title": "Content Manager",
+      "issueCount": 4,
+      "issues": [
+        {
+          "severity": "high",
+          "issue": "Missing meta description"
+        },
+        {
+          "severity": "medium",
+          "issue": "Missing Open Graph tags: og:title, og:description, og:url, og:type"
+        },
+        {
+          "severity": "low",
+          "issue": "Missing Twitter Card tags: twitter:card, twitter:title, twitter:description"
+        },
+        {
+          "severity": "medium",
+          "issue": "Missing canonical URL"
+        }
+      ]
+    },
+    {
+      "page": "index.html",
+      "url": "",
+      "title": "GTM360 - Revenue OS",
+      "issueCount": 3,
+      "issues": [
+        {
+          "severity": "medium",
+          "issue": "Missing Open Graph tags: og:title, og:description, og:url, og:type"
+        },
+        {
+          "severity": "low",
+          "issue": "Missing Twitter Card tags: twitter:card, twitter:title, twitter:description"
+        },
+        {
+          "severity": "medium",
+          "issue": "Missing canonical URL"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "missingTitle": 0,
+    "missingDescription": 1,
+    "missingOgTags": 2,
+    "missingTwitterCard": 2,
+    "missingCanonical": 2,
+    "titleTooLong": 0,
+    "descriptionTooLong": 0
+  }
+}

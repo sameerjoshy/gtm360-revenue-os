@@ -1,0 +1,17 @@
+{
+  "totalFiles": 3,
+  "totalAssetReferences": 3,
+  "missingAssets": [
+    {
+      "url": "/noise.svg",
+      "type": "image",
+      "sourceFile": "assets\\index--W5nMBlH.css",
+      "assetPath": "C:\\Users\\DELL\\.gemini\\antigravity\\scratch\\GTM_360\\dist\\assets\\noise.svg"
+    }
+  ],
+  "validAssets": 2,
+  "assetTypes": {
+    "image": 2,
+    "stylesheet": 1
+  }
+}
